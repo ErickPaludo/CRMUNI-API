@@ -1,0 +1,62 @@
+using CRMUNI.DOMAIN.Validacoes.Nomes;
+using CRMUNI.DOMAIN.Validacoes.Utilitarios;
+
+namespace CRMUNI.DOMAIN.ObjetosValor.Nomes;
+
+public abstract record Nome
+{
+    public string Primeiro { get; }
+    public string Segundo { get; }
+    
+    public string Completo => $"{Primeiro} {Segundo}";
+
+    protected virtual bool ObrigaSegundoNome { get; } = false;
+
+    protected virtual int PrimeiroCaracteresMin { get; } = 50;
+    protected virtual int PrimeiroCaracteresMax { get; } = 50;
+    protected virtual int SegundoCaracteresMin { get; }  = 50;
+    protected virtual int SegundoCaracteresMax { get; } = 50;
+    
+    protected Nome()
+    {
+    }
+
+    protected Nome(string primeiroNome, string segundoNome)
+    {
+        VerificaPrimeiro(primeiroNome);
+        VerificaSegundo(segundoNome);
+        primeiroNome = Prepara(primeiroNome);
+        segundoNome = Prepara(segundoNome);
+        Primeiro = Prepara(primeiroNome);
+        Segundo = Prepara(segundoNome);
+    }
+
+    protected Nome(string primeiroNome)
+    {
+        VerificaPrimeiro(primeiroNome);
+        primeiroNome = Prepara(primeiroNome);
+        Primeiro = Prepara(primeiroNome);
+    }
+    
+    private static string Prepara(string valor)
+    {
+        NomeValicao.Verifica(string.IsNullOrWhiteSpace(valor), NomeMensagens.NomeObrigatorio);
+        valor = valor.Trim();
+        return valor;
+    }
+
+    private void VerificaPrimeiro(string valor)
+    {
+        ValidaNulo.Verifica(valor, NomeMensagens.NomeNulo);
+        NomeValicao.Verifica(!valor.All(c => char.IsLetter(c) || c == ' '), NomeMensagens.NomeInvalido);
+        NomeValicao.Verifica(valor.Length > PrimeiroCaracteresMax, NomeMensagens.PrimeiroNomeCaracteresMaximo(PrimeiroCaracteresMax));
+        NomeValicao.Verifica(valor.Length < PrimeiroCaracteresMin, NomeMensagens.PrimeiroNomeCaracteresMinimo(PrimeiroCaracteresMin));
+    }
+
+    private void VerificaSegundo(string valor)
+    {
+        NomeValicao.Verifica(!valor.All(c => char.IsLetter(c) || c == ' '), NomeMensagens.NomeInvalido);
+        NomeValicao.Verifica(valor.Length > SegundoCaracteresMin, NomeMensagens.SegundoNomeCaracteresMaximo(PrimeiroCaracteresMax));
+        NomeValicao.Verifica(valor.Length < SegundoCaracteresMax, NomeMensagens.SegundoNomeCaracteresMinimo(PrimeiroCaracteresMax));
+    }
+}
