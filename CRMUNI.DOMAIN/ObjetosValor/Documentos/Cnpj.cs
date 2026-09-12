@@ -4,7 +4,7 @@ public sealed record Cnpj : Documento
 {
     protected override int TamanhoNumeroDocumento { get; } = 14;
 
-    protected Cnpj(string documento) : base(documento)
+    private Cnpj(string documento) : base(documento)
     {
     }
 

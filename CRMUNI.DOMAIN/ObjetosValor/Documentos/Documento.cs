@@ -10,16 +10,12 @@ public abstract record Documento
     protected abstract int TamanhoNumeroDocumento { get; }
     protected Documento(string documento)
     {
-        ValidaNulo.Verifica(documento, "");
-        Valida(documento);
+        ValidaNulo.Verifica(documento, DocumentoMensagens.DocumentonNulo);
+        ValidaTamanhoCaracteres(documento);
         Codigo = documento;
     }
-
-    protected virtual void ValidaCustomizado(string documento)
-    {
-    }
-
-    private void Valida(string documento)
+    
+    private void ValidaTamanhoCaracteres(string documento)
     {
         /*
         !IMPORTANTE!

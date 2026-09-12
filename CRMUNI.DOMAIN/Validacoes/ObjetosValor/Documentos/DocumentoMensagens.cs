@@ -6,7 +6,7 @@ public static class DocumentoMensagens
     /// Codigo de mensagem 0.3.x
     /// Valores de x.x.0 até x.x.10 são reservados para codigos "COMUNS"
     /// </summary>
-    public const string DocumentoneNulo = "0.3.0 - Documento não pode ser nullo";
+    public const string DocumentonNulo = "0.3.0 - Documento não pode ser nullo";
 
     public const string DocumentoObrigatorio = "0.3.1 - Documento deve ser informado.";
     
