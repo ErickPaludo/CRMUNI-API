@@ -8,6 +8,5 @@ namespace CRMUNI.DOMAIN.Validacoes.Geral
             if (condicao)
                 throw (T)Activator.CreateInstance(typeof(T), mensagem)!;
         }
-
     }
 }
