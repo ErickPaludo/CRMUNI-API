@@ -1,5 +1,6 @@
 using System.Net.Mail;
 using CRMUNI.DOMAIN.Validacoes.Emails;
+using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
 namespace CRMUNI.DOMAIN.ObjetosValor.Geral;
 
@@ -20,7 +21,8 @@ public sealed record Email
     }
     private static string Prepara(string email)
     {
-        //UsuariosValidacao.Verifica(string.IsNullOrWhiteSpace(email), MensagensUsuarios.EMAIL_OBRIGATORIO);
+        ValidaNulo.Verifica(email, EmailMensagens.EmailNullo);
+        EmailValidacao.Verifica(string.IsNullOrWhiteSpace(email), EmailMensagens.EmailExigido);
 
         email = email.Trim();
         email = email.ToLower();
@@ -31,9 +33,9 @@ public sealed record Email
     private static void Valida(string email)
     {
         EmailValidacao.Verifica(email.Contains(" "), EmailMensagens.EmailInvalido);
+        EmailValidacao.Verifica(!ValidaFormato(email), EmailMensagens.EmailInvalido);
         EmailValidacao.Verifica(email.Length < MinEndereco, EmailMensagens.EmailMinimo(MinEndereco));
         EmailValidacao.Verifica(email.Length > MaxEndereco, EmailMensagens.EmailMaximo(MaxEndereco));
-        EmailValidacao.Verifica(!ValidaFormato(email), EmailMensagens.EmailInvalido);
     }
 
     private static bool ValidaFormato(string email)

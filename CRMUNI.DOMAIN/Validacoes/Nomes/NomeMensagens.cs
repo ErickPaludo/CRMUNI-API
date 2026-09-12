@@ -2,20 +2,26 @@ namespace CRMUNI.DOMAIN.Validacoes.Nomes;
 
 public static class NomeMensagens
 {
-    public const string NomeNulo = "Nome não pode ser nullo";
-    public const string NomeObrigatorio = "Nome deve ser informado.";
-    public const string NomeInvalido = "Nome inválido.";
-    public const string SegundoNomeObrigatorio = "Segundo nome deve ser informado.";
+    /// <summary>
+    /// Codigo de mensagem 0.1.x
+    /// Valores de x.x.0 até x.x.10 são reservados para codigos "COMUNS"
+    /// </summary>
+    public const string NomeNulo = "0.1.0 - Nome não pode ser nullo";
+
+    public const string NomeObrigatorio = "0.1.1 - Nome deve ser informado.";
 
     public static string PrimeiroNomeCaracteresMaximo(int primeiroCaracteresMax) =>
-        $"Primeiro nome deve possuir no máximo {primeiroCaracteresMax} caracteres.";
+        $"0.1.3 - Primeiro nome deve possuir no máximo {primeiroCaracteresMax} caracteres.";
 
     public static string PrimeiroNomeCaracteresMinimo(int primeiroCaracteresMin) =>
-        $"Primeiro nome deve possuir no mínimo {primeiroCaracteresMin} caracteres.";
+        $"0.1.4 - Primeiro nome deve possuir no mínimo {primeiroCaracteresMin} caracteres.";
+
+    public const string NomeInvalido = "0.1.4 - Nome inválido.";
+    public const string SegundoNomeObrigatorio = "0.1.5 - Segundo nome deve ser informado.";
 
     public static string SegundoNomeCaracteresMaximo(int primeiroCaracteresMax) =>
-        $"Primeiro nome deve possuir no máximo {primeiroCaracteresMax} caracteres.";
+        $"0.1.11 - Primeiro nome deve possuir no máximo {primeiroCaracteresMax} caracteres.";
 
     public static string SegundoNomeCaracteresMinimo(int primeiroCaracteresMin) =>
-        $"Primeiro nome deve possuir no mínimo {primeiroCaracteresMin} caracteres.";
+        $"0.1.12 - Primeiro nome deve possuir no mínimo {primeiroCaracteresMin} caracteres.";
 }
