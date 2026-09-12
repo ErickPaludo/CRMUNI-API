@@ -16,10 +16,12 @@ public record Telefone
         Valida(numeroTelefone);
         Numero = numeroTelefone;
     }
-
     public static Telefone Create(string numeroTelefone) => new Telefone(numeroTelefone);
 
-    protected virtual void Valida(string numeroTelefone)
+    private string Prepara(string numeroTelefone) 
+        => Regex.Replace(numeroTelefone, @"\D", "");
+
+    private void Valida(string numeroTelefone)
     {
         /*
          !IMPORTANTE!
@@ -32,7 +34,5 @@ public record Telefone
             TelefoneMensagens.TelefoneCaracteresObrigatorios(TamanhoNumeroTelefone));
     }
 
-    private string Prepara(string numeroTelefone) 
-        => Regex.Replace(numeroTelefone, @"\D", "");
     
 };

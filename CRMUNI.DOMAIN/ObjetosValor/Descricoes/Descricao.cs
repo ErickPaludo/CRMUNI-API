@@ -19,6 +19,11 @@ namespace CRMUNI.DOMAIN.ObjetosValor.descricoes
             Texto = texto;
         }
 
+        private string Prepara(string texto)
+        {
+            return texto.Trim();
+        }
+
         private void ValidaObrigatoriedade(string texto)
         {
             if (Obrigatorio)
@@ -32,11 +37,6 @@ namespace CRMUNI.DOMAIN.ObjetosValor.descricoes
                 DescricaoMensagens.DescricaoMaximo(TamanhoMinimo));
             DescricaoValidacao.Verifica(texto.Length > TamanhoMaximo,
                 DescricaoMensagens.DescricaoMaximo(TamanhoMaximo));
-        }
-
-        private string Prepara(string texto)
-        {
-            return texto.Trim();
         }
     }
 }

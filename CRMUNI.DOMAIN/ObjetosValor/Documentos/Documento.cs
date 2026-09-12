@@ -8,13 +8,17 @@ public abstract record Documento
 {
     protected string Codigo { get; }
     protected abstract int TamanhoNumeroDocumento { get; }
+
     protected Documento(string documento)
     {
         ValidaNulo.Verifica(documento, DocumentoMensagens.DocumentonNulo);
         ValidaTamanhoCaracteres(documento);
         Codigo = documento;
     }
-    
+
+    private string Prepara(string documento)
+        => Regex.Replace(documento, @"\D", "");
+
     private void ValidaTamanhoCaracteres(string documento)
     {
         /*
@@ -28,7 +32,4 @@ public abstract record Documento
         DocumentoValidacao.Verifica(documento.Length != TamanhoNumeroDocumento,
             DocumentoMensagens.DocumentoCaracteresObrigatorios(TamanhoNumeroDocumento));
     }
-
-    private string Prepara(string documento)
-        => Regex.Replace(documento, @"\D", "");
 };
