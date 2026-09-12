@@ -8,6 +8,7 @@ public class DocumentoValidacao : BaseValidacao
     {
     }
     
-    public static void Verifica(bool condicao, string mensagem) => VerificaExcessao<DocumentoValidacao>(condicao, mensagem);
+    public static void Verifica(bool condicao, string mensagem) 
+        => VerificaExcessao<DocumentoValidacao>(condicao, mensagem);
 
 }

@@ -11,17 +11,22 @@ public abstract record Documento
     protected Documento(string documento)
     {
         ValidaNulo.Verifica(documento, "");
-        documento = Prepara(documento);
         Valida(documento);
         Codigo = documento;
     }
 
-    protected virtual void Valida(string documento)
+    protected virtual void ValidaCustomizado(string documento)
+    {
+    }
+
+    private void Valida(string documento)
     {
         /*
         !IMPORTANTE!
         NÃO ESTAMOS VALIDANDO SE O DOCUMENTO É REALMENTE VALIDO, PODE SER (99) 99 9 9999-9999
         */
+        documento = Prepara(documento);
+
         DocumentoValidacao.Verifica(string.IsNullOrWhiteSpace(documento),
             DocumentoMensagens.DocumentoObrigatorio);
         DocumentoValidacao.Verifica(documento.Length != TamanhoNumeroDocumento,

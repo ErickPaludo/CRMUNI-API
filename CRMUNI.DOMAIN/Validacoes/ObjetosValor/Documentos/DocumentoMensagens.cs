@@ -9,7 +9,7 @@ public static class DocumentoMensagens
     public const string DocumentoneNulo = "0.3.0 - Documento não pode ser nullo";
 
     public const string DocumentoObrigatorio = "0.3.1 - Documento deve ser informado.";
-
+    
     public static string DocumentoCaracteresObrigatorios(int DocumentoCaracteresMax) =>
         $"0.3.3 - Documento deve possuir no máximo {DocumentoCaracteresMax} dígitos.";
 

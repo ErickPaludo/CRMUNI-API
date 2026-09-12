@@ -12,15 +12,11 @@ public abstract record Nome
 
     protected virtual bool ObrigaSegundoNome { get; } = true;
 
-    protected virtual int PrimeiroCaracteresMin { get; } = 50;
+    protected virtual int PrimeiroCaracteresMin { get; } = 3;
     protected virtual int PrimeiroCaracteresMax { get; } = 50;
-    protected virtual int SegundoCaracteresMin { get; }  = 50;
+    protected virtual int SegundoCaracteresMin { get; }  = 3;
     protected virtual int SegundoCaracteresMax { get; } = 50;
     
-    protected Nome()
-    {
-    }
-
     protected Nome(string primeiroNome, string segundoNome)
     {
         VerificaPrimeiro(primeiroNome);
