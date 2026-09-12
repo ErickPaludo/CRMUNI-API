@@ -5,6 +5,7 @@ public static class NomeMensagens
     public const string NomeNulo = "Nome não pode ser nullo";
     public const string NomeObrigatorio = "Nome deve ser informado.";
     public const string NomeInvalido = "Nome inválido.";
+    public const string SegundoNomeObrigatorio = "Segundo nome deve ser informado.";
 
     public static string PrimeiroNomeCaracteresMaximo(int primeiroCaracteresMax) =>
         $"Primeiro nome deve possuir no máximo {primeiroCaracteresMax} caracteres.";

@@ -10,7 +10,7 @@ public abstract record Nome
     
     public string Completo => $"{Primeiro} {Segundo}";
 
-    protected virtual bool ObrigaSegundoNome { get; } = false;
+    protected virtual bool ObrigaSegundoNome { get; } = true;
 
     protected virtual int PrimeiroCaracteresMin { get; } = 50;
     protected virtual int PrimeiroCaracteresMax { get; } = 50;
@@ -33,16 +33,22 @@ public abstract record Nome
 
     protected Nome(string primeiroNome)
     {
+        ValidaObrigatoriedadeSegundoNome();
+        
         VerificaPrimeiro(primeiroNome);
         primeiroNome = Prepara(primeiroNome);
         Primeiro = Prepara(primeiroNome);
     }
-    
+
     private static string Prepara(string valor)
     {
         NomeValicao.Verifica(string.IsNullOrWhiteSpace(valor), NomeMensagens.NomeObrigatorio);
         valor = valor.Trim();
         return valor;
+    }
+    private void ValidaObrigatoriedadeSegundoNome()
+    {
+        NomeValicao.Verifica(!ObrigaSegundoNome,NomeMensagens.SegundoNomeObrigatorio);
     }
 
     private void VerificaPrimeiro(string valor)
