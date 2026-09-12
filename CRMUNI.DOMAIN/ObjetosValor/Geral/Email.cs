@@ -1,5 +1,5 @@
 using System.Net.Mail;
-using CRMUNI.DOMAIN.Validacoes.Emails;
+using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Emails;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
 namespace CRMUNI.DOMAIN.ObjetosValor.Geral;

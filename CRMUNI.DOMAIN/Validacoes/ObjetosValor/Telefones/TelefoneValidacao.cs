@@ -1,6 +1,6 @@
 using CRMUNI.DOMAIN.Validacoes.Geral;
 
-namespace CRMUNI.DOMAIN.Validacoes.Telefones;
+namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Telefones;
 
 public class TelefoneValidacao : BaseValidacao
 {

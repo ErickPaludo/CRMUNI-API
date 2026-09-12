@@ -1,4 +1,4 @@
-namespace CRMUNI.DOMAIN.Validacoes.Telefones;
+namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Telefones;
 
 public class TelefoneMensagens
 {

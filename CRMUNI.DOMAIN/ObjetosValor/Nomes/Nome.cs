@@ -1,4 +1,4 @@
-using CRMUNI.DOMAIN.Validacoes.Nomes;
+using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Nomes;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
 namespace CRMUNI.DOMAIN.ObjetosValor.Nomes;

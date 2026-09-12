@@ -1,6 +1,6 @@
 using CRMUNI.DOMAIN.Validacoes.Geral;
 
-namespace CRMUNI.DOMAIN.Validacoes.Nomes;
+namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Nomes;
 
 public class NomeValicao : BaseValidacao
 {
