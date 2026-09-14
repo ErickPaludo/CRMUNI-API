@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CRMUNI.DOMAIN")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10c492663d4a6b34bd7427ab1aca698ff9237bac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1c820339c1a96d1325f6d9fa1cbbc55dc64beff")]
 [assembly: System.Reflection.AssemblyProductAttribute("CRMUNI.DOMAIN")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CRMUNI.DOMAIN")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
