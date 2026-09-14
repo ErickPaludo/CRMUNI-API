@@ -8,7 +8,6 @@ public sealed record Senha
     public string Salt { get; }
     public string Hash { get; }
 
-    public Senha() { }
     private Senha(string salt, string hash)
     {
         Salt = Preparar(salt);
@@ -22,12 +21,12 @@ public sealed record Senha
 
     public void AtualizaSenha(Senha senha)
     {
-        ValidaNulo.Verifica(senha, MensagensUsuarios.SENHA_NULA);
-        SenhaValidacao.Verifica(this == senha, MensagensUsuarios.MESMA_SENHA);
+        ValidaNulo.Verifica(senha, SenhaMensagens.SenhaNula);
+        SenhaValidacao.Verifica(this == senha, SenhaMensagens.SenhasIdenticas);
     }
     private static string Preparar(string valor)
     {
-        SenhaValidacao.Verifica(string.IsNullOrWhiteSpace(valor), MensagensUsuarios.SENHA_VAZIA);
+        SenhaValidacao.Verifica(string.IsNullOrWhiteSpace(valor), SenhaMensagens.SenhaObrigatoria);
         return valor.Trim();
     }
 };
