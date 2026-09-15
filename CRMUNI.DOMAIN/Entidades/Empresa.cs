@@ -11,9 +11,9 @@ namespace CRMUNI.DOMAIN.Entidades;
 public sealed class Empresa : EntidadeIdGuid
 {
     public Email Email { get; private set; }
-    public NomeEmpresa Nome { get; set; }
-    public Telefone Telefone { get; set; }
-    public Cnpj Cnpj { get; set; }
+    public NomeEmpresa Nome { get; private set; }
+    public Telefone Telefone { get; private set; }
+    public Cnpj Cnpj { get; }
     //public string Senha { get; set; } --Realmente nescessario?
 
     private Empresa(Email email, NomeEmpresa nome, Telefone telefone, Cnpj cnpj)

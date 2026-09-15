@@ -2,7 +2,7 @@ using CRMUNI.DOMAIN.Validacoes.Geral;
 
 namespace CRMUNI.DOMAIN.Validacoes.Entidades.Contatos;
 
-public class ContatoValidacao : BaseValidacao, IValidacao<ContatoValidacao>
+public sealed class ContatoValidacao : BaseValidacao, IValidacao<ContatoValidacao>
 {
     public ContatoValidacao(string erro) : base(erro)
     {

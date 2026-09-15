@@ -2,7 +2,7 @@ using CRMUNI.DOMAIN.Validacoes.Geral;
 
 namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Documentos;
 
-public class DocumentoValidacao : BaseValidacao,IValidacao<DocumentoValidacao>
+public sealed class DocumentoValidacao : BaseValidacao,IValidacao<DocumentoValidacao>
 {
     public DocumentoValidacao(string erro) : base(erro)
     {

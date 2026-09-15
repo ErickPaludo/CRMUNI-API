@@ -1,6 +1,6 @@
 namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Descricoes;
 
-public class DescricaoMensagens
+public static class DescricaoMensagens
 {
     /// <summary>
     /// Codigo de mensagem 0.4.x

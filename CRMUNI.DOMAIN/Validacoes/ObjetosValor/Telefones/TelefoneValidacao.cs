@@ -2,7 +2,7 @@ using CRMUNI.DOMAIN.Validacoes.Geral;
 
 namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Telefones;
 
-public class TelefoneValidacao : BaseValidacao,IValidacao<TelefoneValidacao>
+public sealed class TelefoneValidacao : BaseValidacao,IValidacao<TelefoneValidacao>
 {
     public TelefoneValidacao(string erro) : base(erro)
     {

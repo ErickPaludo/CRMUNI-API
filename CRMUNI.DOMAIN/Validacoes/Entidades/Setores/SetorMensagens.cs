@@ -1,6 +1,6 @@
 namespace CRMUNI.DOMAIN.Validacoes.Entidades.Setores;
 
-public class SetorMensagens
+public static class SetorMensagens
 {
     /// <summary>
     /// Codigo de mensagem 1.0.x

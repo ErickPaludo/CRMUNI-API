@@ -47,16 +47,18 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Setor | `1` → `1.0.x` |
 | Funcionário | `2` → `2.0.x` |
 | Contato | `3` → `3.0.x` |
+| Mensagem | `4` → `4.0.x` |
 
 ### Objetos de Valor (Compartilhados / Gerais)
 
 | Objeto de Valor | Código |
 |-----------------|--------|
-| E-mail | `0.0.x` |
+| Email | `0.0.x` |
 | Nome | `0.1.x` |
 | Telefone / Celular | `0.2.x` |
 | Documento (CNPJ/CPF) | `0.3.x` |
 | Descrição | `0.4.x` |
+| Conteúdo (`Conteudo : Descricao`, usado por `Mensagem`) | `0.4.x` — reaproveita `DescricaoMensagens` com `Obrigatorio=true`, `TamanhoMinimo=1`, `TamanhoMaximo=1000` |
 | Senha | `0.5.x` |
 
 ---
@@ -97,6 +99,14 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 |--------|-----------|----------|-------------------|
 | `3.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando qualquer propriedade obrigatória da entidade Contato (`Nome`, `Celular` ou `Email`) é enviada como nula na requisição. |
 | `3.0.6` | `SituacaoInvalida` | "Situação inválida." | Disparado quando o valor informado para `EContatoSituacao` não corresponde a nenhum valor definido no enumerador (`Ativo`, `Inativo`). |
+
+#### 1.5 Mensagem (Código 4.0.x)
+
+> `CRMUNI.DOMAIN/Validacoes/Entidades/Mensagens/MensagemMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `4.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando `Funcionario`, `Contato` ou `Conteudo` é passado como nulo na criação de `Mensagem`. O placeholder `{propriedade}` indica qual das três propriedades falhou. |
 
 ---
 
@@ -160,6 +170,8 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | `0.4.1` | `DescricaoObrigatoria` | "Descrição deve ser informado." | Disparado quando o preenchimento da descrição for obrigatório e for enviado vazio. |
 | `0.4.2` | `DescricaoMinimo` | "Descrição deve conter no mínimo {min} caracteres." | O texto informado no campo descrição não possui a quantidade mínima de caracteres ({min}). |
 | `0.4.3` | `DescricaoMaximo` | "Descrição deve possuir no máximo {max} dígitos." | O texto informado excede o limite máximo de caracteres/dígitos parametrizado ({max}). |
+
+> **Especialização `Conteudo` (usada por `Mensagem.Conteudo`):** `CRMUNI.DOMAIN/ObjetosValor/Descricoes/Conteudo.cs` herda de `Descricao` com `Obrigatorio=true`, `TamanhoMinimo=1`, `TamanhoMaximo=1000`. Não cria códigos próprios; reaproveita os quatro códigos `0.4.0 – 0.4.3` acima (mesmas constantes em `DescricaoMensagens.cs`), apenas com `{min}=1` e `{max}=1000`. Portanto, falhas ao criar `Conteudo` via `Conteudo.Create(string)` — e, por transitividade, ao instanciar `Mensagem` — também se manifestam como `0.4.x`.
 
 #### 2.6 Senha (Código 0.5.x)
 

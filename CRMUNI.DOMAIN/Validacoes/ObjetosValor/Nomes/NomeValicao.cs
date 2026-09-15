@@ -2,7 +2,7 @@ using CRMUNI.DOMAIN.Validacoes.Geral;
 
 namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Nomes;
 
-public class NomeValicao : BaseValidacao,IValidacao<NomeValicao>
+public sealed class NomeValicao : BaseValidacao,IValidacao<NomeValicao>
 {
     public NomeValicao(string erro) : base(erro)
     {

@@ -2,7 +2,7 @@ using CRMUNI.DOMAIN.Validacoes.Geral;
 
 namespace CRMUNI.DOMAIN.Validacoes.Entidades.Setores;
 
-public class SetorValidacao : BaseValidacao, IValidacao<SetorValidacao>
+public sealed class SetorValidacao : BaseValidacao, IValidacao<SetorValidacao>
 {
     public SetorValidacao(string erro) : base(erro)
     {

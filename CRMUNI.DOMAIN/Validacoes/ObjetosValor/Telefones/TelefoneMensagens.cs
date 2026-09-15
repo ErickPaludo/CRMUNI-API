@@ -1,6 +1,6 @@
 namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Telefones;
 
-public class TelefoneMensagens
+public static class TelefoneMensagens
 {
     /// <summary>
     /// Codigo de mensagem 0.2.x

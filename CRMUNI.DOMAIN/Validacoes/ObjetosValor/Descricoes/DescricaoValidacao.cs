@@ -2,7 +2,7 @@ using CRMUNI.DOMAIN.Validacoes.Geral;
 
 namespace CRMUNI.DOMAIN.Validacoes.ObjetosValor.Descricoes;
 
-public class DescricaoValidacao : BaseValidacao,IValidacao<DescricaoValidacao>
+public sealed class DescricaoValidacao : BaseValidacao,IValidacao<DescricaoValidacao>
 {
     public DescricaoValidacao(string erro) : base(erro)
     {
