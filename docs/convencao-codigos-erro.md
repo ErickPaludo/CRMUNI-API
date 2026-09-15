@@ -29,7 +29,9 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | `2` | Quantidade mínima de caracteres não atingida |
 | `3` | Quantidade máxima de caracteres excedida |
 | `4` | Formato inválido (texto ou número) |
-| `5` a `10` | Reservados para futuras padronizações |
+| `5` | Reservado para futuras padronizações |
+| `6` | Enumerador inválido |
+| `7` a `10` | Reservados para futuras padronizações |
 
 > Códigos `11+` são destinados a regras de negócio específicas de cada objeto de valor/entidade.
 
@@ -44,6 +46,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Empresa | `0` → `0.0.x` |
 | Setor | `1` → `1.0.x` |
 | Funcionário | `2` → `2.0.x` |
+| Contato | `3` → `3.0.x` |
 
 ### Objetos de Valor (Compartilhados / Gerais)
 
@@ -85,6 +88,15 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
 | `2.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando a instância ou dados essenciais da entidade Funcionário são enviados como nulos na requisição. |
+
+#### 1.4 Contato (Código 3.0.x)
+
+> `CRMUNI.DOMAIN/Validacoes/Entidades/Contatos/ContatoMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `3.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando qualquer propriedade obrigatória da entidade Contato (`Nome`, `Celular` ou `Email`) é enviada como nula na requisição. |
+| `3.0.6` | `SituacaoInvalida` | "Situação inválida." | Disparado quando o valor informado para `EContatoSituacao` não corresponde a nenhum valor definido no enumerador (`Ativo`, `Inativo`). |
 
 ---
 

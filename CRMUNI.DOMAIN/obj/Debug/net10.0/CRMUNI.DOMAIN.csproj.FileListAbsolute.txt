@@ -1,0 +1,12 @@
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/bin/Debug/net10.0/CRMUNI.DOMAIN.deps.json
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/bin/Debug/net10.0/CRMUNI.DOMAIN.dll
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/bin/Debug/net10.0/CRMUNI.DOMAIN.pdb
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/CRMUNI.DOMAIN.GeneratedMSBuildEditorConfig.editorconfig
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/CRMUNI.DOMAIN.AssemblyInfoInputs.cache
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/CRMUNI.DOMAIN.AssemblyInfo.cs
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/CRMUNI.DOMAIN.csproj.CoreCompileInputs.cache
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/CRMUNI.DOMAIN.sourcelink.json
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/CRMUNI.DOMAIN.dll
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/refint/CRMUNI.DOMAIN.dll
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/CRMUNI.DOMAIN.pdb
+/home/erick-paludo/projects/CRMUNI/CRMUNI/CRMUNI.DOMAIN/obj/Debug/net10.0/ref/CRMUNI.DOMAIN.dll

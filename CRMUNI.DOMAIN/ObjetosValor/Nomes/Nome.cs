@@ -19,6 +19,7 @@ public abstract record Nome
 
     protected Nome(string primeiroNome, string segundoNome)
     {
+        ValidaObrigatoriedadeSegundoNome();
         VerificaPrimeiro(primeiroNome);
         VerificaSegundo(segundoNome);
         primeiroNome = Prepara(primeiroNome);
