@@ -49,6 +49,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Contato | `3` → `3.0.x` |
 | Mensagem | `4` → `4.0.x` |
 | Atendimento | `5` → `5.0.x` |
+| Etapa | `6` → `6.0.x` |
 
 ### Objetos de Valor (Compartilhados / Gerais)
 
@@ -60,6 +61,12 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Documento (CNPJ/CPF) | `0.3.x` |
 | Descrição | `0.4.x` |
 | Senha | `0.5.x` |
+
+### Objetos de Valor (Específicos por Entidade)
+
+| Objeto de Valor | Código | Entidade vinculada |
+|-----------------|--------|-------------------|
+| Ordem | `6.6.x` | Etapa (`6`) |
 
 ---
 
@@ -115,6 +122,14 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
 | `5.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando qualquer propriedade obrigatória da entidade Atendimento (`Contato` ou `Funcionario`) é enviada como nula na requisição. |
+
+#### 1.7 Etapa (Código 6.0.x)
+
+> `CRMUNI.DOMAIN/Validacoes/Entidades/Etapas/EtapaMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `6.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando qualquer propriedade obrigatória da entidade Etapa (`Nome` ou `Ordem`) é enviada como nula na requisição. |
 
 ---
 
@@ -191,3 +206,12 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | `0.5.11` | `SenhasIdenticas` | "As senhas são identicas." | Disparado quando a nova senha informada for idêntica à senha atual. |
 
 > **Nota:** Códigos `0.5.0` até `0.5.10` são reservados para códigos "COMUNS" (Nula/Obrigatória). Códigos `0.5.11+` destinam-se a regras de negócio específicas.
+
+#### 2.7 Ordem (Código 6.6.x)
+
+> `CRMUNI.DOMAIN/Validacoes/ObjetosValor/Etapas/Ordens/OrdemMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `6.6.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nula." | Ocorre quando a propriedade `Ordem` é enviada como nula na requisição. |
+| `6.6.11` | `OrdemMinima` | "Ordem deve ser maior que 0." | Disparado quando o valor de `Ordem` é menor que 0. Validação de regra de negócio específica (`11+`). |
