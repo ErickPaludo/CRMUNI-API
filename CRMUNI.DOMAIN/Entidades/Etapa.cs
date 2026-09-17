@@ -11,6 +11,7 @@ public sealed class Etapa : EntidadeIdInt
     public Funil Funil { get; }
     public NomeEtapa Nome { get; private set; }
     public Ordem Ordem { get; private set; }
+    public List<Atendimento> Atendimentos { get; } = new List<Atendimento>();
 
     private Etapa(Funil funil,NomeEtapa nome, Ordem ordem)
     {
