@@ -8,18 +8,20 @@ namespace CRMUNI.DOMAIN.Entidades;
 
 public sealed class Etapa : EntidadeIdInt
 {
-    //funil
+    public Funil Funil { get; }
     public NomeEtapa Nome { get; private set; }
     public Ordem Ordem { get; private set; }
 
-    private Etapa(NomeEtapa nome, Ordem ordem)
+    private Etapa(Funil funil,NomeEtapa nome, Ordem ordem)
     {
+        ValidaNulo.Verifica(funil,EtapaMensagens.PropriedadeNula("Funil"));
         ValidaNulo.Verifica(nome,EtapaMensagens.PropriedadeNula("Nome"));
         ValidaNulo.Verifica(ordem,EtapaMensagens.PropriedadeNula("Ordem"));
+        Funil = funil;
         Nome = nome;
         Ordem = ordem;
     }
     
-    public static Etapa  Create(NomeEtapa nome, Ordem ordem)
-    =>new (nome, ordem);
+    public static Etapa  Create(Funil funil,NomeEtapa nome, Ordem ordem)
+    =>new (funil,nome, ordem);
 }

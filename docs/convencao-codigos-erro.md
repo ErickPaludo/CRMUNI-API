@@ -50,6 +50,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Mensagem | `4` → `4.0.x` |
 | Atendimento | `5` → `5.0.x` |
 | Etapa | `6` → `6.0.x` |
+| Funil | `7` → `7.0.x` |
 
 ### Objetos de Valor (Compartilhados / Gerais)
 
