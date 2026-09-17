@@ -13,6 +13,7 @@ namespace CRMUNI.DOMAIN.Entidades
     {
         public NomeFunil Nome { get; private set; }
         public DescricaoFunil Descricao { get; private set; }
+        public List<Etapa> Estapas { get; } = new List<Etapa>();
         private Funil(Nome nome,DescricaoFunil descricao)
         {
             ValidaNulo.Verifica(nome, FunilMensagens.PropriedadeNula("Nome"));
