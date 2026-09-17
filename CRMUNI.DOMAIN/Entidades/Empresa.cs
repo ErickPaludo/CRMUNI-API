@@ -14,7 +14,7 @@ public sealed class Empresa : EntidadeIdGuid
     public NomeEmpresa Nome { get; private set; }
     public Telefone Telefone { get; private set; }
     public Cnpj Cnpj { get; }
-    public List<Setor> Setores { get; private set; } = new List<Setor>();
+    public List<Setor> Setores { get; } = new List<Setor>();
     //public string Senha { get; set; } --Realmente nescessario?
 
     private Empresa(Email email, NomeEmpresa nome, Telefone telefone, Cnpj cnpj)

@@ -21,4 +21,6 @@ public sealed class Mensagem : EntidadeIdInt
         Contato = contato;
         Conteudo = conteudo;
     }
+    public static Mensagem Create(Funcionario funcionario, Contato contato, Conteudo conteudo)
+        => new(funcionario, contato, conteudo);
 }
