@@ -13,6 +13,7 @@ public sealed class Atendimento : EntidadeIdInt
     public EAtendimentoSituacao Situacao { get; private set; }
 
     public List<Mensagem> Mensagem { get; } = new();
+    public List<Funcionario> Funcionarios { get; } = new(); //Pode ser redundante, ja que mensagem possui a entidade Funcionario, e vice versa
 
     //valor ??
     private Atendimento(Contato contato, Funcionario funcionario)
