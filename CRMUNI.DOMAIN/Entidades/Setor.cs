@@ -11,6 +11,7 @@ public sealed class Setor : EntidadeIdGuid
     public Empresa Empresa { get; }
     public NomeSetor Nome { get; private set; }
     public DescricaoSetor DescricaoSetor { get; private set; }
+    public List<Funcionario> Funcionarios { get; private set; } = new List<Funcionario>();
 
     private Setor(Empresa empresa, NomeSetor nome, DescricaoSetor descricao)
     {
