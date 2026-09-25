@@ -6,8 +6,8 @@ namespace CRMUNI.DOMAIN.ObjetosValor.Nomes
 {
     public sealed record NomeFunil : Nome
     {
-        public override bool ObrigaSegundoNome { get; } = false;
-        public override int PrimeiroCaracteresMax { get; } = 25;
+        protected override bool ObrigaSegundoNome { get; } = false;
+        protected override int PrimeiroCaracteresMax { get; } = 25;
         private NomeFunil(string nome) : base(nome)
         {
         }

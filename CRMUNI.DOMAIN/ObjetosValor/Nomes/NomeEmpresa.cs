@@ -7,6 +7,6 @@ public sealed record NomeEmpresa : Nome
     private NomeEmpresa(string nome) : base(nome)
     {
     }
-
+    
     public static NomeEmpresa Create(string nome) => new NomeEmpresa(nome);
 }

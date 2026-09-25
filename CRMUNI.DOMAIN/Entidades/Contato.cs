@@ -14,6 +14,7 @@ public sealed class Contato : EntidadeIdInt
     public Celular Celular { get; private set; }
     public Email Email { get; private set; }
     public EContatoSituacao Situacao { get; private set; }
+    //TODO: Contato enum Insta, Google, Boca a boca outros
 
     private Contato(NomeContato nome, Celular celular, Email email, EContatoSituacao situacao)
     {

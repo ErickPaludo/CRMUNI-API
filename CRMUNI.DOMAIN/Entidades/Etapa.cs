@@ -12,7 +12,7 @@ public sealed class Etapa : EntidadeIdInt
     public NomeEtapa Nome { get; private set; }
     public Ordem Ordem { get; private set; }
     public List<Atendimento> Atendimentos { get; } = new List<Atendimento>();
-
+    //TODO criar prazo de atendimento maximo
     private Etapa(Funil funil,NomeEtapa nome, Ordem ordem)
     {
         ValidaNulo.Verifica(funil,EtapaMensagens.PropriedadeNula("Funil"));

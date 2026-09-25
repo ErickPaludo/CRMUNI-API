@@ -4,5 +4,5 @@ public enum EContatoSituacao
 {
     Ativo,
     Inativo,
-    //Definir
+    Bloqueado
 }

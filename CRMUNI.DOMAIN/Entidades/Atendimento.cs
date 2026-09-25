@@ -10,7 +10,10 @@ public sealed class Atendimento : EntidadeIdInt
     public Contato Contato { get; }
     public Funcionario Funcionario { get; private set; }
     public EAtendimentoEtapa Etapa { get; private set; }
+    //TOdo usar entidade ETAPA
     public EAtendimentoSituacao Situacao { get; private set; }
+    //Todo tempo atendimento
+
 
     public List<Mensagem> Mensagem { get; } = new();
     public List<Funcionario> Funcionarios { get; } = new(); //Pode ser redundante, ja que mensagem possui a entidade Funcionario, e vice versa

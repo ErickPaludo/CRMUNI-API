@@ -9,8 +9,8 @@ namespace CRMUNI.DOMAIN.ObjetosValor.Descricoes
     {
 
         public override bool Obrigatorio { get; } = true;
-        public virtual int TamanhoMinimo { get; } = 10;
-        public virtual int TamanhoMaximo { get; } = 50;
+        public override int TamanhoMinimo { get; } = 10;
+        public override int TamanhoMaximo { get; } = 50;
 
         private DescricaoFunil(string original) : base(original)
         {
