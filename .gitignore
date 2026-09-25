@@ -1,4 +1,10 @@
+# Environment
 .env
-bin
-obj
-.vs
+.env.*
+
+# Build
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
