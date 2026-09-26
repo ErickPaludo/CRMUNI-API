@@ -51,6 +51,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Atendimento | `5` → `5.0.x` |
 | Etapa | `6` → `6.0.x` |
 | Funil | `7` → `7.0.x` |
+| Usuario | `8` → `8.0.x` |
 
 ### Objetos de Valor (Compartilhados / Gerais)
 
@@ -136,6 +137,20 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | `6.0.6` | `TipoInvalido` | "Tipo de setor inválido." | Disparado quando o tipo informado para a etapa não corresponde a nenhum valor válido. |
 
 #### 1.8 Funil (Código 7.0.x)
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `7.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Disparado quando a instância ou dados essenciais da entidade Funil são enviados como nulos na requisição. |
+| `7.0.6` | `TipoInvalido` | "Tipo de setor inválido." | Disparado quando o tipo informado para o funil não corresponde a nenhum valor válido. |
+
+#### 1.9 Usuario (Código 8.0.x)
+
+> `CRMUNI.DOMAIN/Validacoes/Entidades/Usuarios/UsuarioMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `8.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Disparado quando qualquer propriedade obrigatória da entidade Usuario (`Empresa`, `Nome`, `Senha`) é enviada como nula na requisição. |
+
 
 > `CRMUNI.DOMAIN/Validacoes/Entidades/Funis/FunilMensagens.cs`
 
