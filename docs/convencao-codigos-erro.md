@@ -90,7 +90,8 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
-| `1.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando a instância ou dados essenciais da entidade Setor são enviados como nulos na requisição. |
+| `1.0.0` | `PropriedadeNula(propriedade)` | "{prpriedade} não pode ser nulla." | Ocorre quando a instância ou dados essenciais da entidade Setor são enviados como nulos na requisição. |
+| `1.0.6` | `TipoInvalido` | "Tipo de setor inválido." | Disparado quando o tipo informado para o setor não corresponde a nenhum valor válido. |
 
 #### 1.3 Funcionário (Código 2.0.x)
 
