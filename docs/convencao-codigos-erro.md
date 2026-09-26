@@ -133,6 +133,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
 | `6.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando qualquer propriedade obrigatória da entidade Etapa (`Nome` ou `Ordem`) é enviada como nula na requisição. |
+| `6.0.6` | `TipoInvalido` | "Tipo de setor inválido." | Disparado quando o tipo informado para a etapa não corresponde a nenhum valor válido. |
 
 #### 1.8 Funil (Código 7.0.x)
 
