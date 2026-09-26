@@ -1,4 +1,4 @@
-using CRMUNI.DOMAIN.Entidades;
+using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 

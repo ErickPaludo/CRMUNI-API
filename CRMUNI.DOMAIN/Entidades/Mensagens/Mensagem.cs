@@ -1,9 +1,11 @@
+using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
+using CRMUNI.DOMAIN.Entidades.Funcionarios;
 using CRMUNI.DOMAIN.ObjetosValor.descricoes;
 using CRMUNI.DOMAIN.Validacoes.Entidades.Mensagens;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
-namespace CRMUNI.DOMAIN.Entidades;
+namespace CRMUNI.DOMAIN.Entidades.Mensagens;
 
 public sealed class Mensagem : EntidadeIdInt
 {

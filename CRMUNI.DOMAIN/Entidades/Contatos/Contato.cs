@@ -1,12 +1,11 @@
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
-using CRMUNI.DOMAIN.Entidades.Enumeradores;
 using CRMUNI.DOMAIN.ObjetosValor.Geral;
 using CRMUNI.DOMAIN.ObjetosValor.Nomes;
 using CRMUNI.DOMAIN.ObjetosValor.Telefones;
 using CRMUNI.DOMAIN.Validacoes.Entidades.Contatos;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
-namespace CRMUNI.DOMAIN.Entidades;
+namespace CRMUNI.DOMAIN.Entidades.Contatos;
 
 public sealed class Contato : EntidadeIdInt
 {

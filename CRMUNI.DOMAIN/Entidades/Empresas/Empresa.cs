@@ -1,4 +1,5 @@
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
+using CRMUNI.DOMAIN.Entidades.Setores;
 using CRMUNI.DOMAIN.ObjetosValor.Documentos;
 using CRMUNI.DOMAIN.ObjetosValor.Geral;
 using CRMUNI.DOMAIN.ObjetosValor.Nomes;
@@ -6,7 +7,7 @@ using CRMUNI.DOMAIN.ObjetosValor.Telefones;
 using CRMUNI.DOMAIN.Validacoes.Entidades.Empresas;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
-namespace CRMUNI.DOMAIN.Entidades;
+namespace CRMUNI.DOMAIN.Entidades.Empresas;
 
 public sealed class Empresa : EntidadeIdGuid
 {

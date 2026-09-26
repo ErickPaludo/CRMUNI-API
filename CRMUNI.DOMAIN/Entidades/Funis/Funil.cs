@@ -1,13 +1,11 @@
 ﻿using CRMUNI.DOMAIN.Entidades.EntidadesBase;
+using CRMUNI.DOMAIN.Entidades.Etapas;
 using CRMUNI.DOMAIN.ObjetosValor.Descricoes;
 using CRMUNI.DOMAIN.ObjetosValor.Nomes;
 using CRMUNI.DOMAIN.Validacoes.Entidades.Funis;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace CRMUNI.DOMAIN.Entidades
+namespace CRMUNI.DOMAIN.Entidades.Funis
 {
     public sealed class Funil : EntidadeIdInt
     {

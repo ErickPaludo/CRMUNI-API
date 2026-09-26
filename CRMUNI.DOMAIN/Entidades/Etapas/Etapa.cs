@@ -1,10 +1,12 @@
+using CRMUNI.DOMAIN.Entidades.Atendimentos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
+using CRMUNI.DOMAIN.Entidades.Funis;
 using CRMUNI.DOMAIN.ObjetosValor.Etapas;
 using CRMUNI.DOMAIN.ObjetosValor.Nomes;
 using CRMUNI.DOMAIN.Validacoes.Entidades.Etapas;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
-namespace CRMUNI.DOMAIN.Entidades;
+namespace CRMUNI.DOMAIN.Entidades.Etapas;
 
 public sealed class Etapa : EntidadeIdInt
 {

@@ -1,10 +1,13 @@
+using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
-using CRMUNI.DOMAIN.Entidades.Enumeradores;
+using CRMUNI.DOMAIN.Entidades.Etapas;
+using CRMUNI.DOMAIN.Entidades.Funcionarios;
+using CRMUNI.DOMAIN.Entidades.Mensagens;
 using CRMUNI.DOMAIN.ObjetosValor.Atendimentos;
 using CRMUNI.DOMAIN.Validacoes.Entidades.Atendimentos;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
-namespace CRMUNI.DOMAIN.Entidades;
+namespace CRMUNI.DOMAIN.Entidades.Atendimentos;
 
 public sealed class Atendimento : EntidadeIdInt
 {
