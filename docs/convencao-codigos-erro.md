@@ -108,7 +108,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
 | `3.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando qualquer propriedade obrigatória da entidade Contato (`Nome`, `Celular` ou `Email`) é enviada como nula na requisição. |
-| `3.0.6` | `SituacaoInvalida` | "Situação inválida." | Disparado quando o valor informado para `EContatoSituacao` não corresponde a nenhum valor definido no enumerador (`Ativo`, `Inativo`). |
+| `3.0.6` | `EnumInvalido` | "{nome} inválida." | Disparado quando o enum informado para o contato é inválido. |
 
 #### 1.5 Mensagem (Código 4.0.x)
 
