@@ -2,6 +2,9 @@ using CRMUNI.DOMAIN.Entidades.Empresas;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.ObjetosValor.Funcionarios;
 using CRMUNI.DOMAIN.ObjetosValor.Nomes;
+using CRMUNI.DOMAIN.Validacoes.Entidades.Setores;
+using CRMUNI.DOMAIN.Validacoes.Entidades.Usuarios;
+using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
 namespace CRMUNI.DOMAIN.Entidades.Usuarios;
 
@@ -13,6 +16,9 @@ public sealed class Usuario : EntidadeIdGuid
 
     private Usuario(Empresa empresa, NomeUsuario nome, Senha senha)
     {
+        ValidaNulo.Verifica(empresa,UsuarioMensagens.PropriedadeNula("Empresa"));
+        ValidaNulo.Verifica(nome,UsuarioMensagens.PropriedadeNula("Nome"));
+        ValidaNulo.Verifica(senha,UsuarioMensagens.PropriedadeNula("Senha"));
         Empresa = empresa;
         Nome = nome;
         Senha = senha;
