@@ -1,5 +1,6 @@
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Enumeradores;
+using CRMUNI.DOMAIN.ObjetosValor.Atendimentos;
 using CRMUNI.DOMAIN.Validacoes.Entidades.Atendimentos;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
@@ -11,7 +12,7 @@ public sealed class Atendimento : EntidadeIdInt
     public Funcionario Funcionario { get; private set; }
     public Etapa Etapa { get; private set; }
     public EAtendimentoSituacao Situacao { get; private set; }
-    //Todo tempo atendimento
+    public Agendamento? Agendamento { get; private set; }
 
 
     public List<Mensagem> Mensagem { get; } = new();
