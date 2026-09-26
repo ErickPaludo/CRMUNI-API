@@ -68,6 +68,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Objeto de Valor | Código | Entidade vinculada |
 |-----------------|--------|-------------------|
 | Ordem | `6.6.x` | Etapa (`6`) |
+| Agendamento | `5.8.x` | Atendimento (`5`) |
 
 ---
 
@@ -216,3 +217,12 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 |--------|-----------|----------|-------------------|
 | `6.6.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nula." | Ocorre quando a propriedade `Ordem` é enviada como nula na requisição. |
 | `6.6.11` | `OrdemMinima` | "Ordem deve ser maior que 0." | Disparado quando o valor de `Ordem` é menor que 0. Validação de regra de negócio específica (`11+`). |
+
+#### 2.8 Agendamento (Código 5.8.x)
+
+> `CRMUNI.DOMAIN/Validacoes/ObjetosValor/Atendimentos/Agendamentos/AgendamentoMesagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `5.8.0` | `ValorNulo(nome)` | "{nome} não pode ser nullo" | Disparado quando um campo obrigatório do agendamento é nulo. |
+| `5.8.2` | `TempoMinimo(minutos)` | "O tempo mínimo do agendamento deve ser de {minutos} minutos" | Disparado quando o tempo informado está abaixo do mínimo permitido. |
