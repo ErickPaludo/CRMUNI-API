@@ -7,4 +7,5 @@ public static class SetorMensagens
     /// Valores de x.x.0 até x.x.10 são reservados para codigos "COMUNS"
     /// </summary>
     public static string PropriedadeNula(string propriedade) => $"1.0.0 - {propriedade} não pode ser nulla.";
+    public const string TipoInvalido = "1.0.6 - Tipo de setor inválido.";
 }
