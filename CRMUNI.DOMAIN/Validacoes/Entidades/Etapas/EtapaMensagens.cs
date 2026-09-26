@@ -8,5 +8,6 @@ public static class EtapaMensagens
     /// </summary>
     
     public static string PropriedadeNula(string propriedade) => $"6.0.0 - {propriedade} não pode ser nulla.";
+    public const string TipoInvalido = "6.0.6 - Tipo de setor inválido.";
 
 }

@@ -10,21 +10,27 @@ namespace CRMUNI.DOMAIN.Entidades.Etapas;
 
 public sealed class Etapa : EntidadeIdInt
 {
+    public EEtapa Tipo { get; }
     public Funil Funil { get; }
     public NomeEtapa Nome { get; private set; }
     public Ordem Ordem { get; private set; }
     public List<Atendimento> Atendimentos { get; } = new List<Atendimento>();
     //TODO criar prazo de atendimento maximo
-    private Etapa(Funil funil,NomeEtapa nome, Ordem ordem)
+    private Etapa(EEtapa tipo ,Funil funil,NomeEtapa nome, Ordem ordem)
     {
         ValidaNulo.Verifica(funil,EtapaMensagens.PropriedadeNula("Funil"));
         ValidaNulo.Verifica(nome,EtapaMensagens.PropriedadeNula("Nome"));
         ValidaNulo.Verifica(ordem,EtapaMensagens.PropriedadeNula("Ordem"));
+        ValidaNulo.Verifica(tipo,EtapaMensagens.PropriedadeNula("Tipo"));
+        
+        ValidaEnum<EEtapa>.Verifica(tipo,EtapaMensagens.TipoInvalido);
+        
+        Tipo = tipo;
         Funil = funil;
         Nome = nome;
         Ordem = ordem;
     }
     
-    public static Etapa  Create(Funil funil,NomeEtapa nome, Ordem ordem)
-    =>new (funil,nome, ordem);
+    public static Etapa  Create(EEtapa tipo,Funil funil,NomeEtapa nome, Ordem ordem)
+    =>new (tipo,funil,nome, ordem);
 }
