@@ -9,5 +9,5 @@ public static class ContatoMensagens
 
     public static string PropriedadeNula(string propriedade) => $"3.0.0 - {propriedade} não pode ser nulla.";
 
-    public const string SituacaoInvalida = "3.0.6 - Situação inválida.";
+    public static string EnumInvalido(string nome) => $"3.0.6 - {nome} inválida.";
 }
