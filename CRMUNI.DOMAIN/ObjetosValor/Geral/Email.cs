@@ -8,7 +8,7 @@ public sealed record Email
 {
     public string Endereco { get; }
     public static readonly int MaxEndereco = 256;
-    public static readonly int MinEndereco = 6;
+    public static readonly int MinEndereco = 7;
 
     private Email(string endereco)
     {
@@ -48,7 +48,16 @@ public sealed record Email
     {
         try
         {
-            _ = new MailAddress(email);
+            var addr = new MailAddress(email);
+            var domain = addr.Host; 
+            
+            var parts = domain.Split('.');
+            if (parts.Length != 2) 
+                return false;
+            
+            if (string.IsNullOrWhiteSpace(parts[0]) || string.IsNullOrWhiteSpace(parts[1]) || parts[1].Length < 2)
+                return false;
+            
             return true;
         }
         catch (FormatException)
