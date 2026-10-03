@@ -6,12 +6,13 @@ namespace CRMUNI.DOMAIN.ObjetosValor.Documentos;
 
 public abstract record Documento
 {
-    protected string Codigo { get; }
+    public string Codigo { get; }
     protected abstract int TamanhoNumeroDocumento { get; }
 
     protected Documento(string documento)
     {
         ValidaNulo.Verifica(documento, DocumentoMensagens.DocumentonNulo);
+        documento = Prepara(documento);
         ValidaTamanhoCaracteres(documento);
         Codigo = documento;
     }
@@ -25,8 +26,6 @@ public abstract record Documento
         !IMPORTANTE!
         NÃO ESTAMOS VALIDANDO SE O DOCUMENTO É REALMENTE VALIDO, PODE SER (99) 99 9 9999-9999
         */
-        documento = Prepara(documento);
-
         DocumentoValidacao.Verifica(string.IsNullOrWhiteSpace(documento),
             DocumentoMensagens.DocumentoObrigatorio);
         DocumentoValidacao.Verifica(documento.Length != TamanhoNumeroDocumento,
