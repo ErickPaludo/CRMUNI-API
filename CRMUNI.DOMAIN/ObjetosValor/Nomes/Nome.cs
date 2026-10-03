@@ -24,7 +24,7 @@ public abstract record Nome
         VerificaPrimeiro(primeiroNome);
         Primeiro = primeiroNome;
 
-        ValidaNulo.Verifica(primeiroNome, NomeMensagens.NomeNulo);
+        ValidaNulo.Verifica(segundoNome, NomeMensagens.NomeNulo);
         segundoNome = Prepara(segundoNome);
         VerificaSegundo(segundoNome);
         Segundo = segundoNome;
