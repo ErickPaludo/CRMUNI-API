@@ -6,10 +6,7 @@ public sealed record Conteudo : Descricao
     public override int TamanhoMinimo { get; } = 1;
     public override int TamanhoMaximo { get; } = 1000;
 
-    private Conteudo(string texto) : base(texto)
+    public Conteudo(string texto) : base(texto)
     {
     }
-
-    public static Conteudo Create(string texto)
-        => new(texto);
 };
