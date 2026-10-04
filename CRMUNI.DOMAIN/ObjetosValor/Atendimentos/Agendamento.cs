@@ -1,4 +1,3 @@
-using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
 using CRMUNI.DOMAIN.Validacoes.Utilitarios;
 
@@ -11,8 +10,8 @@ public sealed record Agendamento
 
     private Agendamento(DateTime data, int minutos)
     {
-        ValidaNulo.Verifica(data,AgendamentoMesagens.ValorNulo("Data"));
-        ValidaNulo.Verifica(minutos,AgendamentoMesagens.ValorNulo("Minutos"));
+        ValidaNulo.Verifica(data, AgendamentoMesagens.ValorNulo("Data"));
+        ValidaNulo.Verifica(minutos, AgendamentoMesagens.ValorNulo("Minutos"));
         ValidaMinutos(minutos);
         Data = data.AddMinutes(minutos);
     }
@@ -25,7 +24,7 @@ public sealed record Agendamento
 
     public static Agendamento Create()
         => new(DateTime.UtcNow);
-    
+
     private void ValidaMinutos(int minutos)
-    => AgendamentoValidacao.Verifica(minutos < MinPadrao,AgendamentoMesagens.TempoMinimo(MinPadrao));
+        => AgendamentoValidacao.Verifica(minutos < MinPadrao, AgendamentoMesagens.TempoMinimo(MinPadrao));
 }
