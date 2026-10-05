@@ -6,8 +6,8 @@ namespace CRMUNI.DOMAIN.ObjetosValor.Telefones;
 
 public record Telefone
 {
-    protected string Numero { get; }
-    protected virtual int TamanhoNumeroTelefone { get; } = 12;
+    public string Numero { get; }
+    public virtual int TamanhoNumeroTelefone { get; } = 12;
  
     protected Telefone(string numeroTelefone)
     {

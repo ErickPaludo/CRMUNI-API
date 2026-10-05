@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="ConfigTabela\" />
       <Folder Include="Contexto\" />
       <Folder Include="Repositorios\Atendimentos\" />
       <Folder Include="Repositorios\Base\" />
@@ -31,6 +30,10 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CRMUNI.DOMAIN\CRMUNI.DOMAIN.csproj" />
     </ItemGroup>
 
 </Project>
