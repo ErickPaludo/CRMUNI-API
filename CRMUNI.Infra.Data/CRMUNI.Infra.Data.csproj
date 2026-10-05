@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="ConfigTabela\" />
+      <Folder Include="Contexto\" />
+      <Folder Include="Repositorios\Atendimentos\" />
+      <Folder Include="Repositorios\Base\" />
+      <Folder Include="Repositorios\Contatos\" />
+      <Folder Include="Repositorios\Empresas\" />
+      <Folder Include="Repositorios\Etapas\" />
+      <Folder Include="Repositorios\Funcionarios\" />
+      <Folder Include="Repositorios\Funis\" />
+      <Folder Include="Repositorios\Mensagens\" />
+      <Folder Include="Repositorios\Setores\" />
+      <Folder Include="Repositorios\Usuarios\" />
+    </ItemGroup>
+
+</Project>
