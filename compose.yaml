@@ -1,0 +1,7 @@
+﻿services:
+  crmuni.ui.api:
+    image: crmuni.ui.api
+    build:
+      context: .
+      dockerfile: CRMUNI.UI.Api/Dockerfile
+
