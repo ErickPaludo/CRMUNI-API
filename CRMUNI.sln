@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.UnitTests.Domain", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Infra.Data", "CRMUNI.Infra.Data\CRMUNI.Infra.Data.csproj", "{531A7B67-339D-4332-A3A8-E4835BFF231F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Infra.IoC", "CRMUNI.Infra.IoC\CRMUNI.Infra.IoC.csproj", "{3D25BE53-4E7E-4E6B-B22F-69AD223142C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{531A7B67-339D-4332-A3A8-E4835BFF231F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{531A7B67-339D-4332-A3A8-E4835BFF231F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{531A7B67-339D-4332-A3A8-E4835BFF231F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D25BE53-4E7E-4E6B-B22F-69AD223142C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D25BE53-4E7E-4E6B-B22F-69AD223142C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D25BE53-4E7E-4E6B-B22F-69AD223142C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D25BE53-4E7E-4E6B-B22F-69AD223142C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
