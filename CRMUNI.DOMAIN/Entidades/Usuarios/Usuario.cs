@@ -14,6 +14,7 @@ public sealed class Usuario : EntidadeIdGuid
     public NomeUsuario Nome { get; private set; }
     public Senha Senha { get; private set; }
 
+    public Usuario(){}
     private Usuario(Empresa empresa, NomeUsuario nome, Senha senha)
     {
         ValidaNulo.Verifica(empresa,UsuarioMensagens.PropriedadeNula("Empresa"));

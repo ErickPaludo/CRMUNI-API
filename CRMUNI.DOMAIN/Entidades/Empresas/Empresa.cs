@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Setores;
 using CRMUNI.DOMAIN.ObjetosValor.Documentos;
@@ -15,8 +16,12 @@ public sealed class Empresa : EntidadeIdGuid
     public NomeEmpresa Nome { get; private set; }
     public Telefone Telefone { get; private set; }
     public Cnpj Cnpj { get; }
+    
+    [NotMapped] //TEMPORARIO!!!!
     public List<Setor> Setores { get; } = new List<Setor>();
-
+   
+    public Empresa(){}
+    
     private Empresa(Email email, NomeEmpresa nome, Telefone telefone, Cnpj cnpj)
     {
         ValidaNulo.Verifica(email,EmpresaMensagens.PropriedadeNula("Email"));

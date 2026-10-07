@@ -8,6 +8,7 @@ namespace CRMUNI.DOMAIN.ObjetosValor.descricoes
         public override int TamanhoMinimo { get; } = 10;
         public override int TamanhoMaximo { get; } = 100;
 
+        public DescricaoSetor(){}
         public DescricaoSetor(string original) : base(original)
         {
         }

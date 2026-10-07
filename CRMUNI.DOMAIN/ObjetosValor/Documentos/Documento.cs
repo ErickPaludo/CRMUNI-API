@@ -9,7 +9,8 @@ public abstract record Documento
     public string Codigo { get; }
     protected abstract int TamanhoNumeroDocumento { get; }
 
-    protected Documento(string documento)
+    public Documento(){}
+    public Documento(string documento)
     {
         ValidaNulo.Verifica(documento, DocumentoMensagens.DocumentonNulo);
         documento = Prepara(documento);

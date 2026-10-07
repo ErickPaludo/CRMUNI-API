@@ -14,7 +14,8 @@ public sealed class Funcionario : EntidadeIdInt
     public NomeFuncionario Nome { get; private set; }
     public Senha Senha { get; private set; }
     public List<Mensagem> Mensagens  { get;} = new List<Mensagem>();
-
+    
+    public Funcionario(){}
     private Funcionario(Setor setor, NomeFuncionario nome, Senha senha)
     {
         ValidaNulo.Verifica(setor,FuncionarioMensagens.PropriedadeNula("Setor"));

@@ -8,6 +8,10 @@ public sealed record Senha
     public string Salt { get; }
     public string Hash { get; }
 
+    public Senha()
+    {
+    }
+
     public Senha(string salt, string hash)
     {
         ValidaNulo.Verifica(salt, SenhaMensagens.ValidaNulo("Salt"));

@@ -17,6 +17,7 @@ public sealed class Setor : EntidadeIdGuid
     public DescricaoSetor DescricaoSetor { get; private set; }
     public List<Funcionario> Funcionarios { get; } = new List<Funcionario>();
 
+    public Setor(){}
     private Setor(ESetor tipo, Empresa empresa, NomeSetor nome, DescricaoSetor descricao)
     {
         ValidaNulo.Verifica(empresa,SetorMensagens.PropriedadeNula("Empresa"));

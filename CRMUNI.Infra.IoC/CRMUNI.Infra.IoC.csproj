@@ -16,4 +16,9 @@
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CRMUNI.DOMAIN\CRMUNI.DOMAIN.csproj" />
+      <ProjectReference Include="..\CRMUNI.Infra.Data\CRMUNI.Infra.Data.csproj" />
+    </ItemGroup>
+
 </Project>

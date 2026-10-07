@@ -13,6 +13,11 @@ namespace CRMUNI.DOMAIN.Entidades.Funis
         public NomeFunil Nome { get; private set; }
         public DescricaoFunil Descricao { get; private set; }
         public List<Etapa> Estapas { get; } = new List<Etapa>();
+
+        public Funil()
+        {
+        }
+
         private Funil(EFunil tipo, NomeFunil nome,DescricaoFunil descricao)
         {
             ValidaNulo.Verifica(tipo, FunilMensagens.PropriedadeNula("Tipo"));

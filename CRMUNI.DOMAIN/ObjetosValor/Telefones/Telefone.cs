@@ -9,6 +9,7 @@ public record Telefone
     public string Numero { get; }
     public virtual int TamanhoNumeroTelefone { get; } = 12;
  
+    public Telefone(){}
     protected Telefone(string numeroTelefone)
     {
         ValidaNulo.Verifica(numeroTelefone, TelefoneMensagens.TelefoneNulo);

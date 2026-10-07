@@ -10,6 +10,7 @@ public sealed record Email
     public static readonly int MaxEndereco = 256;
     public static readonly int MinEndereco = 7;
 
+    public Email(){}
     private Email(string endereco)
     {
         endereco = Prepara(endereco);

@@ -10,6 +10,7 @@ namespace CRMUNI.DOMAIN.ObjetosValor.descricoes
         public virtual int TamanhoMaximo { get; } = 400;
         public string Texto { get; private set; }
 
+        public Descricao(){}
         protected Descricao(string texto)
         {
             ValidaNulo.Verifica(texto, DescricaoMensagens.DescricaoNula);

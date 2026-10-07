@@ -12,6 +12,7 @@ namespace CRMUNI.DOMAIN.ObjetosValor.Descricoes
         public override int TamanhoMinimo { get; } = 10;
         public override int TamanhoMaximo { get; } = 50;
 
+        public DescricaoFunil(){}
         public DescricaoFunil(string original) : base(original)
         {
         }

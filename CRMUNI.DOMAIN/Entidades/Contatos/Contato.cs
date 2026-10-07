@@ -14,7 +14,8 @@ public sealed class Contato : EntidadeIdInt
     public Email Email { get; private set; }
     public EContatoSituacao Situacao { get; private set; }
     public EOrigem Origem { get; }
-
+    
+    public Contato(){}
     private Contato(NomeContato nome, Celular celular, Email email, EContatoSituacao situacao, EOrigem origem)
     {
         ValidaNulo.Verifica(nome, ContatoMensagens.PropriedadeNula("Nome"));

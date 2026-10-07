@@ -17,6 +17,7 @@ public abstract record Nome
     protected virtual int SegundoCaracteresMin { get; } = 3;
     protected virtual int SegundoCaracteresMax { get; } = 50;
 
+    public Nome(){}
     protected Nome(string primeiroNome, string segundoNome)
     {
         ValidaNulo.Verifica(primeiroNome, NomeMensagens.NomeNulo);

@@ -7,6 +7,7 @@ public sealed record Ordem
 {
     public int Valor { get; }
 
+    public Ordem(){}
     private Ordem(int valor)
     {
         ValidaNulo.Verifica(valor, OrdemMensagens.PropriedadeNula("Ordem"));

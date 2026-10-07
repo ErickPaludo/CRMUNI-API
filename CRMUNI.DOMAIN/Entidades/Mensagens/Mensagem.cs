@@ -13,6 +13,7 @@ public sealed class Mensagem : EntidadeIdInt
     public Contato Contato { get;}
     public Conteudo Conteudo { get; private set; }
     
+    public Mensagem(){}
     private Mensagem(Funcionario funcionario, Contato contato,Conteudo conteudo)
     {
         ValidaNulo.Verifica(funcionario,MensagemMensagens.PropriedadeNula("Funcionario"));

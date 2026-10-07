@@ -8,6 +8,7 @@ public sealed record Agendamento
     private const int MinPadrao = 15;
     public DateTime Data { get; }
 
+    public Agendamento(){}
     private Agendamento(DateTime data, int minutos)
     {
         ValidaNulo.Verifica(data, AgendamentoMesagens.ValorNulo("Data"));
