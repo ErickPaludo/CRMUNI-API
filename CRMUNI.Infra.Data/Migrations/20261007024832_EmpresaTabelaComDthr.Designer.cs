@@ -4,6 +4,7 @@ using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261007024832_EmpresaTabelaComDthr")]
+    partial class EmpresaTabelaComDthr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,12 +32,11 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DthrAlteracao")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("dthr_alteracao");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DthrCriacao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("dthr_criacao");
+                        .HasColumnName("dthr_alteracao");
 
                     b.HasKey("Id");
 

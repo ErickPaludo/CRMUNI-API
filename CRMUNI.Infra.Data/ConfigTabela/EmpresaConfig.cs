@@ -54,5 +54,12 @@ public class EmpresaConfig : IEntityTypeConfiguration<Empresa>
                     .HasMaxLength(14);;
             }
         );
+
+        builder.Property(c => c.DthrCriacao)
+            .HasColumnName("dthr_criacao")
+            .IsRequired();
+        
+        builder.Property(c => c.DthrAlteracao)
+            .HasColumnName("dthr_alteracao");
     }
 }
