@@ -28,4 +28,8 @@
       <ProjectReference Include="..\CRMUNI.Infra.IoC\CRMUNI.Infra.IoC.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+    </ItemGroup>
+
 </Project>
