@@ -5,3 +5,9 @@
       context: .
       dockerfile: CRMUNI.UI.Api/Dockerfile
 
+  crmuni.ui.websocket:
+    image: crmuni.ui.websocket
+    build:
+      context: .
+      dockerfile: CRMUNI.UI.WebSocket/Dockerfile
+
