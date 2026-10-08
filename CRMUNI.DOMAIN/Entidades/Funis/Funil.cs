@@ -22,7 +22,7 @@ namespace CRMUNI.DOMAIN.Entidades.Funis
         {
         }
 
-        private Funil(Empresa empresa,EFunil tipo, NomeFunil nome,DescricaoFunil descricao)
+        public Funil(Empresa empresa,EFunil tipo, NomeFunil nome,DescricaoFunil descricao)
         {
             ValidaNulo.Verifica(empresa, FunilMensagens.PropriedadeNula("Empresa"));
             ValidaNulo.Verifica(tipo, FunilMensagens.PropriedadeNula("Tipo"));
@@ -36,8 +36,5 @@ namespace CRMUNI.DOMAIN.Entidades.Funis
             Nome = nome;
             Descricao = descricao;
         }
-
-        public static Funil Create(EFunil tipo, NomeFunil nome, DescricaoFunil descricao)
-            => new(tipo,nome, descricao);
     }
 }

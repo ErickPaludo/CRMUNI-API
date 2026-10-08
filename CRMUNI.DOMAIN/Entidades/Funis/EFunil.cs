@@ -2,5 +2,7 @@ namespace CRMUNI.DOMAIN.Entidades.Funis;
 
 public enum EFunil
 {
-    //definir
+    Curioso,
+    PotencialCliente,
+    Vendido
 }
