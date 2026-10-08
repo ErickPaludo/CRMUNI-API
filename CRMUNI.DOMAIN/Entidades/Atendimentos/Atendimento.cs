@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Etapas;
@@ -11,7 +12,8 @@ namespace CRMUNI.DOMAIN.Entidades.Atendimentos;
 
 public sealed class Atendimento : EntidadeIdInt
 {
-    public Contato Contato { get; }
+    [NotMapped]
+    public Contato? Contato { get; }
     public Funcionario Funcionario { get; private set; }
     public Etapa Etapa { get; private set; }
     public EAtendimentoSituacao Situacao { get; private set; }

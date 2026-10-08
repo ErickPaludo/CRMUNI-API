@@ -15,7 +15,6 @@ public sealed class Etapa : EntidadeIdInt
     public Funil Funil { get; }
     public NomeEtapa Nome { get; private set; }
     public Ordem Ordem { get; private set; }
-    [NotMapped] //TEMPORARIO
     public List<Atendimento> Atendimentos { get; } = new List<Atendimento>();
     //TODO criar prazo de atendimento maximo
     
