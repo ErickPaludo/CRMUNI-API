@@ -8,3 +8,6 @@
 
 # Visual Studio
 .vs/
+
+# Rider
+CRMUNI.UI.Api/CRMUNI.UI.Api.csproj.user

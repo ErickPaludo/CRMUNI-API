@@ -1,4 +1,5 @@
 using CRMUNI.DOMAIN.Entidades.Empresas;
+using CRMUNI.DOMAIN.Entidades.Usuarios;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRMUNI.Infra.Data.Contexto;
@@ -9,6 +10,7 @@ public class AppDbContext : DbContext
     {
     }
     public DbSet<Empresa> Empresas { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

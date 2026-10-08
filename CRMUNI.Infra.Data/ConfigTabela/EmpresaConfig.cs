@@ -8,7 +8,7 @@ public class EmpresaConfig : IEntityTypeConfiguration<Empresa>
 {
     public void Configure(EntityTypeBuilder<Empresa> builder)
     {
-        builder.ToTable("tb_empresa");
+        builder.ToTable("tb_empresas");
         builder.HasKey(e => e.Id);
 
         builder.OwnsOne(e => e.Email,
