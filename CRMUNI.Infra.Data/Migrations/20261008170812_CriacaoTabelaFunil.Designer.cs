@@ -4,6 +4,7 @@ using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008170812_CriacaoTabelaFunil")]
+    partial class CriacaoTabelaFunil
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,18 +86,13 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrCriacao");
 
-                    b.Property<Guid?>("EmpresaId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Tipo")
                         .HasColumnType("int")
                         .HasComment("Funis: 0-Curioso | 1-Potencial Cliente | 2-Vendido");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpresaId");
-
-                    b.ToTable("tb_funils", (string)null);
+                    b.ToTable("tb_funis", (string)null);
                 });
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Setores.Setor", b =>
@@ -329,10 +327,6 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Funis.Funil", b =>
                 {
-                    b.HasOne("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", null)
-                        .WithMany("Funils")
-                        .HasForeignKey("EmpresaId");
-
                     b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Descricoes.DescricaoFunil", "Descricao", b1 =>
                         {
                             b1.Property<int>("FunilId")
@@ -346,7 +340,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("FunilId");
 
-                            b1.ToTable("tb_funils");
+                            b1.ToTable("tb_funis");
 
                             b1.WithOwner()
                                 .HasForeignKey("FunilId");
@@ -365,7 +359,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("FunilId");
 
-                            b1.ToTable("tb_funils");
+                            b1.ToTable("tb_funis");
 
                             b1.WithOwner()
                                 .HasForeignKey("FunilId");
@@ -518,8 +512,6 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", b =>
                 {
-                    b.Navigation("Funils");
-
                     b.Navigation("Setores");
                 });
 

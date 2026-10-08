@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
+using CRMUNI.DOMAIN.Entidades.Funis;
 using CRMUNI.DOMAIN.Entidades.Setores;
 using CRMUNI.DOMAIN.ObjetosValor.Documentos;
 using CRMUNI.DOMAIN.ObjetosValor.Geral;
@@ -18,6 +19,7 @@ public sealed class Empresa : EntidadeIdGuid
     public Cnpj Cnpj { get; }
     
     public List<Setor> Setores { get; } = new List<Setor>();
+    public List<Funil> Funils { get; } = new List<Funil>();
    
     public Empresa(){}
     

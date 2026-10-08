@@ -8,13 +8,34 @@ public class FunilConfig : IEntityTypeConfiguration<Funil>
 {
     public void Configure(EntityTypeBuilder<Funil> builder)
     {
-        builder.ToTable("tb_funis");
+        builder.ToTable("tb_funils");
         builder.HasKey(f => f.Id);
         
         builder.Property(u => u.Tipo)
-            .HasComment("Setores: 0-Comercial | 1-Financeiro | 2-Suporte")
+            .HasComment("Funis: 0-Curioso | 1-Potencial Cliente | 2-Vendido")
             .IsRequired();
-
+       
+        builder.OwnsOne(e => e.Nome,
+            nome
+                =>
+            {
+                nome.Property(e => e.Primeiro)
+                    .HasColumnName("Nome")
+                    .IsRequired()
+                    .HasMaxLength(25);
+            }
+        );
+        
+        builder.OwnsOne(e => e.Descricao,
+            descricao
+                =>
+            {
+                descricao.Property(e => e.Texto)
+                    .HasColumnName("Descricao")
+                    .IsRequired()
+                    .HasMaxLength(50);
+            }
+        );
         
         builder.Property(c => c.DthrCriacao)
             .HasColumnName("DthrCriacao")
