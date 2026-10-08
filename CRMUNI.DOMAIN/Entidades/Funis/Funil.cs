@@ -15,8 +15,7 @@ namespace CRMUNI.DOMAIN.Entidades.Funis
         public EFunil Tipo { get;}    
         public NomeFunil Nome { get; private set; }
         public DescricaoFunil Descricao { get; private set; }
-        [NotMapped]
-        public List<Etapa> Estapas { get; } = new List<Etapa>();
+        public List<Etapa> Etapas { get; } = new List<Etapa>();
 
         public Funil()
         {

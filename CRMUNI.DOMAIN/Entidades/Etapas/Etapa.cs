@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using CRMUNI.DOMAIN.Entidades.Atendimentos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Funis;
@@ -14,6 +15,7 @@ public sealed class Etapa : EntidadeIdInt
     public Funil Funil { get; }
     public NomeEtapa Nome { get; private set; }
     public Ordem Ordem { get; private set; }
+    [NotMapped] //TEMPORARIO
     public List<Atendimento> Atendimentos { get; } = new List<Atendimento>();
     //TODO criar prazo de atendimento maximo
     

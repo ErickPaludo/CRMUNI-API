@@ -4,6 +4,7 @@ using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008233453_TabelaEtapas")]
+    partial class TabelaEtapas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,16 +60,11 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrCriacao");
 
-                    b.Property<int?>("FunilId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Tipo")
                         .HasColumnType("int")
                         .HasComment("Etapas: 0-Inicial | 1-PrimeiroContato | 2-ApresentacaoPlanos | 3-AguardandoDecicao | 4-Conversao | 5-Concluido | 6-Feedback | 7-Perdido");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FunilId");
 
                     b.ToTable("tb_etapas", (string)null);
                 });
@@ -272,10 +270,6 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Etapas.Etapa", b =>
                 {
-                    b.HasOne("CRMUNI.DOMAIN.Entidades.Funis.Funil", null)
-                        .WithMany("Etapas")
-                        .HasForeignKey("FunilId");
-
                     b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Etapas.Ordem", "Ordem", b1 =>
                         {
                             b1.Property<int>("EtapaId")
@@ -600,11 +594,6 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.Navigation("Funils");
 
                     b.Navigation("Setores");
-                });
-
-            modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Funis.Funil", b =>
-                {
-                    b.Navigation("Etapas");
                 });
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Setores.Setor", b =>
