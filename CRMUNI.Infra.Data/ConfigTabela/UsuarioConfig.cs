@@ -13,7 +13,7 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
 
         builder.HasOne(e => e.Empresa)
             .WithMany()
-            .HasForeignKey("empresa_id")
+            .HasForeignKey("id_empresa")
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
         
