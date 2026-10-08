@@ -23,8 +23,10 @@ public sealed class Usuario : EntidadeIdGuid
         ValidaNulo.Verifica(nome,UsuarioMensagens.PropriedadeNula("Nome"));
         ValidaNulo.Verifica(senha,UsuarioMensagens.PropriedadeNula("Senha"));
         ValidaNulo.Verifica(email,UsuarioMensagens.PropriedadeNula("Email"));
+        
         Empresa = empresa;
         Nome = nome;
         Senha = senha;
+        Email = email;
     }
 }
