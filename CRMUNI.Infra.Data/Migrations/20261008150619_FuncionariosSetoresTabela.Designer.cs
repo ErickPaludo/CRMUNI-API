@@ -4,6 +4,7 @@ using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008150619_FuncionariosSetoresTabela")]
+    partial class FuncionariosSetoresTabela
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,11 +33,11 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Property<DateTime?>("DthrAlteracao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrAlteracao");
+                        .HasColumnName("dthr_alteracao");
 
                     b.Property<DateTime>("DthrCriacao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrCriacao");
+                        .HasColumnName("dthr_criacao");
 
                     b.HasKey("Id");
 
@@ -51,18 +54,23 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Property<DateTime?>("DthrAlteracao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrAlteracao");
+                        .HasColumnName("dthr_alteracao");
 
                     b.Property<DateTime>("DthrCriacao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrCriacao");
+                        .HasColumnName("dthr_criacao");
 
-                    b.Property<Guid>("SetorId")
+                    b.Property<Guid?>("SetorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("id_setor")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SetorId");
+
+                    b.HasIndex("id_setor");
 
                     b.ToTable("tb_funcionarios", (string)null);
                 });
@@ -75,22 +83,22 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Property<DateTime?>("DthrAlteracao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrAlteracao");
+                        .HasColumnName("dthr_alteracao");
 
                     b.Property<DateTime>("DthrCriacao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrCriacao");
-
-                    b.Property<Guid?>("EmpresaId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnName("dthr_criacao");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("int")
                         .HasComment("Setores: 0-Comercial | 1-Financeiro | 2-Suporte");
 
+                    b.Property<Guid>("id_empresa")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpresaId");
+                    b.HasIndex("id_empresa");
 
                     b.ToTable("tb_setores", (string)null);
                 });
@@ -103,18 +111,18 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Property<DateTime?>("DthrAlteracao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrAlteracao");
+                        .HasColumnName("dthr_alteracao");
 
                     b.Property<DateTime>("DthrCriacao")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DthrCriacao");
+                        .HasColumnName("dthr_criacao");
 
-                    b.Property<Guid>("EmpresaId")
+                    b.Property<Guid>("id_empresa")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpresaId");
+                    b.HasIndex("id_empresa");
 
                     b.ToTable("tb_usuarios", (string)null);
                 });
@@ -130,7 +138,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(256)
                                 .HasColumnType("nvarchar(256)")
-                                .HasColumnName("Email");
+                                .HasColumnName("email");
 
                             b1.HasKey("EmpresaId");
 
@@ -149,7 +157,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(14)
                                 .HasColumnType("nvarchar(14)")
-                                .HasColumnName("Cnpj");
+                                .HasColumnName("cnpj");
 
                             b1.HasKey("EmpresaId");
 
@@ -168,7 +176,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Nome");
+                                .HasColumnName("nome");
 
                             b1.HasKey("EmpresaId");
 
@@ -187,7 +195,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(12)
                                 .HasColumnType("nvarchar(12)")
-                                .HasColumnName("Telefone");
+                                .HasColumnName("telefone");
 
                             b1.HasKey("EmpresaId");
 
@@ -212,10 +220,14 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Funcionarios.Funcionario", b =>
                 {
-                    b.HasOne("CRMUNI.DOMAIN.Entidades.Setores.Setor", "Setor")
+                    b.HasOne("CRMUNI.DOMAIN.Entidades.Setores.Setor", null)
                         .WithMany("Funcionarios")
-                        .HasForeignKey("SetorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("SetorId");
+
+                    b.HasOne("CRMUNI.DOMAIN.Entidades.Setores.Setor", "Setor")
+                        .WithMany()
+                        .HasForeignKey("id_setor")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Geral.Email", "Email", b1 =>
@@ -227,7 +239,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(256)
                                 .HasColumnType("nvarchar(256)")
-                                .HasColumnName("Email");
+                                .HasColumnName("email");
 
                             b1.HasKey("FuncionarioId");
 
@@ -245,12 +257,12 @@ namespace CRMUNI.Infra.Data.Migrations
                             b1.Property<string>("Hash")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Hash");
+                                .HasColumnName("hash");
 
                             b1.Property<string>("Salt")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Salt");
+                                .HasColumnName("salt");
 
                             b1.HasKey("FuncionarioId");
 
@@ -269,13 +281,13 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("PrimeiroNome");
+                                .HasColumnName("primeiro_nome");
 
                             b1.Property<string>("Segundo")
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("SegundoNome");
+                                .HasColumnName("segundo_nome");
 
                             b1.HasKey("FuncionarioId");
 
@@ -299,9 +311,11 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Setores.Setor", b =>
                 {
-                    b.HasOne("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", null)
-                        .WithMany("Setores")
-                        .HasForeignKey("EmpresaId");
+                    b.HasOne("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("id_empresa")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Nomes.NomeSetor", "Nome", b1 =>
                         {
@@ -312,7 +326,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Nome");
+                                .HasColumnName("nome");
 
                             b1.HasKey("SetorId");
 
@@ -331,7 +345,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
-                                .HasColumnName("Descricao");
+                                .HasColumnName("descricao");
 
                             b1.HasKey("SetorId");
 
@@ -344,6 +358,8 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.Navigation("DescricaoSetor")
                         .IsRequired();
 
+                    b.Navigation("Empresa");
+
                     b.Navigation("Nome")
                         .IsRequired();
                 });
@@ -352,7 +368,7 @@ namespace CRMUNI.Infra.Data.Migrations
                 {
                     b.HasOne("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", "Empresa")
                         .WithMany()
-                        .HasForeignKey("EmpresaId")
+                        .HasForeignKey("id_empresa")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -365,7 +381,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(256)
                                 .HasColumnType("nvarchar(256)")
-                                .HasColumnName("Email");
+                                .HasColumnName("email");
 
                             b1.HasKey("UsuarioId");
 
@@ -383,12 +399,12 @@ namespace CRMUNI.Infra.Data.Migrations
                             b1.Property<string>("Hash")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Hash");
+                                .HasColumnName("hash");
 
                             b1.Property<string>("Salt")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Salt");
+                                .HasColumnName("salt");
 
                             b1.HasKey("UsuarioId");
 
@@ -407,13 +423,13 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("PrimeiroNome");
+                                .HasColumnName("primeiro_nome");
 
                             b1.Property<string>("Segundo")
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("SegundoNome");
+                                .HasColumnName("segundo_nome");
 
                             b1.HasKey("UsuarioId");
 
@@ -433,11 +449,6 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Navigation("Senha")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", b =>
-                {
-                    b.Navigation("Setores");
                 });
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Setores.Setor", b =>

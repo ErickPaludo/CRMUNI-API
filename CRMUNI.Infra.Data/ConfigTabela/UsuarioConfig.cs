@@ -13,7 +13,7 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
 
         builder.HasOne(e => e.Empresa)
             .WithMany()
-            .HasForeignKey("id_empresa")
+            .HasForeignKey("EmpresaId")
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
         
@@ -21,7 +21,7 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
             nome =>
             {
                 nome.Property(n => n.Primeiro)
-                    .HasColumnName("primeiro_nome")
+                    .HasColumnName("PrimeiroNome")
                     .IsRequired()
                     .HasMaxLength(50);
                 ;
@@ -32,7 +32,7 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
             nome =>
             {
                 nome.Property(n => n.Segundo)
-                    .HasColumnName("segundo_nome")
+                    .HasColumnName("SegundoNome")
                     .IsRequired()
                     .HasMaxLength(50);
             }
@@ -43,7 +43,7 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
                 =>
             {
                 endereco.Property(e => e.Endereco)
-                    .HasColumnName("email")
+                    .HasColumnName("Email")
                     .IsRequired()
                     .HasMaxLength(256);
                 ;
@@ -55,7 +55,7 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
                 =>
             {
                 salt.Property(e => e.Salt)
-                    .HasColumnName("salt")
+                    .HasColumnName("Salt")
                     .IsRequired();
             }
         );
@@ -65,16 +65,16 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
                 =>
             {
                 salt.Property(e => e.Hash)
-                    .HasColumnName("hash")
+                    .HasColumnName("Hash")
                     .IsRequired();
             }
         );
 
         builder.Property(c => c.DthrCriacao)
-            .HasColumnName("dthr_criacao")
+            .HasColumnName("DthrCriacao")
             .IsRequired();
-
+        
         builder.Property(c => c.DthrAlteracao)
-            .HasColumnName("dthr_alteracao");
+            .HasColumnName("DthrAlteracao");
     }
 }

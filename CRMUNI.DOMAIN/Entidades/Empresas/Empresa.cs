@@ -17,7 +17,6 @@ public sealed class Empresa : EntidadeIdGuid
     public Telefone Telefone { get; private set; }
     public Cnpj Cnpj { get; }
     
-    [NotMapped] //TEMPORARIO!!!!
     public List<Setor> Setores { get; } = new List<Setor>();
    
     public Empresa(){}

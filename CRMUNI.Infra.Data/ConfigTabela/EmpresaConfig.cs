@@ -16,7 +16,7 @@ public class EmpresaConfig : IEntityTypeConfiguration<Empresa>
                 =>
             {
                 endereco.Property(e => e.Endereco)
-                    .HasColumnName("email")
+                    .HasColumnName("Email")
                     .IsRequired()
                     .HasMaxLength(256);;
             }
@@ -27,7 +27,7 @@ public class EmpresaConfig : IEntityTypeConfiguration<Empresa>
                 =>
             {
                 nome.Property(e => e.Primeiro)
-                    .HasColumnName("nome")
+                    .HasColumnName("Nome")
                     .IsRequired()
                     .HasMaxLength(50);
             }
@@ -38,7 +38,7 @@ public class EmpresaConfig : IEntityTypeConfiguration<Empresa>
                 =>
             {
                 telefone.Property(e => e.Numero)
-                    .HasColumnName("telefone")
+                    .HasColumnName("Telefone")
                     .IsRequired()
                     .HasMaxLength(12);
             }
@@ -49,17 +49,17 @@ public class EmpresaConfig : IEntityTypeConfiguration<Empresa>
                 =>
             {
                 cnpj.Property(e => e.Codigo)
-                    .HasColumnName("cnpj")
+                    .HasColumnName("Cnpj")
                     .IsRequired()
                     .HasMaxLength(14);;
             }
         );
 
         builder.Property(c => c.DthrCriacao)
-            .HasColumnName("dthr_criacao")
+            .HasColumnName("DthrCriacao")
             .IsRequired();
         
         builder.Property(c => c.DthrAlteracao)
-            .HasColumnName("dthr_alteracao");
+            .HasColumnName("DthrAlteracao");
     }
 }
