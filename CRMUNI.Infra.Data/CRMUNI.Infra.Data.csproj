@@ -7,19 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Repositorios\Atendimentos\" />
-      <Folder Include="Repositorios\Base\" />
-      <Folder Include="Repositorios\Contatos\" />
-      <Folder Include="Repositorios\Empresas\" />
-      <Folder Include="Repositorios\Etapas\" />
-      <Folder Include="Repositorios\Funcionarios\" />
-      <Folder Include="Repositorios\Funis\" />
-      <Folder Include="Repositorios\Mensagens\" />
-      <Folder Include="Repositorios\Setores\" />
-      <Folder Include="Repositorios\Usuarios\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
