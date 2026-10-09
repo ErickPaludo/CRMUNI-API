@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Funis;
+using CRMUNI.DOMAIN.Entidades.Planos;
 using CRMUNI.DOMAIN.Entidades.Setores;
 using CRMUNI.DOMAIN.ObjetosValor.Documentos;
 using CRMUNI.DOMAIN.ObjetosValor.Geral;
@@ -22,6 +23,7 @@ public sealed class Empresa : EntidadeIdGuid
     public List<Setor> Setores { get; } = new();
     public List<Funil> Funils { get; } = new();
     public List<Contato> Contatos { get; } = new();
+    public List<Plano> Planos { get; } = new();
 
     public Empresa()
     {
