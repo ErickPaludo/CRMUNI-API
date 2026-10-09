@@ -12,7 +12,6 @@ namespace CRMUNI.DOMAIN.Entidades.Atendimentos;
 
 public sealed class Atendimento : EntidadeIdInt
 {
-    [NotMapped]
     public Contato? Contato { get; }
     public Funcionario Funcionario { get; private set; }
     public Etapa Etapa { get; private set; }

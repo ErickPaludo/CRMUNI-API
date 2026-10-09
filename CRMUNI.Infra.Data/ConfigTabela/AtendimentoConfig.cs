@@ -10,7 +10,13 @@ public class AtendimentoConfig : IEntityTypeConfiguration<Atendimento>
     {
         builder.ToTable("tb_atendimentos");
         builder.HasKey(u => u.Id);
-
+        
+        builder.HasOne(a => a.Contato)
+            .WithMany()
+            .HasForeignKey("ContatoId")
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+        
         builder.Property(u => u.Situacao)
             .HasComment(
                 "Situacao: 0-Aguardando | 1-EmAndamento | 2-Finalizado")

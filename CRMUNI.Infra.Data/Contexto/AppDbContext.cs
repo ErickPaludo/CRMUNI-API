@@ -1,4 +1,5 @@
 using CRMUNI.DOMAIN.Entidades.Atendimentos;
+using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Entidades.Empresas;
 using CRMUNI.DOMAIN.Entidades.Funcionarios;
 using CRMUNI.DOMAIN.Entidades.Funis;
@@ -19,6 +20,7 @@ public class AppDbContext : DbContext
     public DbSet<Setor> Setores { get; set; }
     public DbSet<Funil> Funis { get; set; }
     public DbSet<Atendimento> Atendimentos { get; set; }
+    public DbSet<Contato> Contatos { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Funis;
 using CRMUNI.DOMAIN.Entidades.Setores;
@@ -17,19 +18,22 @@ public sealed class Empresa : EntidadeIdGuid
     public NomeEmpresa Nome { get; private set; }
     public Telefone Telefone { get; private set; }
     public Cnpj Cnpj { get; }
-    
-    public List<Setor> Setores { get; } = new List<Setor>();
-    public List<Funil> Funils { get; } = new List<Funil>();
-   
-    public Empresa(){}
-    
+
+    public List<Setor> Setores { get; } = new();
+    public List<Funil> Funils { get; } = new();
+    public List<Contato> Contatos { get; } = new();
+
+    public Empresa()
+    {
+    }
+
     private Empresa(Email email, NomeEmpresa nome, Telefone telefone, Cnpj cnpj)
     {
-        ValidaNulo.Verifica(email,EmpresaMensagens.PropriedadeNula("Email"));
-        ValidaNulo.Verifica(nome,EmpresaMensagens.PropriedadeNula("Nome"));
-        ValidaNulo.Verifica(telefone,EmpresaMensagens.PropriedadeNula("Telefone"));
-        ValidaNulo.Verifica(cnpj,EmpresaMensagens.PropriedadeNula("Cnpj"));
-        
+        ValidaNulo.Verifica(email, EmpresaMensagens.PropriedadeNula("Email"));
+        ValidaNulo.Verifica(nome, EmpresaMensagens.PropriedadeNula("Nome"));
+        ValidaNulo.Verifica(telefone, EmpresaMensagens.PropriedadeNula("Telefone"));
+        ValidaNulo.Verifica(cnpj, EmpresaMensagens.PropriedadeNula("Cnpj"));
+
         Email = email;
         Nome = nome;
         Telefone = telefone;

@@ -4,6 +4,7 @@ using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261009121350_FKContatoParaAtendimento")]
+    partial class FKContatoParaAtendimento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ContatoId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DthrAlteracao")
                         .HasColumnType("datetime2")
@@ -52,8 +52,6 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasComment("Situacao: 0-Aguardando | 1-EmAndamento | 2-Finalizado");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContatoId");
 
                     b.HasIndex("EtapaId");
 
@@ -255,11 +253,6 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Atendimentos.Atendimento", b =>
                 {
-                    b.HasOne("CRMUNI.DOMAIN.Entidades.Contatos.Contato", "Contato")
-                        .WithMany()
-                        .HasForeignKey("ContatoId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("CRMUNI.DOMAIN.Entidades.Etapas.Etapa", "Etapa")
                         .WithMany("Atendimentos")
                         .HasForeignKey("EtapaId")
@@ -290,8 +283,6 @@ namespace CRMUNI.Infra.Data.Migrations
                         });
 
                     b.Navigation("Agendamento");
-
-                    b.Navigation("Contato");
 
                     b.Navigation("Etapa");
 
