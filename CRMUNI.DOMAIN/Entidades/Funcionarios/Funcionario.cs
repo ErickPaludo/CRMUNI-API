@@ -18,7 +18,6 @@ public sealed class Funcionario : EntidadeIdInt
     public Email Email { get; private set; }
     public Senha Senha { get; private set; }
     
-    [NotMapped]
     public List<Mensagem> Mensagens  { get;} = new List<Mensagem>();
     public List<Atendimento> Atendimentos  { get;} = new();
     public Funcionario(){}

@@ -1,3 +1,4 @@
+using CRMUNI.DOMAIN.Entidades.Atendimentos;
 using CRMUNI.DOMAIN.Entidades.Contatos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Funcionarios;
@@ -9,21 +10,22 @@ namespace CRMUNI.DOMAIN.Entidades.Mensagens;
 
 public sealed class Mensagem : EntidadeIdInt
 {
-    public Funcionario Funcionario { get; }
-    public Contato Contato { get;}
+    public Funcionario? Funcionario { get; }
+    public Contato? Contato { get;}
     public Conteudo Conteudo { get; private set; }
+    public Atendimento Atendimento { get; }
     
     public Mensagem(){}
-    private Mensagem(Funcionario funcionario, Contato contato,Conteudo conteudo)
+    public Mensagem(Atendimento atendimento, Funcionario funcionario, Contato? contato,Conteudo? conteudo)
     {
+        ValidaNulo.Verifica(atendimento,MensagemMensagens.PropriedadeNula("Atendimento"));
         ValidaNulo.Verifica(funcionario,MensagemMensagens.PropriedadeNula("Funcionario"));
         ValidaNulo.Verifica(contato,MensagemMensagens.PropriedadeNula("Contato"));
         ValidaNulo.Verifica(conteudo,MensagemMensagens.PropriedadeNula("Conteudo"));
         
+        Atendimento = atendimento;
         Funcionario = funcionario;
         Contato = contato;
         Conteudo = conteudo;
     }
-    public static Mensagem Create(Funcionario funcionario, Contato contato, Conteudo conteudo)
-        => new(funcionario, contato, conteudo);
 }

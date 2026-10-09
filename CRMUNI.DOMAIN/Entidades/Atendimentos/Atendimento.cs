@@ -18,7 +18,6 @@ public sealed class Atendimento : EntidadeIdInt
     public EAtendimentoSituacao Situacao { get; private set; }
     public Agendamento? Agendamento { get; private set; }
 
-    [NotMapped]
     public List<Mensagem> Mensagem { get; } = new();
     public Atendimento(){}
     private Atendimento(Contato contato, Funcionario funcionario,Etapa etapa)

@@ -4,6 +4,7 @@ using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261009150433_TabelaMensagens")]
+    partial class TabelaMensagens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,6 +229,9 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.Property<int?>("FuncionarioId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FuncionarioId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AtendimentoId");
@@ -233,6 +239,8 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.HasIndex("ContatoId");
 
                     b.HasIndex("FuncionarioId");
+
+                    b.HasIndex("FuncionarioId1");
 
                     b.ToTable("tb_mensagens", (string)null);
                 });
@@ -702,9 +710,14 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasForeignKey("ContatoId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("CRMUNI.DOMAIN.Entidades.Funcionarios.Funcionario", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CRMUNI.DOMAIN.Entidades.Funcionarios.Funcionario", null)
                         .WithMany("Mensagens")
-                        .HasForeignKey("FuncionarioId");
+                        .HasForeignKey("FuncionarioId1");
 
                     b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.descricoes.Conteudo", "Conteudo", b1 =>
                         {
@@ -729,6 +742,8 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Navigation("Conteudo")
                         .IsRequired();
+
+                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Setores.Setor", b =>
