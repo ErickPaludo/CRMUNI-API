@@ -20,6 +20,12 @@ public class ContatoConfig : IEntityTypeConfiguration<Contato>
         //     }
         // );
         
+        builder.HasOne(c => c.Plano)
+            .WithMany()
+            .HasForeignKey("PlanoId")
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+        
         builder.OwnsOne(n => n.Nome,
             nome =>
             {

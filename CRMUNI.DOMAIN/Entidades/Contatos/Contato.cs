@@ -1,5 +1,6 @@
 using CRMUNI.DOMAIN.Entidades.Empresas;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
+using CRMUNI.DOMAIN.Entidades.Planos;
 using CRMUNI.DOMAIN.ObjetosValor.Geral;
 using CRMUNI.DOMAIN.ObjetosValor.Nomes;
 using CRMUNI.DOMAIN.ObjetosValor.Telefones;
@@ -14,12 +15,13 @@ public sealed class Contato : EntidadeIdInt
     public NomeContato Nome { get; private set; }
     public Celular Celular { get; private set; }
     public Email Email { get; private set; }
+    public Plano? Plano { get; private set; }
     public EContatoSituacao Situacao { get; private set; }
     public EOrigem Origem { get; }
     //TODO: Adicionar CPF
     
     public Contato(){}
-    private Contato(Empresa empresa,NomeContato nome, Celular celular, Email email, EContatoSituacao situacao, EOrigem origem)
+    private Contato(Empresa empresa,NomeContato nome, Celular celular, Email email, EContatoSituacao situacao, EOrigem origem, Plano? plano)
     {
         ValidaNulo.Verifica(empresa, ContatoMensagens.PropriedadeNula("Empresa"));
         ValidaNulo.Verifica(nome, ContatoMensagens.PropriedadeNula("Nome"));
@@ -38,11 +40,12 @@ public sealed class Contato : EntidadeIdInt
         Email = email;
         Situacao = situacao;
         Origem = origem;
+        Plano = plano;
     }
 
     public static Contato Create(Empresa empresa, NomeContato nome, Celular celular, Email email, EContatoSituacao situacao)
-        => new(empresa, nome, celular, email, situacao,EOrigem.Outros);
+        => new(empresa, nome, celular, email, situacao,EOrigem.Outros,null);
     
     public static Contato Create(Empresa empresa,NomeContato nome, Celular celular, Email email, EContatoSituacao situacao,EOrigem origem)
-        => new(empresa,nome, celular, email, situacao,origem);
+        => new(empresa,nome, celular, email, situacao,origem,null);
 }
