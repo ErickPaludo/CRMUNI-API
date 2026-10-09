@@ -11,20 +11,20 @@ public sealed class Plano : EntidadeIdGuid
 {
     public Empresa Empresa { get; }
     public NomePlano Nome { get; private set; }
-    public DescricaoPlano DescricaoPlano { get; private set; }
+    public DescricaoPlano Descricao { get; private set; }
     public EPlanoSituacao Situacao { get; private set; }
 
-    public Plano(Empresa empresa, NomePlano nome, DescricaoPlano descricaoPlano, EPlanoSituacao situacao)
+    public Plano(Empresa empresa, NomePlano nome, DescricaoPlano descricao, EPlanoSituacao situacao)
     {
         ValidaNulo.Verifica(empresa, PlanoMensagens.PropriedadeNula("Empresa"));
         ValidaNulo.Verifica(nome, PlanoMensagens.PropriedadeNula("Nome"));
-        ValidaNulo.Verifica(descricaoPlano, PlanoMensagens.PropriedadeNula("Descrição"));
+        ValidaNulo.Verifica(descricao, PlanoMensagens.PropriedadeNula("Descrição"));
         
         ValidaEnum<EPlanoSituacao>.Verifica(situacao,PlanoMensagens.SituacaoInvalida);
         
         Empresa = empresa;
         Nome = nome;
-        DescricaoPlano = descricaoPlano;
+        Descricao = descricao;
         Situacao = situacao;
     }
 }
