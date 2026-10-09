@@ -4,6 +4,7 @@ using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008235713_TabelaAtendimentos")]
+    partial class TabelaAtendimentos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,6 +117,9 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AtendimentoId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DthrAlteracao")
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrAlteracao");
@@ -126,6 +132,8 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AtendimentoId");
 
                     b.HasIndex("SetorId");
 
@@ -223,7 +231,7 @@ namespace CRMUNI.Infra.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("CRMUNI.DOMAIN.Entidades.Funcionarios.Funcionario", "Funcionario")
-                        .WithMany("Atendimentos")
+                        .WithMany()
                         .HasForeignKey("FuncionarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -394,6 +402,10 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Funcionarios.Funcionario", b =>
                 {
+                    b.HasOne("CRMUNI.DOMAIN.Entidades.Atendimentos.Atendimento", null)
+                        .WithMany("Funcionarios")
+                        .HasForeignKey("AtendimentoId");
+
                     b.HasOne("CRMUNI.DOMAIN.Entidades.Setores.Setor", "Setor")
                         .WithMany("Funcionarios")
                         .HasForeignKey("SetorId")
@@ -668,6 +680,11 @@ namespace CRMUNI.Infra.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Atendimentos.Atendimento", b =>
+                {
+                    b.Navigation("Funcionarios");
+                });
+
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", b =>
                 {
                     b.Navigation("Funils");
@@ -676,11 +693,6 @@ namespace CRMUNI.Infra.Data.Migrations
                 });
 
             modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Etapas.Etapa", b =>
-                {
-                    b.Navigation("Atendimentos");
-                });
-
-            modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Funcionarios.Funcionario", b =>
                 {
                     b.Navigation("Atendimentos");
                 });

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using CRMUNI.DOMAIN.Entidades.Atendimentos;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Mensagens;
 using CRMUNI.DOMAIN.Entidades.Setores;
@@ -16,9 +17,10 @@ public sealed class Funcionario : EntidadeIdInt
     public NomeFuncionario Nome { get; private set; }
     public Email Email { get; private set; }
     public Senha Senha { get; private set; }
+    
     [NotMapped]
     public List<Mensagem> Mensagens  { get;} = new List<Mensagem>();
-    
+    public List<Atendimento> Atendimentos  { get;} = new();
     public Funcionario(){}
     public Funcionario(Setor setor, NomeFuncionario nome,Email email, Senha senha)
     {
