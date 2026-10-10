@@ -52,6 +52,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Etapa | `6` → `6.0.x` |
 | Funil | `7` → `7.0.x` |
 | Usuario | `8` → `8.0.x` |
+| Plano | `9` → `9.0.x` |
 
 ### Objetos de Valor (Compartilhados / Gerais)
 
@@ -63,6 +64,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Documento (CNPJ/CPF) | `0.3.x` |
 | Descrição | `0.4.x` |
 | Senha | `0.5.x` |
+| Preço | `0.6.x` |
 
 ### Objetos de Valor (Específicos por Entidade)
 
@@ -153,6 +155,15 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 |--------|-----------|----------|-------------------|
 | `8.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Disparado quando qualquer propriedade obrigatória da entidade Usuario (`Empresa`, `Nome`, `Senha`) é enviada como nula na requisição. |
 
+#### 1.10 Plano (Código 9.0.x)
+
+> `CRMUNI.DOMAIN/Validacoes/Entidades/Planos/PlanoMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `9.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando a instância ou dados essenciais da entidade Plano são enviados como nulos na requisição. |
+| `9.0.6` | `SituacaoInvalida` | "Situação não pode ser nulla." | Disparado quando a situação informada para o plano é inválida. |
+
 ---
 
 ### 2. Objetos de Valor
@@ -229,7 +240,16 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 
 > **Nota:** Códigos `0.5.0` até `0.5.10` são reservados para códigos "COMUNS" (Nula/Obrigatória). Códigos `0.5.11+` destinam-se a regras de negócio específicas.
 
-#### 2.7 Ordem (Código 6.6.x)
+#### 2.7 Preço (Código 0.6.x)
+
+> `CRMUNI.DOMAIN/Validacoes/ObjetosValor/Planos/PrecoMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `0.6.0` | `PrecoNulo` | "O preço não pode ser nullo" | Disparado quando o valor do preço é enviado como nulo para o objeto de valor. |
+| `0.6.11` | `SaldoInvalido` | "O preço não pode ser nullo" | Disparado quando há um erro de regra de negócio específico para o preço/saldo. |
+
+#### 2.8 Ordem (Código 6.6.x)
 
 > `CRMUNI.DOMAIN/Validacoes/ObjetosValor/Etapas/Ordens/OrdemMensagens.cs`
 
@@ -238,7 +258,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | `6.6.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nula." | Ocorre quando a propriedade `Ordem` é enviada como nula na requisição. |
 | `6.6.11` | `OrdemMinima` | "Ordem deve ser maior que 0." | Disparado quando o valor de `Ordem` é menor que 0. Validação de regra de negócio específica (`11+`). |
 
-#### 2.8 Agendamento (Código 5.8.x)
+#### 2.9 Agendamento (Código 5.8.x)
 
 > `CRMUNI.DOMAIN/Validacoes/ObjetosValor/Atendimentos/Agendamentos/AgendamentoMesagens.cs`
 

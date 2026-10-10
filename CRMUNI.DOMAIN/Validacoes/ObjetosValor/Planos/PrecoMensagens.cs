@@ -8,6 +8,6 @@ public static class PrecoMensagens
     */
     
     public const string PrecoNulo = "0.6.0 - O preço não pode ser nullo";
-    public const string SaldoInvalido = "0.11.0 - O preço não pode ser nullo";
+    public const string SaldoInvalido = "0.6.11 - O preço não pode ser nullo";
 
 }
