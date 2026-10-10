@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Nomes
+namespace CRMUNI.Domain.ObjetosValor.Nomes
 {
     public sealed record NomeFunil : Nome
     {

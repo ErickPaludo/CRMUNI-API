@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using CRMUNI.Domain.Repositorios;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,19 +40,19 @@ public static class InjecaoAutenticacaoJWT
                         var userId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value;
                         var sid = context.Principal.FindFirst("sid")?.Value;
 
-                        // var repo = context.HttpContext.RequestServices
-                        // //    .GetRequiredService<IAutenticacoesRepositorio>();
-                        //
-                        // var usuario = await repo.BuscarObjetoUnico(x => x.Usuario.Id.ToString() == userId);
-                        //
-                        // if (usuario == null || usuario.RefreshToken != sid || usuario.Revoke)
-                        // {
-                        //     context.Fail("Sessão inválida");
-                        // }
-                        // if (usuario!.ExpirationRefresh < DateTimeOffset.UtcNow.ToUnixTimeSeconds())
-                        // {
-                        //     context.Fail("Sessão expirada");
-                        // }
+                        var repo = context.HttpContext.RequestServices
+                           .GetRequiredService<IAutenticacaoRepositorio>();
+                        
+                        var usuario = await repo.IdExiste(userId);
+                        
+                        if (usuario == null || usuario.RefreshToken != sid || usuario.Revoke)
+                        {
+                            context.Fail("Sessão inválida");
+                        }
+                        if (usuario!.ExpirationRefresh < DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+                        {
+                            context.Fail("Sessão expirada");
+                        }
                     }
                 };
             });

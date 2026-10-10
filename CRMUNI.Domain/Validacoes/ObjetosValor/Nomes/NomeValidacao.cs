@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Nomes;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Nomes;
 
 public sealed class NomeValidacao : BaseValidacao,IValidacao<NomeValidacao>
 {

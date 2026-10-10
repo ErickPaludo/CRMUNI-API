@@ -1,13 +1,13 @@
-using CRMUNI.Domaidd.Entidades.Empresas;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.ObjetosValor.Funcionarios;
-using CRMUNI.Domaidd.ObjetosValor.Geral;
-using CRMUNI.Domaidd.ObjetosValor.Nomes;
-using CRMUNI.Domaidd.Validacoes.Entidades.Usuarios;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
-using CRMUNI.Domaidd.Validacoes.Entidades.Setores;
+using CRMUNI.Domain.Validacoes.Entidades.Setores;
+using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.ObjetosValor.Funcionarios;
+using CRMUNI.Domain.ObjetosValor.Geral;
+using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.Entidades.Usuarios;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Usuarios;
+namespace CRMUNI.Domain.Entidades.Usuarios;
 
 public sealed class Usuario : EntidadeIdGuid
 {

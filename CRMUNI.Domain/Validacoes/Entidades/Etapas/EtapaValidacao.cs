@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Etapas;
+namespace CRMUNI.Domain.Validacoes.Entidades.Etapas;
 
 public sealed class EtapaValidacao : BaseValidacao, IValidacao<EtapaValidacao>
 {

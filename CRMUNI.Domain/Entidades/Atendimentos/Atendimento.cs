@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using CRMUNI.Domaidd.Entidades.Contatos;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.Entidades.Etapas;
-using CRMUNI.Domaidd.Entidades.Funcionarios;
-using CRMUNI.Domaidd.Entidades.Mensagens;
-using CRMUNI.Domaidd.ObjetosValor.Atendimentos;
-using CRMUNI.Domaidd.Validacoes.Entidades.Atendimentos;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Entidades.Contatos;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Etapas;
+using CRMUNI.Domain.Entidades.Funcionarios;
+using CRMUNI.Domain.Entidades.Mensagens;
+using CRMUNI.Domain.ObjetosValor.Atendimentos;
+using CRMUNI.Domain.Validacoes.Entidades.Atendimentos;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Atendimentos;
+namespace CRMUNI.Domain.Entidades.Atendimentos;
 
 public sealed class Atendimento : EntidadeIdInt
 {

@@ -17,8 +17,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CRMUNI.DOMAIN\CRMUNI.DOMAIN.csproj" />
+      <ProjectReference Include="..\CRMUNI.Domain\CRMUNI.Domain.csproj" />
       <ProjectReference Include="..\CRMUNI.Infra.Data\CRMUNI.Infra.Data.csproj" />
+      <ProjectReference Include="..\CRMUNI.Infra.Security\CRMUNI.Infra.Security.csproj" />
     </ItemGroup>
 
 </Project>

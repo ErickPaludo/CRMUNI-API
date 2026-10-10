@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Funcionarios.Senhas;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Funcionarios.Senhas;
 
 public sealed class SenhaValidacao : BaseValidacao, IValidacao<SenhaValidacao>
 {

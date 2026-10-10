@@ -1,5 +1,5 @@
-﻿using CRMUNI.DOMAIN.Entidades.Etapas;
-using CRMUNI.DOMAIN.Repositorios;
+﻿using CRMUNI.Domain.Entidades.Etapas;
+using CRMUNI.Domain.Repositorios;
 using CRMUNI.Infra.Data.Contexto;
 
 namespace CRMUNI.Infra.Data.Repositorios;

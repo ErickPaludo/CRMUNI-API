@@ -1,7 +1,6 @@
-﻿using HeyChefe.Application.Modelos.Autenticação;
-using HeyChefe.Domain.Entidades.Segurança;
+﻿using CRMUNI.Application.Modelos.Autenticacao;
 
-namespace HeyChefe.Application.Interfaces.Autenticação
+namespace CRMUNI.Application.Interfaces.Autenticacao
 {
     public interface IAutenticacaoServico
     {
@@ -11,6 +10,7 @@ namespace HeyChefe.Application.Interfaces.Autenticação
 
         void ValidaToken(string token);
 
-        ResultadoToken RefreshToken(Autenticacao autenticacao, string antigoRefreshToken);
+        ResultadoToken RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao,
+            string antigoRefreshToken);
     }
 }

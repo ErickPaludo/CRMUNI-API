@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Validacoes.Geral;
+﻿using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Planos;
+namespace CRMUNI.Domain.Validacoes.Entidades.Planos;
 
 public sealed class PlanoValidacao : BaseValidacao, IValidacao<PlanoValidacao>
 {

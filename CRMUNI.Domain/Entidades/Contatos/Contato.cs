@@ -1,14 +1,14 @@
-using CRMUNI.Domaidd.Entidades.Empresas;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.Entidades.Planos;
-using CRMUNI.Domaidd.ObjetosValor.Documentos;
-using CRMUNI.Domaidd.ObjetosValor.Geral;
-using CRMUNI.Domaidd.ObjetosValor.Nomes;
-using CRMUNI.Domaidd.ObjetosValor.Telefones;
-using CRMUNI.Domaidd.Validacoes.Entidades.Contatos;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Planos;
+using CRMUNI.Domain.ObjetosValor.Documentos;
+using CRMUNI.Domain.ObjetosValor.Geral;
+using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.ObjetosValor.Telefones;
+using CRMUNI.Domain.Validacoes.Entidades.Contatos;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Contatos;
+namespace CRMUNI.Domain.Entidades.Contatos;
 
 public sealed class Contato : EntidadeIdInt
 {

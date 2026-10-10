@@ -1,7 +1,7 @@
 using System;
-using CRMUNI.DOMAIN.ObjetosValor.Telefones;
-using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Telefones;
-using CRMUNI.DOMAIN.Execoes;
+using CRMUNI.Domain.ObjetosValor.Telefones;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Telefones;
+using CRMUNI.Domain.Execoes;
 using FluentAssertions;
 using NUnit.Framework;
 

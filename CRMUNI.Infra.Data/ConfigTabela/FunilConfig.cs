@@ -1,4 +1,4 @@
-﻿using CRMUNI.DOMAIN.Entidades.Funis;
+﻿using CRMUNI.Domain.Entidades.Funis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

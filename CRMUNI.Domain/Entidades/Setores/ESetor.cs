@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Entidades.Setores;
+namespace CRMUNI.Domain.Entidades.Setores;
 
 public enum ESetor
 {

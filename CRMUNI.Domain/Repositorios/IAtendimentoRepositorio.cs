@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Atendimentos;
+﻿using CRMUNI.Domain.Entidades.Atendimentos;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IAtendimentoRepositorio : IBaseRepositorio<Atendimento>
 {

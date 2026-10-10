@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Etapas.Ordens;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Etapas.Ordens;
 
 public static class OrdemMensagens
 {

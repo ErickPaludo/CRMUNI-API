@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Setores;
+namespace CRMUNI.Domain.Validacoes.Entidades.Setores;
 
 public sealed class SetorValidacao : BaseValidacao, IValidacao<SetorValidacao>
 {

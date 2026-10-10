@@ -1,5 +1,5 @@
-using CRMUNI.DOMAIN.Repositorios;
-using CRMUNI.DOMAIN.Servicos;
+using CRMUNI.Domain.Repositorios;
+using CRMUNI.Domain.Servicos;
 using CRMUNI.Infra.Data.Contexto;
 using CRMUNI.Infra.Data.Repositorios;
 
@@ -23,6 +23,7 @@ public class UnityOfWork : IUnityOfWork
     private IAtendimentoRepositorio? _atendimentoRepositorio;
     private IContatoRepositorio? _contatoRepositorio;
     private IMensagemRepositorio? _mensagemRepositorio;
+    private IAutenticacaoRepositorio? _autenticacaoRepositorio;
 
     public IEmpresaRepositorio EmpresaRepositorio => _empresaRepositorio ??= new EmpresaRepositorio(_contexto);
     public ISetorRepositorio SetorRepositorio => _setorRepositorio ??= new SetorRepositorio(_contexto);
@@ -40,6 +41,7 @@ public class UnityOfWork : IUnityOfWork
 
     public IContatoRepositorio ContatoRepositorio => _contatoRepositorio ??= new ContatoRepositorio(_contexto);
     public IMensagemRepositorio MensagemRepositorio => _mensagemRepositorio ??= new MensagemRepositorio(_contexto);
+    public IAutenticacaoRepositorio AutenticacaoRepositorio => _autenticacaoRepositorio ??= new AutenticacaoRepositorio(_contexto);
 
     public IUsuarioRepositorio UsuarioRepostorio
     {

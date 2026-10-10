@@ -1,11 +1,11 @@
-﻿using CRMUNI.Domaidd.Entidades.Empresas;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.ObjetosValor.Descricoes;
-using CRMUNI.Domaidd.ObjetosValor.Nomes;
-using CRMUNI.Domaidd.Validacoes.Entidades.Planos;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+﻿using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.ObjetosValor.Descricoes;
+using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.Entidades.Planos;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Planos;
+namespace CRMUNI.Domain.Entidades.Planos;
 
 public sealed class Plano : EntidadeIdGuid
 {

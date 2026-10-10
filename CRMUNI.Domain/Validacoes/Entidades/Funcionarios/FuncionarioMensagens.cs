@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Funcionarios;
+namespace CRMUNI.Domain.Validacoes.Entidades.Funcionarios;
 
 public static class FuncionarioMensagens
 {

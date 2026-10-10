@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Planos;
+﻿using CRMUNI.Domain.Entidades.Planos;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IPlanoRepositorio : IBaseRepositorio<Plano>
 {

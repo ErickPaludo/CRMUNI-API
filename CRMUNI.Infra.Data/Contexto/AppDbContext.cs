@@ -1,10 +1,10 @@
-using CRMUNI.DOMAIN.Entidades.Atendimentos;
-using CRMUNI.DOMAIN.Entidades.Contatos;
-using CRMUNI.DOMAIN.Entidades.Empresas;
-using CRMUNI.DOMAIN.Entidades.Funcionarios;
-using CRMUNI.DOMAIN.Entidades.Funis;
-using CRMUNI.DOMAIN.Entidades.Setores;
-using CRMUNI.DOMAIN.Entidades.Usuarios;
+using CRMUNI.Domain.Entidades.Atendimentos;
+using CRMUNI.Domain.Entidades.Contatos;
+using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.Funcionarios;
+using CRMUNI.Domain.Entidades.Funis;
+using CRMUNI.Domain.Entidades.Setores;
+using CRMUNI.Domain.Entidades.Usuarios;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRMUNI.Infra.Data.Contexto;

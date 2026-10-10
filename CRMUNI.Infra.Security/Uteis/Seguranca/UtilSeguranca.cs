@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace CRMUNI.Infra.Seguranca.Uteis.Seguranca
+namespace CRMUNI.Infra.Security.Uteis.Seguranca
 {
     public static class UtilSeguranca
     {

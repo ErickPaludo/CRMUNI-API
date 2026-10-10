@@ -1,8 +1,8 @@
 using System.Net.Mail;
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Emails;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Emails;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Geral;
+namespace CRMUNI.Domain.ObjetosValor.Geral;
 
 public sealed record Email
 {

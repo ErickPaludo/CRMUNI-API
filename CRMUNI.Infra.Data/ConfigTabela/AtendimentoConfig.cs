@@ -1,4 +1,4 @@
-﻿using CRMUNI.DOMAIN.Entidades.Atendimentos;
+﻿using CRMUNI.Domain.Entidades.Atendimentos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

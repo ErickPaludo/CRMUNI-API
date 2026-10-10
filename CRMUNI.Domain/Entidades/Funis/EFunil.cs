@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Entidades.Funis;
+namespace CRMUNI.Domain.Entidades.Funis;
 
 public enum EFunil
 {

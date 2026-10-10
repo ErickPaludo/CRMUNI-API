@@ -1,7 +1,12 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using CRMUNI.Application.Interfaces.Seguranca;
+using CRMUNI.Infra.Security.Uteis.Seguranca;
+using CRMUNI.Infra.Seguranca.Configuracoes.Seguranca;
+using Konscious.Security.Cryptography;
+using Microsoft.Extensions.Options;
 
-namespace CRMUNI.Infra.Seguranca.Servicos.Seguranca
+namespace CRMUNI.Infra.Security.Servicos.Seguranca
 {
     public class SegurancaServico : ISegurancaServico
     {

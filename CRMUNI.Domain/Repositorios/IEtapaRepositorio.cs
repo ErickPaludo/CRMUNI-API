@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Etapas;
+﻿using CRMUNI.Domain.Entidades.Etapas;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IEtapaRepositorio : IBaseRepositorio<Etapa>
 {

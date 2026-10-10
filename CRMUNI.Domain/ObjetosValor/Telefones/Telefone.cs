@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Telefones;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Telefones;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Telefones;
+namespace CRMUNI.Domain.ObjetosValor.Telefones;
 
 public record Telefone
 {

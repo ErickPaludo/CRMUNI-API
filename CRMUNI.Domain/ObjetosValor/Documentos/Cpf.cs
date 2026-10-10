@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.ObjetosValor.Documentos;
+namespace CRMUNI.Domain.ObjetosValor.Documentos;
 
 public sealed record Cpf : Documento
 {

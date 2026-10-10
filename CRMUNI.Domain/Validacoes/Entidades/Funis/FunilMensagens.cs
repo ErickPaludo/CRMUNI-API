@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Funis
+namespace CRMUNI.Domain.Validacoes.Entidades.Funis
 {
     public static class FunilMensagens
     {

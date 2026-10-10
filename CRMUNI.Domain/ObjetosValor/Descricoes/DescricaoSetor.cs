@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Validacoes.ObjetosValor.Descricoes;
+﻿using CRMUNI.Domain.Validacoes.ObjetosValor.Descricoes;
 
-namespace CRMUNI.Domaidd.ObjetosValor.descricoes
+namespace CRMUNI.Domain.ObjetosValor.descricoes
 {
     public sealed record DescricaoSetor : Descricao
     {

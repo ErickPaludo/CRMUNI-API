@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.Geral;
+namespace CRMUNI.Domain.Validacoes.Geral;
 
 public interface IValidacao<T> where T : BaseValidacao
 {

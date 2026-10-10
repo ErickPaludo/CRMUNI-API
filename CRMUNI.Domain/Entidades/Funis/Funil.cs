@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using CRMUNI.Domaidd.Entidades.Empresas;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.Entidades.Etapas;
-using CRMUNI.Domaidd.ObjetosValor.Descricoes;
-using CRMUNI.Domaidd.ObjetosValor.Nomes;
-using CRMUNI.Domaidd.Validacoes.Entidades.Funis;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Etapas;
+using CRMUNI.Domain.ObjetosValor.Descricoes;
+using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.Entidades.Funis;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Funis
+namespace CRMUNI.Domain.Entidades.Funis
 {
     public sealed class Funil : EntidadeIdInt
     {

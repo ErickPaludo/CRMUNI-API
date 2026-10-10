@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.ObjetosValor.Telefones;
+namespace CRMUNI.Domain.ObjetosValor.Telefones;
 
 public sealed record Celular : Telefone
 {

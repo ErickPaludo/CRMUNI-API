@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Execoes
+namespace CRMUNI.Domain.Execoes
 {
     public class ExceptionDomain : Exception
     {

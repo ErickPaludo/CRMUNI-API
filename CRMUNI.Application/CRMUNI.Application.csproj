@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CRMUNI.Domain\CRMUNI.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

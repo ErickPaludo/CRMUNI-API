@@ -1,4 +1,4 @@
-﻿using CRMUNI.DOMAIN.Entidades.Etapas;
+﻿using CRMUNI.Domain.Entidades.Etapas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

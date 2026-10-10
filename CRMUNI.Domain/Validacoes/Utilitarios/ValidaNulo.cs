@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using CRMUNI.Domaidd.Execoes;
+using CRMUNI.Domain.Execoes;
 
-namespace CRMUNI.Domaidd.Validacoes.Utilitarios
+namespace CRMUNI.Domain.Validacoes.Utilitarios
 {
     public static class ValidaNulo
     {

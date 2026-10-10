@@ -1,7 +1,7 @@
 using System;
-using CRMUNI.DOMAIN.ObjetosValor.Etapas;
-using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Etapas.Ordens;
-using CRMUNI.DOMAIN.Execoes;
+using CRMUNI.Domain.ObjetosValor.Etapas;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Etapas.Ordens;
+using CRMUNI.Domain.Execoes;
 using FluentAssertions;
 using NUnit.Framework;
 

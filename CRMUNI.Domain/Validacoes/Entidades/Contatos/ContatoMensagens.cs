@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Contatos;
+namespace CRMUNI.Domain.Validacoes.Entidades.Contatos;
 
 public static class ContatoMensagens
 {

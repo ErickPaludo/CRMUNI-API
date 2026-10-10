@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Entidades.Contatos;
+namespace CRMUNI.Domain.Entidades.Contatos;
 
 public enum EOrigem
 {

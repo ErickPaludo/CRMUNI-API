@@ -1,7 +1,7 @@
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Etapas.Ordens;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Etapas.Ordens;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Etapas;
+namespace CRMUNI.Domain.ObjetosValor.Etapas;
 
 public sealed record Ordem
 {

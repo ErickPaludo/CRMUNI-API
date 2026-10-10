@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CRMUNI.Domaidd.ObjetosValor.descricoes;
+using CRMUNI.Domain.ObjetosValor.descricoes;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Descricoes
+namespace CRMUNI.Domain.ObjetosValor.Descricoes
 {
     public sealed record DescricaoFunil : Descricao
     {

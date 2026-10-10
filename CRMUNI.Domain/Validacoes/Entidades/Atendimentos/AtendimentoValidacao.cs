@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Atendimentos;
+namespace CRMUNI.Domain.Validacoes.Entidades.Atendimentos;
 
 public sealed class AtendimentoValidacao : BaseValidacao, IValidacao<AtendimentoValidacao>
 {

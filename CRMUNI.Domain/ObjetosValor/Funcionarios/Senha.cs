@@ -1,7 +1,7 @@
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Funcionarios.Senhas;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Funcionarios.Senhas;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Funcionarios;
+namespace CRMUNI.Domain.ObjetosValor.Funcionarios;
 
 public sealed record Senha
 {

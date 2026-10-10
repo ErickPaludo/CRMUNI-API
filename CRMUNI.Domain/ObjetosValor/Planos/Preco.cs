@@ -1,7 +1,7 @@
-﻿using CRMUNI.Domaidd.Validacoes.ObjetosValor.Planos;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+﻿using CRMUNI.Domain.Validacoes.ObjetosValor.Planos;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Planos;
+namespace CRMUNI.Domain.ObjetosValor.Planos;
 
 public record Preco
 {

@@ -1,7 +1,7 @@
 using System;
-using CRMUNI.DOMAIN.ObjetosValor.Nomes;
-using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Nomes;
-using CRMUNI.DOMAIN.Execoes;
+using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Nomes;
+using CRMUNI.Domain.Execoes;
 using FluentAssertions;
 using NUnit.Framework;
 

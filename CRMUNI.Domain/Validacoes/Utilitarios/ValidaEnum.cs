@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Execoes;
+using CRMUNI.Domain.Execoes;
 
-namespace CRMUNI.Domaidd.Validacoes.Utilitarios;
+namespace CRMUNI.Domain.Validacoes.Utilitarios;
 
 public class ValidaEnum<T> where T : Enum
 {

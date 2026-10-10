@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Mensagens;
+namespace CRMUNI.Domain.Validacoes.Entidades.Mensagens;
 
 public sealed class MensagemValidacao : BaseValidacao, IValidacao<MensagemValidacao>
 {

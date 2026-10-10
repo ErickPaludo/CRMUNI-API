@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
 
 public static class AgendamentoMesagens
 {

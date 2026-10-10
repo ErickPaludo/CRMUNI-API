@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.DOMAIN", "CRMUNI.DOMAIN\CRMUNI.DOMAIN.csproj", "{94D4C0D0-D104-4609-829D-3838D6797F57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Domain", "CRMUNI.Domain\CRMUNI.Domain.csproj", "{94D4C0D0-D104-4609-829D-3838D6797F57}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.UnitTests.Domain", "CRMUNI.UnitTests.Domain\CRMUNI.UnitTests.Domain.csproj", "{D0E86E10-88D4-4AC1-9AC0-C9DF004F85AE}"
 EndProject
@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Infra.Seguranca", "CRMUNI.Infra.Seguranca\CRMUNI.Infra.Seguranca.csproj", "{80241FC1-4882-48A4-9893-4B358D03DA72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Infra.Security", "CRMUNI.Infra.Security\CRMUNI.Infra.Security.csproj", "{80241FC1-4882-48A4-9893-4B358D03DA72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Application", "CRMUNI.Application\CRMUNI.Application.csproj", "{453EEADA-C462-4CD2-BC88-8738A80B6828}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,5 +49,9 @@ Global
 		{80241FC1-4882-48A4-9893-4B358D03DA72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80241FC1-4882-48A4-9893-4B358D03DA72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80241FC1-4882-48A4-9893-4B358D03DA72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{453EEADA-C462-4CD2-BC88-8738A80B6828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{453EEADA-C462-4CD2-BC88-8738A80B6828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{453EEADA-C462-4CD2-BC88-8738A80B6828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{453EEADA-C462-4CD2-BC88-8738A80B6828}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

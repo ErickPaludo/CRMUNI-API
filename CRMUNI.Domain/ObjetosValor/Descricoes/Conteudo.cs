@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.ObjetosValor.descricoes;
+namespace CRMUNI.Domain.ObjetosValor.descricoes;
 
 public sealed record Conteudo : Descricao
 {

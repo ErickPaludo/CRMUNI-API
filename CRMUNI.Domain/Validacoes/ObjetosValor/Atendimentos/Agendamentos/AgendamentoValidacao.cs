@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
 
 public sealed class AgendamentoValidacao : BaseValidacao, IValidacao<AgendamentoValidacao>
 {

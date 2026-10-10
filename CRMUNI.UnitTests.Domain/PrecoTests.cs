@@ -1,7 +1,7 @@
 using System;
-using CRMUNI.DOMAIN.Execoes;
-using CRMUNI.DOMAIN.ObjetosValor.Planos;
-using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Planos;
+using CRMUNI.Domain.Execoes;
+using CRMUNI.Domain.ObjetosValor.Planos;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Planos;
 using FluentAssertions;
 using NUnit.Framework;
 

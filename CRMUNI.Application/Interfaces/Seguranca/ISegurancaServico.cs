@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HeyChefe.Application.Interfaces.Segurança
+﻿namespace CRMUNI.Application.Interfaces.Seguranca
 {
     public interface ISegurancaServico
     {
-        (string salt,string hash) CriaSenhaArgon(string senha, string? salt = null);
+        (string salt, string hash) CriaSenhaArgon(string senha, string? salt = null);
         bool ValidaSenhaArgon(string senhaBanco, string senha, string salt);
     }
 }

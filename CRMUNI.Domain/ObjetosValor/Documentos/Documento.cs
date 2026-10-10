@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Documentos;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Documentos;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Documentos;
+namespace CRMUNI.Domain.ObjetosValor.Documentos;
 
 public abstract record Documento
 {

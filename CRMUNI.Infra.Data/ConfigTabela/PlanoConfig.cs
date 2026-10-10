@@ -1,4 +1,4 @@
-﻿using CRMUNI.DOMAIN.Entidades.Planos;
+﻿using CRMUNI.Domain.Entidades.Planos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

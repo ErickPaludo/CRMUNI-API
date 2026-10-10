@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Funcionarios;
+namespace CRMUNI.Domain.Validacoes.Entidades.Funcionarios;
 
 public sealed class FuncionarioValidacao : BaseValidacao,IValidacao<FuncionarioValidacao>
 {

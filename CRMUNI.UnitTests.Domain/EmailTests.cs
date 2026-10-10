@@ -1,9 +1,9 @@
 using System;
-using CRMUNI.DOMAIN.Execoes;
+using CRMUNI.Domain.Execoes;
 using FluentAssertions;
 using NUnit.Framework;
-using CRMUNI.DOMAIN.ObjetosValor.Geral;
-using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Emails;
+using CRMUNI.Domain.ObjetosValor.Geral;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Emails;
 
 namespace CRMUNI.UnitTests.Domain
 {

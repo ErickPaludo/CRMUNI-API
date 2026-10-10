@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using CRMUNI.Domaidd.Entidades.Atendimentos;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.Entidades.Funis;
-using CRMUNI.Domaidd.ObjetosValor.Etapas;
-using CRMUNI.Domaidd.ObjetosValor.Nomes;
-using CRMUNI.Domaidd.Validacoes.Entidades.Etapas;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Entidades.Atendimentos;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Funis;
+using CRMUNI.Domain.ObjetosValor.Etapas;
+using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.Entidades.Etapas;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Etapas;
+namespace CRMUNI.Domain.Entidades.Etapas;
 
 public sealed class Etapa : EntidadeIdInt
 {

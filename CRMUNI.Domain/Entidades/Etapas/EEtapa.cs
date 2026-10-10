@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Entidades.Etapas;
+namespace CRMUNI.Domain.Entidades.Etapas;
 
 public enum EEtapa
 {

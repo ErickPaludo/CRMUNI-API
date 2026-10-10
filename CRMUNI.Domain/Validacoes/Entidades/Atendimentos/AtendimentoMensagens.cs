@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Atendimentos;
+namespace CRMUNI.Domain.Validacoes.Entidades.Atendimentos;
 
 public static class AtendimentoMensagens
 {

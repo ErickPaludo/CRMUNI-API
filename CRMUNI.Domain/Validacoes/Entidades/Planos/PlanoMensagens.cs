@@ -1,4 +1,4 @@
-﻿namespace CRMUNI.Domaidd.Validacoes.Entidades.Planos;
+﻿namespace CRMUNI.Domain.Validacoes.Entidades.Planos;
 
 public class PlanoMensagens
 {

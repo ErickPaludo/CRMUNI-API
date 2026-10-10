@@ -1,5 +1,5 @@
-﻿using CRMUNI.DOMAIN.Entidades.Planos;
-using CRMUNI.DOMAIN.Repositorios;
+﻿using CRMUNI.Domain.Entidades.Planos;
+using CRMUNI.Domain.Repositorios;
 using CRMUNI.Infra.Data.Contexto;
 
 namespace CRMUNI.Infra.Data.Repositorios;

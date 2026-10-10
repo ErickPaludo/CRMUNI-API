@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Nomes;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Nomes;
 
 public static class NomeMensagens
 {

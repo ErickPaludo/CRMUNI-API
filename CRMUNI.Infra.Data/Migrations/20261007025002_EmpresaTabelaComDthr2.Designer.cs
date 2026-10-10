@@ -25,7 +25,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", b =>
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Empresas.Empresa", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,9 +44,9 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.ToTable("tb_empresa", (string)null);
                 });
 
-            modelBuilder.Entity("CRMUNI.DOMAIN.Entidades.Empresas.Empresa", b =>
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Empresas.Empresa", b =>
                 {
-                    b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Documentos.Cnpj", "Cnpj", b1 =>
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Documentos.Cnpj", "Cnpj", b1 =>
                         {
                             b1.Property<Guid>("EmpresaId")
                                 .HasColumnType("uniqueidentifier");
@@ -65,7 +65,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .HasForeignKey("EmpresaId");
                         });
 
-                    b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Geral.Email", "Email", b1 =>
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Geral.Email", "Email", b1 =>
                         {
                             b1.Property<Guid>("EmpresaId")
                                 .HasColumnType("uniqueidentifier");
@@ -84,7 +84,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .HasForeignKey("EmpresaId");
                         });
 
-                    b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Nomes.NomeEmpresa", "Nome", b1 =>
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Nomes.NomeEmpresa", "Nome", b1 =>
                         {
                             b1.Property<Guid>("EmpresaId")
                                 .HasColumnType("uniqueidentifier");
@@ -103,7 +103,7 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .HasForeignKey("EmpresaId");
                         });
 
-                    b.OwnsOne("CRMUNI.DOMAIN.ObjetosValor.Telefones.Telefone", "Telefone", b1 =>
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Telefones.Telefone", "Telefone", b1 =>
                         {
                             b1.Property<Guid>("EmpresaId")
                                 .HasColumnType("uniqueidentifier");

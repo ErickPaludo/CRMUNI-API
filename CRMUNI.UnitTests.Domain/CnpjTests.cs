@@ -1,6 +1,6 @@
-using CRMUNI.DOMAIN.ObjetosValor.Documentos;
-using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Documentos;
-using CRMUNI.DOMAIN.Execoes;
+using CRMUNI.Domain.ObjetosValor.Documentos;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Documentos;
+using CRMUNI.Domain.Execoes;
 using FluentAssertions;
 
 namespace CRMUNI.UnitTests.Domain

@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CRMUNI.DOMAIN\CRMUNI.DOMAIN.csproj" />
+      <ProjectReference Include="..\CRMUNI.Domain\CRMUNI.Domain.csproj" />
     </ItemGroup>
 
 </Project>

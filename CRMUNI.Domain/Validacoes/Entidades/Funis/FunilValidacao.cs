@@ -1,10 +1,10 @@
-﻿using CRMUNI.Domaidd.Validacoes.Entidades.Funcionarios;
+﻿using CRMUNI.Domain.Validacoes.Entidades.Funcionarios;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Funis
+namespace CRMUNI.Domain.Validacoes.Entidades.Funis
 {
     public sealed class FunilValidacao : BaseValidacao,IValidacao<FunilValidacao>
     {

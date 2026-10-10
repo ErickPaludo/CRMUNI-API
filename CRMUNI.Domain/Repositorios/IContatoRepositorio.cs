@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Contatos;
+﻿using CRMUNI.Domain.Entidades.Contatos;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IContatoRepositorio : IBaseRepositorio<Contato>
 {

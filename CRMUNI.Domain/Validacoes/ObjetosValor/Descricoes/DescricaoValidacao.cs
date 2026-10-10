@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Descricoes;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Descricoes;
 
 public sealed class DescricaoValidacao : BaseValidacao,IValidacao<DescricaoValidacao>
 {

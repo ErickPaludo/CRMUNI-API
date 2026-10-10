@@ -1,4 +1,4 @@
-﻿using CRMUNI.DOMAIN.Entidades.Mensagens;
+﻿using CRMUNI.Domain.Entidades.Mensagens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

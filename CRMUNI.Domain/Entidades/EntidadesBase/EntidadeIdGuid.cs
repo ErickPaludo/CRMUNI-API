@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Entidades.EntidadesBase;
+namespace CRMUNI.Domain.Entidades.EntidadesBase;
 
 public abstract class EntidadeIdGuid : Entidade
 {

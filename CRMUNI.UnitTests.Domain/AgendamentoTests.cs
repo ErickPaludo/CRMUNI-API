@@ -1,7 +1,7 @@
 using System;
-using CRMUNI.DOMAIN.ObjetosValor.Atendimentos;
-using CRMUNI.DOMAIN.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
-using CRMUNI.DOMAIN.Execoes;
+using CRMUNI.Domain.ObjetosValor.Atendimentos;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
+using CRMUNI.Domain.Execoes;
 using FluentAssertions;
 using NUnit.Framework;
 

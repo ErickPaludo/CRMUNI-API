@@ -1,10 +1,11 @@
-﻿using HeyChefe.Application.Interfaces.Segurança;
-using HeyChefe.Application.Services.Segurança;
-using HeyChefe.Infra.Security.Configurações.Segurança;
+﻿
+using CRMUNI.Application.Interfaces.Seguranca;
+using CRMUNI.Infra.Security.Servicos.Seguranca;
+using CRMUNI.Infra.Seguranca.Configuracoes.Seguranca;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HeyChefe.Infra.IoC
+namespace CRMUNI.Infra.IoC
 {
     public static class InjecaoPassword
     {

@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Repositorios;
+﻿using CRMUNI.Domain.Repositorios;
 
-namespace CRMUNI.Domaidd.Servicos;
+namespace CRMUNI.Domain.Servicos;
 
 public interface IUnityOfWork
 {
@@ -14,6 +14,7 @@ public interface IUnityOfWork
     IAtendimentoRepositorio AtendimentoRepositorio { get; }
     IContatoRepositorio ContatoRepositorio { get; }
     IMensagemRepositorio MensagemRepositorio { get; }
+    IAutenticacaoRepositorio AutenticacaoRepositorio { get; }
     
     Task Commit();
 }

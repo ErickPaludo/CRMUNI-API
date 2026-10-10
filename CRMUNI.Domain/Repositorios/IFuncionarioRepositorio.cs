@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Funcionarios;
+﻿using CRMUNI.Domain.Entidades.Funcionarios;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IFuncionarioRepositorio : IBaseRepositorio<Funcionario>
 {

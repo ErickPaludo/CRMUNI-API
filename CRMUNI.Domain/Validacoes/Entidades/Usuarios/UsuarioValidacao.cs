@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Usuarios;
+namespace CRMUNI.Domain.Validacoes.Entidades.Usuarios;
 
 public class UsuarioValidacao : BaseValidacao, IValidacao<UsuarioValidacao>
 {

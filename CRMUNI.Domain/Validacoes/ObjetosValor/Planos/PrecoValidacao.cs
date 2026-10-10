@@ -1,7 +1,7 @@
-﻿using CRMUNI.Domaidd.Validacoes.Geral;
-using CRMUNI.Domaidd.ObjetosValor.Planos;
+﻿using CRMUNI.Domain.ObjetosValor.Planos;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Planos;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Planos;
 
 public class PrecoValidacao : BaseValidacao, IValidacao<PrecoValidacao>
 {

@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Empresas;
+﻿using CRMUNI.Domain.Entidades.Empresas;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IEmpresaRepositorio : IBaseRepositorio<Empresa>
 {

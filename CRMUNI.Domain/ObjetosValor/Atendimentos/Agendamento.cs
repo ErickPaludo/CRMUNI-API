@@ -1,7 +1,7 @@
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Atendimentos.Agendamentos;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Atendimentos;
+namespace CRMUNI.Domain.ObjetosValor.Atendimentos;
 
 public sealed record Agendamento
 {

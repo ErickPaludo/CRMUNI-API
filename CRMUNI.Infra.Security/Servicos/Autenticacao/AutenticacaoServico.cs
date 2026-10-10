@@ -1,8 +1,16 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using CRMUNI.Application.Interfaces.Autenticacao;
+using CRMUNI.Application.Modelos.Autenticacao;
+using CRMUNI.Infra.Security.Configuracoes.Autenticacao;
+using CRMUNI.Infra.Security.Uteis.Autenticacao;
+using CRMUNI.Infra.Security.Uteis.Seguranca;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
-namespace CRMUNI.Infra.Seguranca.Servicos.Autenticacao
+namespace CRMUNI.Infra.Security.Servicos.Autenticacao
 {
     public class AutenticacaoServico : IAutenticacaoServico
     {
@@ -87,7 +95,7 @@ namespace CRMUNI.Infra.Seguranca.Servicos.Autenticacao
                 throw new Exception("Refresh Token expirado.");
         }
 
-        public ResultadoToken RefreshToken(Autenticacao autenticacao, string antigoRefreshToken)
+        public ResultadoToken RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao, string antigoRefreshToken)
         {
             ValidaRefresh(antigoRefreshToken, autenticacao!.RefreshToken!, autenticacao.ExpirationRefresh);
 

@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Documentos;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Documentos;
 
 public static class DocumentoMensagens
 {

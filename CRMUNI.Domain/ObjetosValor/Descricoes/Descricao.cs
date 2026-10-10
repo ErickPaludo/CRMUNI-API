@@ -1,7 +1,7 @@
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Descricoes;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Descricoes;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.descricoes
+namespace CRMUNI.Domain.ObjetosValor.descricoes
 {
     public abstract record Descricao
     {

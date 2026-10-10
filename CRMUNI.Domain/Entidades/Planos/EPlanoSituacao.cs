@@ -1,4 +1,4 @@
-﻿namespace CRMUNI.Domaidd.Entidades.Planos;
+﻿namespace CRMUNI.Domain.Entidades.Planos;
 
 public enum EPlanoSituacao
 {

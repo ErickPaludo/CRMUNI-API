@@ -1,4 +1,4 @@
-﻿namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Planos;
+﻿namespace CRMUNI.Domain.Validacoes.ObjetosValor.Planos;
 
 public static class PrecoMensagens
 {

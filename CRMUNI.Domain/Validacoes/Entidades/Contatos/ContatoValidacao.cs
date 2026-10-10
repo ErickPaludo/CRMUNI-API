@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Contatos;
+namespace CRMUNI.Domain.Validacoes.Entidades.Contatos;
 
 public sealed class ContatoValidacao : BaseValidacao, IValidacao<ContatoValidacao>
 {

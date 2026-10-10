@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.ObjetosValor.Nomes;
+namespace CRMUNI.Domain.ObjetosValor.Nomes;
 
 public sealed record NomeFuncionario : Nome
 {

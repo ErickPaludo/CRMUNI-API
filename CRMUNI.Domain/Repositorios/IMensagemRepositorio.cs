@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Mensagens;
+﻿using CRMUNI.Domain.Entidades.Mensagens;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IMensagemRepositorio : IBaseRepositorio<Mensagem>
 {

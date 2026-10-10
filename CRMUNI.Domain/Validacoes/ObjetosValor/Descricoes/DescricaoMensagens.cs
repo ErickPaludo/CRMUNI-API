@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Descricoes;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Descricoes;
 
 public static class DescricaoMensagens
 {

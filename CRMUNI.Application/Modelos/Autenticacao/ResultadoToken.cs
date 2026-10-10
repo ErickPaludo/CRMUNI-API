@@ -1,4 +1,10 @@
-﻿namespace HeyChefe.Application.Modelos.Autenticação
+﻿namespace CRMUNI.Application.Modelos.Autenticacao
 {
-    public record ResultadoToken(string token, DateTime expirationTokenFormatado, string refreshToken,long expirationRefreshToken, DateTime expirationRefreshTokenFormatado);
+    public record ResultadoToken(
+        string token,
+        DateTime expirationTokenFormatado,
+        string refreshToken,
+        long expirationRefreshToken,
+        DateTime expirationRefreshTokenFormatado
+    );
 }

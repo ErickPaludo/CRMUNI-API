@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Funcionarios.Senhas;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Funcionarios.Senhas;
 
 public static class SenhaMensagens
 {

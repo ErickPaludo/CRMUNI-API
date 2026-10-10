@@ -1,7 +1,7 @@
-using CRMUNI.Domaidd.Validacoes.ObjetosValor.Nomes;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Nomes;
+namespace CRMUNI.Domain.ObjetosValor.Nomes;
 
 public abstract record Nome
 {

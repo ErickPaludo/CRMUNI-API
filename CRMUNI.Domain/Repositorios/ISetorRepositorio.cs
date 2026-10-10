@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Setores;
+﻿using CRMUNI.Domain.Entidades.Setores;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface ISetorRepositorio : IBaseRepositorio<Setor>
 {

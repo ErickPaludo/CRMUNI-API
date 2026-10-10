@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Empresas;
+namespace CRMUNI.Domain.Validacoes.Entidades.Empresas;
 
 public sealed class EmpresaValidacao : BaseValidacao,IValidacao<EmpresaValidacao>
 {

@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Entidades.Atendimentos;
+namespace CRMUNI.Domain.Entidades.Atendimentos;
 
 public enum EAtendimentoSituacao
 {

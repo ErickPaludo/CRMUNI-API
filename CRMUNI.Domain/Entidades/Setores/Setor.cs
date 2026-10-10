@@ -1,13 +1,13 @@
-using CRMUNI.Domaidd.Entidades.Empresas;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.Entidades.Funcionarios;
-using CRMUNI.Domaidd.ObjetosValor.descricoes;
-using CRMUNI.Domaidd.ObjetosValor.Nomes;
-using CRMUNI.Domaidd.Validacoes.Entidades.Setores;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
-using CRMUNI.Domaidd.Entidades.Contatos;
+using CRMUNI.Domain.Entidades.Contatos;
+using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Funcionarios;
+using CRMUNI.Domain.ObjetosValor.descricoes;
+using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.Entidades.Setores;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Setores;
+namespace CRMUNI.Domain.Entidades.Setores;
 
 public sealed class Setor : EntidadeIdGuid
 {

@@ -1,4 +1,4 @@
-namespace CRMUNI.Domaidd.Validacoes.Entidades.Etapas;
+namespace CRMUNI.Domain.Validacoes.Entidades.Etapas;
 
 public static class EtapaMensagens
 {

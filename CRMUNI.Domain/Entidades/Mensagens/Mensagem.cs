@@ -1,12 +1,12 @@
-using CRMUNI.Domaidd.Entidades.Atendimentos;
-using CRMUNI.Domaidd.Entidades.Contatos;
-using CRMUNI.Domaidd.Entidades.EntidadesBase;
-using CRMUNI.Domaidd.Entidades.Funcionarios;
-using CRMUNI.Domaidd.ObjetosValor.descricoes;
-using CRMUNI.Domaidd.Validacoes.Entidades.Mensagens;
-using CRMUNI.Domaidd.Validacoes.Utilitarios;
+using CRMUNI.Domain.Entidades.Atendimentos;
+using CRMUNI.Domain.Entidades.Contatos;
+using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Funcionarios;
+using CRMUNI.Domain.ObjetosValor.descricoes;
+using CRMUNI.Domain.Validacoes.Entidades.Mensagens;
+using CRMUNI.Domain.Validacoes.Utilitarios;
 
-namespace CRMUNI.Domaidd.Entidades.Mensagens;
+namespace CRMUNI.Domain.Entidades.Mensagens;
 
 public sealed class Mensagem : EntidadeIdInt
 {

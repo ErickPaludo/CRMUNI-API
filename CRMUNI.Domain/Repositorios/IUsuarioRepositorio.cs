@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.Entidades.Usuarios;
+﻿using CRMUNI.Domain.Entidades.Usuarios;
 
-namespace CRMUNI.Domaidd.Repositorios;
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IUsuarioRepositorio : IBaseRepositorio<Usuario>
 {

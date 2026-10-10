@@ -1,4 +1,6 @@
-﻿namespace CRMUNI.Domaidd.Repositorios;
+﻿using System.Linq.Expressions;
+
+namespace CRMUNI.Domain.Repositorios;
 
 public interface IBaseRepositorio<T> where T : class
 {

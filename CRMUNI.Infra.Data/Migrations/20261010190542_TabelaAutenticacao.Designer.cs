@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMUNI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261008233453_TabelaEtapas")]
-    partial class TabelaEtapas
+    [Migration("20261010190542_TabelaAutenticacao")]
+    partial class TabelaAutenticacao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,114 @@ namespace CRMUNI.Infra.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Atendimentos.Atendimento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ContatoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DthrAlteracao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrAlteracao");
+
+                    b.Property<DateTime>("DthrCriacao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrCriacao");
+
+                    b.Property<int>("EtapaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FuncionarioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int")
+                        .HasComment("Situacao: 0-Aguardando | 1-EmAndamento | 2-Finalizado");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContatoId");
+
+                    b.HasIndex("EtapaId");
+
+                    b.HasIndex("FuncionarioId");
+
+                    b.ToTable("tb_atendimentos", (string)null);
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Autenticacoes.Autenticacao", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DthrAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("ExpirationRefresh")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Revoke")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("tb_autenticacao", (string)null);
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Contatos.Contato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DthrAlteracao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrAlteracao");
+
+                    b.Property<DateTime>("DthrCriacao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrCriacao");
+
+                    b.Property<Guid?>("EmpresaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Origem")
+                        .HasColumnType("int")
+                        .HasComment("Origem: 0-Instagram | 1-Facebook | 2-Twitter | 3-LinkedIn | 4-Google | 5-Youtube | 6-Outros");
+
+                    b.Property<Guid?>("PlanoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int")
+                        .HasComment("Situacao: 0-Ativo | 1-Inativo | 2-Bloqueado");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.HasIndex("PlanoId");
+
+                    b.ToTable("tb_contatos", (string)null);
+                });
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Empresas.Empresa", b =>
                 {
@@ -60,11 +168,16 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrCriacao");
 
+                    b.Property<int?>("FunilId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Tipo")
                         .HasColumnType("int")
                         .HasComment("Etapas: 0-Inicial | 1-PrimeiroContato | 2-ApresentacaoPlanos | 3-AguardandoDecicao | 4-Conversao | 5-Concluido | 6-Feedback | 7-Perdido");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FunilId");
 
                     b.ToTable("tb_etapas", (string)null);
                 });
@@ -125,6 +238,70 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.ToTable("tb_funils", (string)null);
                 });
 
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Mensagens.Mensagem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AtendimentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ContatoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DthrAlteracao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrAlteracao");
+
+                    b.Property<DateTime>("DthrCriacao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrCriacao");
+
+                    b.Property<int?>("FuncionarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AtendimentoId");
+
+                    b.HasIndex("ContatoId");
+
+                    b.HasIndex("FuncionarioId");
+
+                    b.ToTable("tb_mensagens", (string)null);
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Planos.Plano", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DthrAlteracao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrAlteracao");
+
+                    b.Property<DateTime>("DthrCriacao")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DthrCriacao");
+
+                    b.Property<Guid?>("EmpresaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int")
+                        .HasComment("Situacao: 0-Ativo | 1-Inativo");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.ToTable("tb_planos", (string)null);
+                });
+
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Setores.Setor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -175,6 +352,169 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.HasIndex("EmpresaId");
 
                     b.ToTable("tb_usuarios", (string)null);
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Atendimentos.Atendimento", b =>
+                {
+                    b.HasOne("CRMUNI.Domain.Entidades.Contatos.Contato", "Contato")
+                        .WithMany()
+                        .HasForeignKey("ContatoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CRMUNI.Domain.Entidades.Etapas.Etapa", "Etapa")
+                        .WithMany("Atendimentos")
+                        .HasForeignKey("EtapaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", "Funcionario")
+                        .WithMany("Atendimentos")
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Atendimentos.Agendamento", "Agendamento", b1 =>
+                        {
+                            b1.Property<int>("AtendimentoId")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("Data")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("Agendamento");
+
+                            b1.HasKey("AtendimentoId");
+
+                            b1.ToTable("tb_atendimentos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AtendimentoId");
+                        });
+
+                    b.Navigation("Agendamento");
+
+                    b.Navigation("Contato");
+
+                    b.Navigation("Etapa");
+
+                    b.Navigation("Funcionario");
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Autenticacoes.Autenticacao", b =>
+                {
+                    b.HasOne("CRMUNI.Domain.Entidades.Usuarios.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Contatos.Contato", b =>
+                {
+                    b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", null)
+                        .WithMany("Contatos")
+                        .HasForeignKey("EmpresaId");
+
+                    b.HasOne("CRMUNI.Domain.Entidades.Planos.Plano", "Plano")
+                        .WithMany()
+                        .HasForeignKey("PlanoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Geral.Email", "Email", b1 =>
+                        {
+                            b1.Property<int>("ContatoId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Endereco")
+                                .IsRequired()
+                                .HasMaxLength(256)
+                                .HasColumnType("nvarchar(256)")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("ContatoId");
+
+                            b1.ToTable("tb_contatos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContatoId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Documentos.Cpf", "Cpf", b1 =>
+                        {
+                            b1.Property<int>("ContatoId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Codigo")
+                                .IsRequired()
+                                .HasMaxLength(11)
+                                .HasColumnType("nvarchar(11)")
+                                .HasColumnName("Cpf");
+
+                            b1.HasKey("ContatoId");
+
+                            b1.ToTable("tb_contatos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContatoId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Nomes.NomeContato", "Nome", b1 =>
+                        {
+                            b1.Property<int>("ContatoId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Primeiro")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("PrimeiroNome");
+
+                            b1.Property<string>("Segundo")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("SegundoNome");
+
+                            b1.HasKey("ContatoId");
+
+                            b1.ToTable("tb_contatos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContatoId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Telefones.Celular", "Celular", b1 =>
+                        {
+                            b1.Property<int>("ContatoId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Numero")
+                                .IsRequired()
+                                .HasMaxLength(13)
+                                .HasColumnType("nvarchar(13)")
+                                .HasColumnName("Telefone");
+
+                            b1.HasKey("ContatoId");
+
+                            b1.ToTable("tb_contatos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContatoId");
+                        });
+
+                    b.Navigation("Celular")
+                        .IsRequired();
+
+                    b.Navigation("Cpf");
+
+                    b.Navigation("Email")
+                        .IsRequired();
+
+                    b.Navigation("Nome")
+                        .IsRequired();
+
+                    b.Navigation("Plano");
                 });
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Empresas.Empresa", b =>
@@ -270,6 +610,10 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Etapas.Etapa", b =>
                 {
+                    b.HasOne("CRMUNI.Domain.Entidades.Funis.Funil", null)
+                        .WithMany("Etapas")
+                        .HasForeignKey("FunilId");
+
                     b.OwnsOne("CRMUNI.Domain.ObjetosValor.Etapas.Ordem", "Ordem", b1 =>
                         {
                             b1.Property<int>("EtapaId")
@@ -451,6 +795,97 @@ namespace CRMUNI.Infra.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Mensagens.Mensagem", b =>
+                {
+                    b.HasOne("CRMUNI.Domain.Entidades.Atendimentos.Atendimento", null)
+                        .WithMany("Mensagem")
+                        .HasForeignKey("AtendimentoId");
+
+                    b.HasOne("CRMUNI.Domain.Entidades.Contatos.Contato", "Contato")
+                        .WithMany()
+                        .HasForeignKey("ContatoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", null)
+                        .WithMany("Mensagens")
+                        .HasForeignKey("FuncionarioId");
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.descricoes.Conteudo", "Conteudo", b1 =>
+                        {
+                            b1.Property<int>("MensagemId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Texto")
+                                .IsRequired()
+                                .HasMaxLength(1000)
+                                .HasColumnType("nvarchar(1000)")
+                                .HasColumnName("Conteudo");
+
+                            b1.HasKey("MensagemId");
+
+                            b1.ToTable("tb_mensagens");
+
+                            b1.WithOwner()
+                                .HasForeignKey("MensagemId");
+                        });
+
+                    b.Navigation("Contato");
+
+                    b.Navigation("Conteudo")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Planos.Plano", b =>
+                {
+                    b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", null)
+                        .WithMany("Planos")
+                        .HasForeignKey("EmpresaId");
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Descricoes.DescricaoPlano", "Descricao", b1 =>
+                        {
+                            b1.Property<Guid>("PlanoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Texto")
+                                .IsRequired()
+                                .HasMaxLength(400)
+                                .HasColumnType("nvarchar(400)")
+                                .HasColumnName("Descricao");
+
+                            b1.HasKey("PlanoId");
+
+                            b1.ToTable("tb_planos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlanoId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Nomes.NomePlano", "Nome", b1 =>
+                        {
+                            b1.Property<Guid>("PlanoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Primeiro")
+                                .IsRequired()
+                                .HasMaxLength(25)
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("Nome");
+
+                            b1.HasKey("PlanoId");
+
+                            b1.ToTable("tb_planos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlanoId");
+                        });
+
+                    b.Navigation("Descricao")
+                        .IsRequired();
+
+                    b.Navigation("Nome")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Setores.Setor", b =>
                 {
                     b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", null)
@@ -589,11 +1024,37 @@ namespace CRMUNI.Infra.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Atendimentos.Atendimento", b =>
+                {
+                    b.Navigation("Mensagem");
+                });
+
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Empresas.Empresa", b =>
                 {
+                    b.Navigation("Contatos");
+
                     b.Navigation("Funils");
 
+                    b.Navigation("Planos");
+
                     b.Navigation("Setores");
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Etapas.Etapa", b =>
+                {
+                    b.Navigation("Atendimentos");
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", b =>
+                {
+                    b.Navigation("Atendimentos");
+
+                    b.Navigation("Mensagens");
+                });
+
+            modelBuilder.Entity("CRMUNI.Domain.Entidades.Funis.Funil", b =>
+                {
+                    b.Navigation("Etapas");
                 });
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Setores.Setor", b =>

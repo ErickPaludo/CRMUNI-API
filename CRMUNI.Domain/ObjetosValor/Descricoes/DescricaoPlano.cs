@@ -1,6 +1,6 @@
-﻿using CRMUNI.Domaidd.ObjetosValor.descricoes;
+﻿using CRMUNI.Domain.ObjetosValor.descricoes;
 
-namespace CRMUNI.Domaidd.ObjetosValor.Descricoes;
+namespace CRMUNI.Domain.ObjetosValor.Descricoes;
 
 public record DescricaoPlano : Descricao
 {

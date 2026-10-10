@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Etapas.Ordens;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Etapas.Ordens;
 
 public sealed class OrdemValidacao : BaseValidacao,IValidacao<OrdemValidacao>
 {

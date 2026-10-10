@@ -1,6 +1,6 @@
-using CRMUNI.Domaidd.Validacoes.Geral;
+using CRMUNI.Domain.Validacoes.Geral;
 
-namespace CRMUNI.Domaidd.Validacoes.ObjetosValor.Emails;
+namespace CRMUNI.Domain.Validacoes.ObjetosValor.Emails;
 
 public sealed class EmailValidacao : BaseValidacao,IValidacao<EmailValidacao>
 {
