@@ -1,6 +1,7 @@
 using CRMUNI.DOMAIN.Entidades.Empresas;
 using CRMUNI.DOMAIN.Entidades.EntidadesBase;
 using CRMUNI.DOMAIN.Entidades.Planos;
+using CRMUNI.DOMAIN.ObjetosValor.Documentos;
 using CRMUNI.DOMAIN.ObjetosValor.Geral;
 using CRMUNI.DOMAIN.ObjetosValor.Nomes;
 using CRMUNI.DOMAIN.ObjetosValor.Telefones;
@@ -12,6 +13,7 @@ namespace CRMUNI.DOMAIN.Entidades.Contatos;
 public sealed class Contato : EntidadeIdInt
 {
     public Empresa Empresa { get; }
+    public Cpf? Cpf { get; private set; }
     public NomeContato Nome { get; private set; }
     public Celular Celular { get; private set; }
     public Email Email { get; private set; }
@@ -21,7 +23,7 @@ public sealed class Contato : EntidadeIdInt
     //TODO: Adicionar CPF
     
     public Contato(){}
-    private Contato(Empresa empresa,NomeContato nome, Celular celular, Email email, EContatoSituacao situacao, EOrigem origem, Plano? plano)
+    private Contato(Empresa empresa, NomeContato nome, Celular celular, Email email, EContatoSituacao situacao, EOrigem origem, Plano? plano)
     {
         ValidaNulo.Verifica(empresa, ContatoMensagens.PropriedadeNula("Empresa"));
         ValidaNulo.Verifica(nome, ContatoMensagens.PropriedadeNula("Nome"));
