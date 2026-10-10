@@ -31,6 +31,8 @@ public sealed class Setor : EntidadeIdGuid
         Empresa = empresa;
         Nome = nome;
         DescricaoSetor = descricao;
+        
+        empresa.AddSetor(this);
     }
 
     public static Setor Create(ESetor tipo, Empresa empresa, NomeSetor nome, DescricaoSetor descricao)

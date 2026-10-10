@@ -11,7 +11,7 @@ public class EtapaConfig : IEntityTypeConfiguration<Etapa>
         builder.ToTable("tb_etapas");
         builder.HasKey(x => x.Id);
 
-        builder.OwnsOne(e => e.Nome,
+        builder.ComplexProperty(e => e.Nome,
             nome
                 =>
             {
@@ -27,7 +27,7 @@ public class EtapaConfig : IEntityTypeConfiguration<Etapa>
                 "Etapas: 0-Inicial | 1-PrimeiroContato | 2-ApresentacaoPlanos | 3-AguardandoDecicao | 4-Conversao | 5-Concluido | 6-Feedback | 7-Perdido")
             .IsRequired();
         
-        builder.OwnsOne(e => e.Ordem,
+        builder.ComplexProperty(e => e.Ordem,
             ordem
                 =>
             {

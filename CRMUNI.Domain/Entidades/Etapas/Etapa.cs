@@ -19,7 +19,7 @@ public sealed class Etapa : EntidadeIdInt
     //TODO criar prazo de atendimento maximo
     
     public Etapa(){}
-    private Etapa(EEtapa tipo ,Funil funil,NomeEtapa nome, Ordem ordem)
+    public Etapa(EEtapa tipo ,Funil funil,NomeEtapa nome, Ordem ordem)
     {
         ValidaNulo.Verifica(funil,EtapaMensagens.PropriedadeNula("Funil"));
         ValidaNulo.Verifica(nome,EtapaMensagens.PropriedadeNula("Nome"));
@@ -32,8 +32,7 @@ public sealed class Etapa : EntidadeIdInt
         Funil = funil;
         Nome = nome;
         Ordem = ordem;
+        
+       funil.AddEtapa(this);
     }
-    
-    public static Etapa  Create(EEtapa tipo,Funil funil,NomeEtapa nome, Ordem ordem)
-    =>new (tipo,funil,nome, ordem);
 }

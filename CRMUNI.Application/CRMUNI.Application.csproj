@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CRMUNI.Domain\CRMUNI.Domain.csproj" />
+      <ProjectReference Include="..\CRMUNI.Infra.Data\CRMUNI.Infra.Data.csproj" />
+      <ProjectReference Include="..\CRMUNI.UnitTests.Domain\CRMUNI.UnitTests.Domain.csproj" />
     </ItemGroup>
 
 </Project>

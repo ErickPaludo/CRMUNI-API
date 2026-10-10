@@ -5,7 +5,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.ConfigurarInjecaoSwagger(builder.Configuration);
-//builder.Services.ConfigurarInjecaoPassword(builder.Configuration);
+builder.Services.ConfigurarInjecaoPassword(builder.Configuration);
 builder.Services.ConfigurarInjecaoAutenticaoJWT(builder.Configuration);
 builder.Services.ConfigurarInjecaoInfraestrutura(builder.Configuration);
 builder.Services.ConfigurarInjecaoServicos();

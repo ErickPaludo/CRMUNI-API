@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CRMUNI.Application.Interfaces;
+using CRMUNI.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CRMUNI.Infra.IoC
 
@@ -15,6 +17,8 @@ namespace CRMUNI.Infra.IoC
             //services.AddScoped<IRequestHandler<AutenticacaoCommand, Resultado<RetornaTokenDTO>>, AutenticacaoHandler>();
             //services.AddScoped<IRequestHandler<RetornaUsuarioPorIdQuery, Resultado<RetornaUsuarioDTO>>, RetornaUsuarioHandler>();
             //services.AddScoped<IValidaPermissao, ValidaPermissao>();
+            
+            services.AddScoped<IEmpresaServico, EmpresaServico>();
 
         }
     }

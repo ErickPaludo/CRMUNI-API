@@ -15,7 +15,7 @@ namespace CRMUNI.Domain.Entidades.Funis
         public EFunil Tipo { get;}    
         public NomeFunil Nome { get; private set; }
         public DescricaoFunil Descricao { get; private set; }
-        public List<Etapa> Etapas { get; } = new List<Etapa>();
+        public List<Etapa> Etapas { get; } = new();
 
         public Funil()
         {
@@ -34,6 +34,13 @@ namespace CRMUNI.Domain.Entidades.Funis
             Tipo = tipo;
             Nome = nome;
             Descricao = descricao;
+            
+            empresa.AddFunil(this);
+        }
+
+        public void AddEtapa(Etapa etapa)
+        {
+            Etapas.Add(etapa);
         }
     }
 }

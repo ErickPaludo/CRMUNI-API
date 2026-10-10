@@ -29,7 +29,7 @@ public sealed class Empresa : EntidadeIdGuid
     {
     }
 
-    private Empresa(Email email, NomeEmpresa nome, Telefone telefone, Cnpj cnpj)
+    public Empresa(Email email, NomeEmpresa nome, Telefone telefone, Cnpj cnpj)
     {
         ValidaNulo.Verifica(email, EmpresaMensagens.PropriedadeNula("Email"));
         ValidaNulo.Verifica(nome, EmpresaMensagens.PropriedadeNula("Nome"));
@@ -42,6 +42,14 @@ public sealed class Empresa : EntidadeIdGuid
         Cnpj = cnpj;
     }
 
-    public static Empresa Create(Email email, NomeEmpresa nomeEmpresa, Telefone telefone, Cnpj cnpj)
-        => new(email, nomeEmpresa, telefone, cnpj);
+    public void AddSetor(Setor setor)
+    {
+        ValidaNulo.Verifica(setor, EmpresaMensagens.PropriedadeNula("Setor"));
+        Setores.Add(setor);
+    }  
+    public void AddFunil(Funil funil)
+    {
+        ValidaNulo.Verifica(funil, EmpresaMensagens.PropriedadeNula("Funil"));
+        Funils.Add(funil);
+    }
 }
