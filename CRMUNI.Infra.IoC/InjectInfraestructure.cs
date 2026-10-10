@@ -1,4 +1,6 @@
-﻿using CRMUNI.Infra.Data.Contexto;
+﻿using CRMUNI.DOMAIN.Servicos;
+using CRMUNI.Infra.Data;
+using CRMUNI.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +17,7 @@ namespace CRMUNI.Infra.IoC
                         => b.MigrationsAssembly(typeof(AppDbContext).Assembly
                             .FullName))); 
             
-            // services.AddScoped<IUnitOfWork, UnitOfWork>();
+             services.AddScoped<IUnityOfWork, UnityOfWork>();
             //  services.AddScoped<IAutenticacoesRepositorio, AutenticacoesRepositorio>();
         }
     }

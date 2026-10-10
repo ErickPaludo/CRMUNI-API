@@ -4,16 +4,16 @@ namespace CRMUNI.DOMAIN.Servicos;
 
 public interface IUnityOfWork
 {
-    IEmpresaRepositorio empresaRepositorio { get; }
-    ISetorRepositorio setorRepositorio { get; }
-    IFunilRepositorio funilRepositorio { get; }
-    IEtapaRepositorio etapaRepositorio { get; }
-    IUsuarioRepositorio usuarioRepositorio { get; }
-    IFuncionarioRepositorio funcionarioRepositorio { get; }
-    IPlanoRepositorio planoRepositorio { get; }
-    IAtendimentoRepositorio atendimentoRepositorio { get; }
-    IContatoRepositorio contatoRepositorio { get; }
-    IMensagemRepositorio mensagemRepositorio { get; }
+    IEmpresaRepositorio EmpresaRepositorio { get; }
+    ISetorRepositorio SetorRepositorio { get; }
+    IFunilRepositorio FunilRepositorio { get; }
+    IEtapaRepositorio EtapaRepositorio { get; }
+    IUsuarioRepositorio UsuarioRepositorio { get; }
+    IFuncionarioRepositorio FuncionarioRepositorio { get; }
+    IPlanoRepositorio PlanoRepositorio { get; }
+    IAtendimentoRepositorio AtendimentoRepositorio { get; }
+    IContatoRepositorio ContatoRepositorio { get; }
+    IMensagemRepositorio MensagemRepositorio { get; }
     
     Task Commit();
 }
