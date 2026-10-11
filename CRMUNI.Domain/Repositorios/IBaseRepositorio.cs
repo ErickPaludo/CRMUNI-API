@@ -8,4 +8,5 @@ public interface IBaseRepositorio<T> where T : class
    void Atualiza(T entidade);
    void Remove(T entidade);
    Task<T?> IdExiste<TId>(TId id);
+   Task<T?> BuscarObjetoUnico(Expression<Func<T, bool>> predicado);
 }

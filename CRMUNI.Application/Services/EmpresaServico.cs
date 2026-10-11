@@ -1,4 +1,5 @@
 using CRMUNI.Application.DTOs.Cadastro;
+using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Domain.Entidades.Empresas;
 using CRMUNI.Domain.ObjetosValor.Documentos;
@@ -29,11 +30,16 @@ public class EmpresaServico : IEmpresaServico
     public async Task Cadastra(EmpresaUsuarioDTO empresaUsuarioDto)
     {
         var empresaDto = empresaUsuarioDto.Empresa;
+        Cnpj cnpjEmpresa = new Cnpj(empresaDto.Cnpj);
+
+        if (await _unitOfWork.EmpresaRepositorio.BuscarObjetoUnico(e
+                => e.Cnpj.Codigo == cnpjEmpresa.Codigo) != null)
+            throw new ConflitoExecao("Empresa já cadastrada.");
+
         var usuarioDto = empresaUsuarioDto.Usuario;
         Email emailEmpresa = Email.Create(empresaDto.Email);
         NomeEmpresa nomeEmpresa = new NomeEmpresa(empresaDto.Nome);
         Telefone telefoneEmpresa = Telefone.Create(empresaDto.Telefone);
-        Cnpj cnpjEmpresa = new Cnpj(empresaDto.Cnpj);
 
         Empresa empresa = new Empresa(emailEmpresa, nomeEmpresa, telefoneEmpresa, cnpjEmpresa);
         await _unitOfWork.EmpresaRepositorio.Insere(empresa);
@@ -44,8 +50,8 @@ public class EmpresaServico : IEmpresaServico
         //Chama o serviço de cadastro Funil
         await _funilServico.Cadastra(empresa);
 
-        await _usuarioServico.Cadastra(empresa,usuarioDto);
-        
+        await _usuarioServico.Cadastra(empresa, usuarioDto);
+
         await _unitOfWork.Commit();
     }
 }

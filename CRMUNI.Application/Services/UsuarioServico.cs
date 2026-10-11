@@ -1,4 +1,5 @@
 using CRMUNI.Application.DTOs.Cadastro;
+using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Autenticacao;
 using CRMUNI.Application.Interfaces.Seguranca;
@@ -17,20 +18,22 @@ public class UsuarioServico : IUsuarioServico
     private readonly IUnityOfWork _unitOfWork;
     private readonly ISegurancaServico _segurancaServico;
 
-    public UsuarioServico(IUnityOfWork unitOfWork,ISegurancaServico segurancaServico) 
+    public UsuarioServico(IUnityOfWork unitOfWork, ISegurancaServico segurancaServico)
     {
         _unitOfWork = unitOfWork;
         _segurancaServico = segurancaServico;
     }
 
-    public async Task Cadastra(Empresa empresa,UsuarioDTO usuarioDto)
+    public async Task Cadastra(Empresa empresa, UsuarioDTO usuarioDto)
     {
-        // if (await _unitOfWork.UsuarioRepositorio.IdExiste(x => x.Email.Endereco == request.Email.ToLower()))
-        //     throw new UsuariosValidacao("Já existe um usuário cadastrado com esse e-mail.");
-
-        var converteSenha = _segurancaServico.CriaSenhaArgon(usuarioDto.Senha,usuarioDto.ConfirmacaoSenha);
-        NomeUsuario nomeUsuario = new NomeUsuario(usuarioDto.PrimeiroNome, usuarioDto.SegundoNome);
         Email email = Email.Create(usuarioDto.Email);
+
+        if (await _unitOfWork.UsuarioRepositorio.BuscarObjetoUnico(e
+                => e.Email == email) != null)
+            throw new ConflitoExecao("Usuário já cadastrado.");
+
+        var converteSenha = _segurancaServico.CriaSenhaArgon(usuarioDto.Senha, usuarioDto.ConfirmacaoSenha);
+        NomeUsuario nomeUsuario = new NomeUsuario(usuarioDto.PrimeiroNome, usuarioDto.SegundoNome);
         Senha senha = new Senha(converteSenha.salt, converteSenha.hash);
 
         Usuario usuario = new Usuario(empresa, nomeUsuario, email, senha);

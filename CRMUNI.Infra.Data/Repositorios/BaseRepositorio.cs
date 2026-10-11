@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using CRMUNI.Domain.Repositorios;
 using CRMUNI.Infra.Data.Contexto;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMUNI.Infra.Data.Repositorios;
 
@@ -25,4 +26,7 @@ public class BaseRepositorio<T> : IBaseRepositorio<T> where T : class
 
     public async Task<T?> IdExiste<TId>(TId id)
         => await _contexto.Set<T>().FindAsync(id);
+
+    public async Task<T?> BuscarObjetoUnico(Expression<Func<T, bool>> predicado)
+        => await _contexto.Set<T>().FirstOrDefaultAsync(predicado);
 }

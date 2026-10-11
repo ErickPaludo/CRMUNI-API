@@ -1,0 +1,63 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: API
+meta:
+  id: wrk_ee0561442d2648ab925bff6ab05d1569
+  created: 1791744349123
+  modified: 1791744360136
+  description: ""
+collection:
+  - url: "{{ _.base }}api/empresa/cadastrar"
+    name: CadastraEmpresa
+    meta:
+      id: req_724b00cfcea64c8aa1c19b3ade68111b
+      created: 1791744349129
+      modified: 1791744423066
+      isPrivate: false
+      description: ""
+      sortKey: -1791744349129
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "empresa": {
+            "nome": "PldProjects",
+            "cnpj": "04.152.875/0001-60",
+            "email": "pldprojects@gmail.com",
+            "telefone": "55 (54) 3226-1100"
+          },
+          "usuario": {
+            "primeiroNome": "Erick",
+            "segundoNome": "Paludo",
+            "email": "erickpaludoyt@gmail.com",
+            "senha": "Mega@160205+++",
+            "ConfirmacaoSenha": "Mega@160205+++"
+          }
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_bd58ce1923a67da0b590a5731861900b67753e32
+    created: 1791744349126
+    modified: 1791744349126
+environments:
+  name: Base Environment
+  meta:
+    id: env_bd58ce1923a67da0b590a5731861900b67753e32
+    created: 1791744349126
+    modified: 1791744394916
+    isPrivate: false
+  data:
+    base: http://localhost:5033/
