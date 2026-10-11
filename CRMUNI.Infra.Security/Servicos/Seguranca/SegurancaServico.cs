@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using CRMUNI.Application.Interfaces.Seguranca;
+using CRMUNI.Infra.Security.Execoes;
 using CRMUNI.Infra.Security.Uteis.Seguranca;
 using CRMUNI.Infra.Seguranca.Configuracoes.Seguranca;
 using Konscious.Security.Cryptography;
@@ -15,8 +16,11 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
         {
             _segurancaConfig = segurancaConfig.Value;
         }
-        public (string salt, string hash) CriaSenhaArgon(string senha, string? salt = null)
+        public (string salt, string hash) CriaSenhaArgon(string senha, string confirmacaoSenha,string? salt = null)
         {
+            if (senha != confirmacaoSenha)
+                throw new AutenticacaoExecao("As senhas não são iguais.");
+            
             ValidaNivelDeSegurancaSenha(senha, salt is not null);
             byte[] senhaBytes = Encoding.UTF8.GetBytes(senha);
 

@@ -4,5 +4,5 @@ namespace CRMUNI.Application.Interfaces;
 
 public interface IEmpresaServico
 {
-    Task Cadastra(EmpresaUsuarioDTO empresaUsuarioDTO);
+    Task Cadastra(EmpresaUsuarioDTO empresaUsuarioDto);
 }

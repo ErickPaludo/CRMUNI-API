@@ -19,6 +19,10 @@ namespace CRMUNI.Infra.IoC
             //services.AddScoped<IValidaPermissao, ValidaPermissao>();
             
             services.AddScoped<IEmpresaServico, EmpresaServico>();
+            services.AddScoped<ISetorServico, SetorServico>();
+            services.AddScoped<IFunilServico, FunilServico>();
+            services.AddScoped<IEtapaServico, EtapaServico>();
+            services.AddScoped<IUsuarioServico, UsuarioServico>();
 
         }
     }

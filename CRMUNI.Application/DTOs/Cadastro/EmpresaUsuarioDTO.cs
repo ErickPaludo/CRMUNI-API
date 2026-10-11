@@ -15,5 +15,6 @@ public record UsuarioDTO(
     string PrimeiroNome,
     string SegundoNome,
     string Email,
-    string Senha
+    string Senha,
+    string ConfirmacaoSenha
 );
