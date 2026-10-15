@@ -1,5 +1,7 @@
 ﻿
+using CRMUNI.Application.Interfaces.Autenticacao;
 using CRMUNI.Application.Interfaces.Seguranca;
+using CRMUNI.Infra.Security.Servicos.Autenticacao;
 using CRMUNI.Infra.Security.Servicos.Seguranca;
 using CRMUNI.Infra.Seguranca.Configuracoes.Seguranca;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +16,7 @@ namespace CRMUNI.Infra.IoC
         {
             services.Configure<SegurancaConfig>(configuration.GetSection("Auth"));
             services.AddScoped<ISegurancaServico, SegurancaServico>();
+            services.AddScoped<IAutenticacaoServico, AutenticacaoServico>();
         }
     }
 }

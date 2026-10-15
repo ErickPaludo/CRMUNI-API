@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces.Seguranca;
 using CRMUNI.Infra.Security.Execoes;
 using CRMUNI.Infra.Security.Uteis.Seguranca;
@@ -18,10 +19,8 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
         }
         public (string salt, string hash) CriaSenhaArgon(string senha, string confirmacaoSenha,string? salt = null)
         {
-            if (senha != confirmacaoSenha)
-                throw new AutenticacaoExecao("As senhas não são iguais.");
-            
             ValidaNivelDeSegurancaSenha(senha, salt is not null);
+
             byte[] senhaBytes = Encoding.UTF8.GetBytes(senha);
 
             byte[] saltBytes = salt is null ? UtilSeguranca.GeraBytesAleatorios(32) : Convert.FromBase64String(salt);
@@ -42,12 +41,15 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
             return (saltBase, hashBase);
         }
 
-        public bool ValidaSenhaArgon(string senhaBanco, string senha, string salt)
+        public void ValidaSenhaArgon(string senhaBanco, string senha, string salt)
         {
-            return CryptographicOperations.FixedTimeEquals(
+            bool valido = CryptographicOperations.FixedTimeEquals(
                UtilSeguranca.ConverteParaBytes(senhaBanco),
                UtilSeguranca.ConverteParaBytes(CriaSenhaArgon(senha, salt).hash)
             );
+            
+            if(!valido)
+                throw new NaoAutorizadoExecao("Usuário ou senha incorretos.");
         }
         private void ValidaNivelDeSegurancaSenha(string senha,bool login = false)
         {

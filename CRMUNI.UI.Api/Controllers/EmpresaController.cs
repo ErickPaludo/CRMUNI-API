@@ -12,17 +12,12 @@ namespace CRMUNI.UI.Api.Controllers
             
             var grupo = app.MapGroup("/api/empresa") ;
 
-            grupo.MapPost("/cadastrar", async (
+            grupo.MapPost("/", async (
                 EmpresaUsuarioDTO dto,
                 IEmpresaServico empresaServico) =>
             {
                 await empresaServico.Cadastra(dto);
                 return Results.Ok();
-            });
-
-            grupo.MapPost("/", () =>
-            {
-                // criar atendimento
             });
         }
     }

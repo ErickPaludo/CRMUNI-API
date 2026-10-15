@@ -29,7 +29,7 @@ public class UsuarioServico : IUsuarioServico
         Email email = Email.Create(usuarioDto.Email);
 
         if (await _unitOfWork.UsuarioRepositorio.BuscarObjetoUnico(e
-                => e.Email == email) != null)
+                => e.Email.Endereco == email.Endereco) != null)
             throw new ConflitoExecao("Usuário já cadastrado.");
 
         var converteSenha = _segurancaServico.CriaSenhaArgon(usuarioDto.Senha, usuarioDto.ConfirmacaoSenha);

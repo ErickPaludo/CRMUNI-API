@@ -95,7 +95,8 @@ namespace CRMUNI.Infra.Security.Servicos.Autenticacao
                 throw new Exception("Refresh Token expirado.");
         }
 
-        public ResultadoToken RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao, string antigoRefreshToken)
+        public ResultadoToken RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao,
+            string antigoRefreshToken)
         {
             ValidaRefresh(antigoRefreshToken, autenticacao!.RefreshToken!, autenticacao.ExpirationRefresh);
 

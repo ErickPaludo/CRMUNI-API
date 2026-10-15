@@ -29,5 +29,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapAutenticacao();
 app.MapEmpresa();
 app.Run();

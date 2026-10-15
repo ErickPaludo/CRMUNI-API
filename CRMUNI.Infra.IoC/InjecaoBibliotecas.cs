@@ -8,9 +8,6 @@ public static class InjecaoBibliotecas
 {
     public static void ConfigurarInjecaoBibliotecas(this IServiceCollection services )
     {
-        // services.AddSimpleMediator();
-        // services.AddScoped<IMediator, Mediator>();
-
         var outputTemplate = "{Timestamp} [{Level}] {Message}{NewLine}{Exception}{NewLine}";
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
