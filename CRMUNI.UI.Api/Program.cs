@@ -1,8 +1,10 @@
 using CRMUNI.Infra.IoC;
-using CRMUNI.UI.Api.Controllers;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.ConfigurarInjecaoSwagger(builder.Configuration);
 builder.Services.ConfigurarInjecaoPassword(builder.Configuration);
@@ -17,18 +19,15 @@ builder.Services.AddOpenApi();
 builder.Host.UseSerilog();
 
 var app = builder.Build();
-// app.UseExceptionHandler();
-// builder.Services.AddProblemDetails();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapOpenApi();
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapAutenticacao();
-app.MapEmpresa();
+
 app.Run();

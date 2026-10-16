@@ -1,24 +1,24 @@
-using CRMUNI.Application.DTOs.Cadastro;
+﻿using CRMUNI.Application.DTOs.Cadastro;
 using CRMUNI.Application.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CRMUNI.UI.Api.Controllers
-{
-    public static class EmpresaEndpoints
-    {
-        public static void MapEmpresa(this WebApplication app)
-        {
-            
-            var grupo = app.MapGroup("/api/empresa") ;
+namespace WebApplication1.Controllers;
 
-            grupo.MapPost("/", async (
-                EmpresaUsuarioDTO dto,
-                IEmpresaServico empresaServico) =>
-            {
-                await empresaServico.Cadastra(dto);
-                return Results.Ok();
-            });
-        }
+[ApiController]
+[Route("CRMUNI/[controller]")]
+public class EmpresaController : ControllerBase
+{
+    private readonly IEmpresaServico _empresaServico;
+
+    public EmpresaController(IEmpresaServico empresaServico)
+    {
+        _empresaServico = empresaServico;
+    }
+
+    [HttpPost("Cadastro")]
+    public async Task<IActionResult> CadastroInicial(EmpresaUsuarioDTO dto)
+    {
+        await _empresaServico.Cadastra(dto);
+        return Ok();
     }
 }

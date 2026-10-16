@@ -1,23 +1,24 @@
 ﻿using CRMUNI.Application.DTOs.Autenticacao;
-using CRMUNI.Application.DTOs.Cadastro;
-using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Autenticacao;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CRMUNI.UI.Api.Controllers;
+namespace WebApplication1.Controllers;
 
-public static class AutenticacaoController
+[ApiController]
+[Route("CRMUNI/[controller]")]
+public class AutenticacaoController : ControllerBase
 {
-    public static void MapAutenticacao(this WebApplication app)
-    {
-            
-        var grupo = app.MapGroup("/api/autenticacao") ;
+    private readonly IAppAutenticacaoServico _appAutenticacaoServico;
 
-        grupo.MapPost("/", async (
-            AutenticacaoDto dto,
-            IAppAutenticacaoServico autenticacaoServico) =>
-        {
-            var retorno = await autenticacaoServico.GeraToken(dto);
-            return Results.Ok(retorno);
-        });
+    public AutenticacaoController(IAppAutenticacaoServico appAutenticacaoServico)
+    {
+        _appAutenticacaoServico = appAutenticacaoServico;
+    }
+
+    [HttpPost("Autenticacao")]
+    public async Task<IActionResult> GeraToken(AutenticacaoDto dto)
+    {
+        var token = await _appAutenticacaoServico.GeraToken(dto);
+        return Ok(token);
     }
 }

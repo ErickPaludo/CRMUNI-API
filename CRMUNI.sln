@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Infra.Security", "CR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.Application", "CRMUNI.Application\CRMUNI.Application.csproj", "{453EEADA-C462-4CD2-BC88-8738A80B6828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{F4F104CB-7BC6-42FE-9C07-FDC7E1E85CFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMUNI.UI.Api", "CRMUNI.UI.Api\CRMUNI.UI.Api.csproj", "{F4F104CB-7BC6-42FE-9C07-FDC7E1E85CFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
