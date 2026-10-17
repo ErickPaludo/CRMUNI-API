@@ -15,7 +15,7 @@ public class AutenticacaoController : ControllerBase
         _appAutenticacaoServico = appAutenticacaoServico;
     }
 
-    [HttpPost("Autenticacao")]
+    [HttpPost]
     public async Task<IActionResult> GeraToken(AutenticacaoDto dto)
     {
         var token = await _appAutenticacaoServico.GeraToken(dto);

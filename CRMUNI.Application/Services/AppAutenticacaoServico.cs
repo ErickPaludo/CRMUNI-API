@@ -6,6 +6,7 @@ using CRMUNI.Application.Interfaces.Seguranca;
 using CRMUNI.Application.Modelos.Autenticacao;
 using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Usuarios;
+using CRMUNI.Domain.ObjetosValor.Funcionarios;
 using CRMUNI.Domain.ObjetosValor.Geral;
 using CRMUNI.Domain.Servicos;
 
@@ -33,7 +34,7 @@ public class AppAutenticacaoServico : IAppAutenticacaoServico
 
         if (usuario is not null)
         {
-            _segurancaServico.ValidaSenhaArgon(usuario.Senha.Hash,dto.Senha,usuario.Senha.Salt);
+            _segurancaServico.ValidaSenhaArgon(usuario.Senha,dto.Senha);
        
             return _autenticacaoServico.GeraToken(usuario.Id.ToString(), email.Endereco);
         }
@@ -44,7 +45,7 @@ public class AppAutenticacaoServico : IAppAutenticacaoServico
         if (funcionario is null)
             throw new NaoEncontradoExecao("Usuário ou senha incorreta");
         
-        _segurancaServico.ValidaSenhaArgon(dto.Senha,funcionario.Senha.Hash,funcionario.Senha.Salt);
+     //   _segurancaServico.ValidaSenhaArgon(dto.Senha,funcionario.Senha.Hash,funcionario.Senha.Salt);
         return _autenticacaoServico.GeraToken(funcionario.Id.ToString(), email.Endereco);
     }
 }

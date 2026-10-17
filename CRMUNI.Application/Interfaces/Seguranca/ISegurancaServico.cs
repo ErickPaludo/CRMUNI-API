@@ -1,8 +1,10 @@
-﻿namespace CRMUNI.Application.Interfaces.Seguranca
+﻿using CRMUNI.Domain.ObjetosValor.Funcionarios;
+
+namespace CRMUNI.Application.Interfaces.Seguranca
 {
     public interface ISegurancaServico
     {
-        (string salt, string hash) CriaSenhaArgon(string senha, string confirmacaoSenha,string? salt = null);
-        void ValidaSenhaArgon(string senhaBanco, string senha, string salt);
+        Senha ConverteSenhaParaHash(string senha, string confirmacaoSenha);
+        void ValidaSenhaArgon(Senha senha,string senhaTexto);
     }
 }

@@ -2,6 +2,7 @@
 using System.Text;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces.Seguranca;
+using CRMUNI.Domain.ObjetosValor.Funcionarios;
 using CRMUNI.Infra.Security.Execoes;
 using CRMUNI.Infra.Security.Uteis.Seguranca;
 using CRMUNI.Infra.Seguranca.Configuracoes.Seguranca;
@@ -13,45 +14,51 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
     public class SegurancaServico : ISegurancaServico
     {
         private readonly SegurancaConfig _segurancaConfig;
+
         public SegurancaServico(IOptions<SegurancaConfig> segurancaConfig)
         {
             _segurancaConfig = segurancaConfig.Value;
         }
-        public (string salt, string hash) CriaSenhaArgon(string senha, string confirmacaoSenha,string? salt = null)
+
+        public Senha ConverteSenhaParaHash(string senha, string confirmacaoSenha)
         {
-            ValidaNivelDeSegurancaSenha(senha, salt is not null);
+            ValidaNivelDeSegurancaSenha(senha);
 
-            byte[] senhaBytes = Encoding.UTF8.GetBytes(senha);
+            byte[] saltBytes = GeraSaltAleatorio();
+            var cripto = CriptografaSenha(senha, saltBytes);
 
-            byte[] saltBytes = salt is null ? UtilSeguranca.GeraBytesAleatorios(32) : Convert.FromBase64String(salt);
+            var hash = cripto.GetBytes(32);
+            return MontaSenha(saltBytes, hash);
+        }
 
-            var cripto = new Argon2id(senhaBytes)
+        public void ValidaSenhaArgon(Senha senha, string senhaTexto)
+        {
+            byte[] saltBytes = Convert.FromBase64String(senha.Salt);
+            byte[] hashBytes = Convert.FromBase64String(senha.Hash);
+
+            Argon2id novaSenhaCriptografada = CriptografaSenha(senhaTexto, saltBytes);
+            byte[] novoHash = novaSenhaCriptografada.GetBytes(32);
+
+
+            bool valido = CryptographicOperations.FixedTimeEquals(hashBytes, novoHash);
+            if (!valido)
+                throw new NaoAutorizadoExecao("Usuário ou senha incorretos.");
+        }
+
+        private Argon2id CriptografaSenha(string senhaTexto, byte[] salt)
+            => new Argon2id(Encoding.UTF8.GetBytes(senhaTexto))
             {
                 DegreeOfParallelism = 2,
                 MemorySize = 4000,
                 Iterations = 20,
-                Salt = saltBytes,
+                Salt = salt,
                 KnownSecret = UtilSeguranca.ConverteParaBytes(_segurancaConfig.Pepper)
             };
 
-            var hash = cripto.GetBytes(32);
-            string hashBase = Convert.ToBase64String(hash);
-            string saltBase = Convert.ToBase64String(saltBytes);
+        private Senha MontaSenha(byte[] salt, byte[] hash)
+            => new Senha(Convert.ToBase64String(salt), Convert.ToBase64String(hash));
 
-            return (saltBase, hashBase);
-        }
-
-        public void ValidaSenhaArgon(string senhaBanco, string senha, string salt)
-        {
-            bool valido = CryptographicOperations.FixedTimeEquals(
-               UtilSeguranca.ConverteParaBytes(senhaBanco),
-               UtilSeguranca.ConverteParaBytes(CriaSenhaArgon(senha, salt).hash)
-            );
-            
-            if(!valido)
-                throw new NaoAutorizadoExecao("Usuário ou senha incorretos.");
-        }
-        private void ValidaNivelDeSegurancaSenha(string senha,bool login = false)
+        private void ValidaNivelDeSegurancaSenha(string senha)
         {
             if (string.IsNullOrWhiteSpace(senha))
                 throw new Exception("Informe a senha");
@@ -61,9 +68,6 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
 
             if (senha.Length > 16)
                 throw new Exception("A senha deve conter no máximo 16 caracteres");
-
-            if (login)
-                return;
 
             var nivelSeguranca = Zxcvbn.Core.EvaluatePassword(senha).Score;
 
@@ -80,5 +84,8 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
 
             throw new Exception(mensagem);
         }
+
+        private byte[] GeraSaltAleatorio()
+            => UtilSeguranca.GeraBytesAleatorios(32);
     }
 }

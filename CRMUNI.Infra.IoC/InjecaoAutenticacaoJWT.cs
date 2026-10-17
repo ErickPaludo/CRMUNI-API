@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Text;
 using CRMUNI.Domain.Repositorios;
+using CRMUNI.Infra.Security.Configuracoes.Autenticacao;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,7 @@ public static class InjecaoAutenticacaoJWT
         IConfiguration configuration)
     {
         // services.AddScoped<IAutenticacaoServico, AutenticacaoServico>();
-        //   services.Configure<AutenticaoConfig>(configuration.GetSection("TokenJWT"));
+        services.Configure<AutenticaoConfig>(configuration.GetSection("TokenJWT"));
         var secretKey = configuration.GetValue<string>("TokenJWT:SecretKeyJWT");
         services.AddAuthentication(options =>
             {

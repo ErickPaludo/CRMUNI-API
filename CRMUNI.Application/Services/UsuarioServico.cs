@@ -32,9 +32,8 @@ public class UsuarioServico : IUsuarioServico
                 => e.Email.Endereco == email.Endereco) != null)
             throw new ConflitoExecao("Usuário já cadastrado.");
 
-        var converteSenha = _segurancaServico.CriaSenhaArgon(usuarioDto.Senha, usuarioDto.ConfirmacaoSenha);
+        Senha senha = _segurancaServico.ConverteSenhaParaHash(usuarioDto.Senha, usuarioDto.ConfirmacaoSenha);
         NomeUsuario nomeUsuario = new NomeUsuario(usuarioDto.PrimeiroNome, usuarioDto.SegundoNome);
-        Senha senha = new Senha(converteSenha.salt, converteSenha.hash);
 
         Usuario usuario = new Usuario(empresa, nomeUsuario, email, senha);
 
