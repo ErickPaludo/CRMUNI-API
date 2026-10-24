@@ -51,7 +51,7 @@ collection:
     meta:
       id: req_698e72ab5ee942428c88d0f3865fe9b4
       created: 1792869853545
-      modified: 1792871550343
+      modified: 1792879102118
       isPrivate: false
       description: ""
       sortKey: -1791498390053.5
@@ -79,14 +79,42 @@ collection:
     meta:
       id: req_840014f838394f95a1663a112a29f20d
       created: 1792872621492
-      modified: 1792875814940
+      modified: 1792879163214
       isPrivate: false
       description: ""
       sortKey: -1791375410515.75
     method: POST
     headers:
       - name: Cookie
-        value: refreshToken={{ _.refreshToken }}
+        value: refreshToken=LK9StjtQAy9vvj+bHPKBpFbInJ1FTivybjH4frW98b0=
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Autenticacao"
+    name: AutenticacaoFuncionario
+    meta:
+      id: req_b49b6a2f93d2489cb0bbb75e3b337329
+      created: 1792878085336
+      modified: 1792878115313
+      isPrivate: false
+      description: ""
+      sortKey: -1791436900284.625
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "robertocarlos@gmail.com",
+          "senha": "PldM3us0v0++"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
     settings:
       renderRequestBody: true
       encodeUrl: true
@@ -100,11 +128,11 @@ cookieJar:
   meta:
     id: jar_bd58ce1923a67da0b590a5731861900b67753e32
     created: 1791744349126
-    modified: 1792876343110
+    modified: 1792879163460
   cookies:
-    - id: f6d9a19e-ed99-4b67-93e2-3788a645e3de
+    - id: 99556636-1b5e-47c4-ad5f-543b5a9f0f2f
       key: refreshToken
-      value: w0ZqVAlxF9L%2Bdd7TGhSLS9hXq%2B3B5ApluD7ZmvZyv%2F8%3D
+      value: XIli1lYWmsOyeAmxUknUS8xBj103mPLqnT5oPBGi8%2Bk%3D
       domain: localhost
       path: /
       secure: true
@@ -115,9 +143,9 @@ environments:
   meta:
     id: env_bd58ce1923a67da0b590a5731861900b67753e32
     created: 1791744349126
-    modified: 1792876353183
+    modified: 1792878601318
     isPrivate: false
   data:
     base: http://localhost:5078/CRMUNI/
-    refreshToken: w0ZqVAlxF9L+dd7TGhSLS9hXq+3B5ApluD7ZmvZyv/8=
+    refreshToken: MBUrA8I3efuXgwgi+Tb3++tLx8H2Bi/5r63qkdCFSrY=
     "": ""

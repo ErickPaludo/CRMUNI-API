@@ -31,60 +31,64 @@ public class AppAutenticacaoServico : IAppAutenticacaoServico
     public async Task<ResultadoTokenDto> GeraToken(AutenticacaoDto dto)
     {
         Email email = Email.Create(dto.Email);
-        Usuario? usuario = await
-            _unitOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Email.Endereco == email.Endereco);
 
+        Usuario? usuario = await _unitOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Email.Endereco == email.Endereco);
         if (usuario is not null)
-        {
-            _segurancaServico.ValidaSenhaArgon(usuario.Senha, dto.Senha);
-            var token = _autenticacaoServico.GeraToken(usuario.Id.ToString(), email.Endereco);
-            Autenticacao novaAutenticacao = new Autenticacao(usuario, token.refreshToken, token.expirationRefreshToken);
+            return await GeraTokenUsuario(usuario, dto);
 
-            Autenticacao? autenticacao =
-                await _unitOfWork.AutenticacaoRepositorio.BuscarObjetoUnico(x
-                    => x.Usuario!.Id.Equals(usuario.Id));
-
-            if (autenticacao is null)
-                await _unitOfWork.AutenticacaoRepositorio.Insere(novaAutenticacao);
-            else
-            {
-                autenticacao.AtualizaRefreshToken(token.refreshToken, token.expirationRefreshToken);
-                _unitOfWork.AutenticacaoRepositorio.Atualiza(autenticacao);
-            }
-
-            try
-            {
-                await _unitOfWork.Commit();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine();
-            }
-
-            return token;
-        }
+        Funcionario? funcionario = await _unitOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Email.Endereco == email.Endereco);
+        if (funcionario is not null)
+            return await GeraTokenFuncionario(funcionario, dto);
 
         throw new NaoEncontradoExecao("Usuário ou senha incorreta");
-
-        //
-        // Funcionario? funcionario = await
-        //     _unitOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Email.Endereco == email.Endereco);
-        //
-        // if (funcionario is null)
-        //     throw new NaoEncontradoExecao("Usuário ou senha incorreta");
-        //
-        // return _autenticacaoServico.GeraToken(funcionario.Id.ToString(), email.Endereco);
     }
 
+    private async Task<ResultadoTokenDto> GeraTokenUsuario(Usuario usuario, AutenticacaoDto dto)
+    {
+        _segurancaServico.ValidaSenhaArgon(usuario.Senha, dto.Senha);
+        var token = _autenticacaoServico.GeraToken(usuario.Id.ToString(), usuario.Email.Endereco);
+        Autenticacao novaAutenticacao = new Autenticacao(usuario, token.refreshToken, token.expirationRefreshToken);
+
+        Autenticacao? autenticacao = await _unitOfWork.AutenticacaoRepositorio.BuscarObjetoUnico(x => x.Usuario != null && x.Usuario.Id.Equals(usuario.Id));
+
+        if (autenticacao is null)
+            await _unitOfWork.AutenticacaoRepositorio.Insere(novaAutenticacao);
+        else
+        {
+            autenticacao.AtualizaRefreshToken(token.refreshToken, token.expirationRefreshToken);
+            _unitOfWork.AutenticacaoRepositorio.Atualiza(autenticacao);
+        }
+
+        await _unitOfWork.Commit();
+        return token;
+    }
+
+    private async Task<ResultadoTokenDto> GeraTokenFuncionario(Funcionario funcionario, AutenticacaoDto dto)
+    {
+        _segurancaServico.ValidaSenhaArgon(funcionario.Senha, dto.Senha);
+        var token = _autenticacaoServico.GeraToken(funcionario.Id.ToString(), funcionario.Email.Endereco);
+        Autenticacao novaAutenticacao = new Autenticacao(funcionario, token.refreshToken, token.expirationRefreshToken);
+
+        Autenticacao? autenticacao = await _unitOfWork.AutenticacaoRepositorio.BuscarObjetoUnico(x => x.Funcionario != null && x.Funcionario.Id.Equals(funcionario.Id));
+
+        if (autenticacao is null)
+            await _unitOfWork.AutenticacaoRepositorio.Insere(novaAutenticacao);
+        else
+        {
+            autenticacao.AtualizaRefreshToken(token.refreshToken, token.expirationRefreshToken);
+            _unitOfWork.AutenticacaoRepositorio.Atualiza(autenticacao);
+        }
+
+        await _unitOfWork.Commit();
+        return token;
+    }
+   
     public async Task<ResultadoRefreshTokenDto> GeraRefreshToken(string refreshToken)
     {
-        // if(refreshToken is null)
-        //     throw new AutenticacaoValidacao("Token expirado.");
-
         Autenticacao? auth =
             await _unitOfWork.AutenticacaoRepositorio.BuscarObjetoUnico(x
                 => x.RefreshToken!.Equals(refreshToken));
-        
+
         if (auth is null)
             throw new AutenticacaoValidacao("Token expirado.");
 
@@ -103,4 +107,5 @@ public class AppAutenticacaoServico : IAppAutenticacaoServico
             retRefreshToken.expirationRefreshTokenFormatado
         );
     }
+    
 }

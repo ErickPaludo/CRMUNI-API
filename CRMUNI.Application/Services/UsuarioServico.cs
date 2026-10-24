@@ -4,6 +4,7 @@ using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Autenticacao;
 using CRMUNI.Application.Interfaces.Seguranca;
 using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.ObjetosValor.Funcionarios;
 using CRMUNI.Domain.ObjetosValor.Geral;
@@ -39,6 +40,9 @@ public class UsuarioServico : IUsuarioServico
 
         await _unitOfWork.UsuarioRepositorio.Insere(usuario);
 
+
+        
+        
         return MapeamentoCadastro(usuario);
     }
 

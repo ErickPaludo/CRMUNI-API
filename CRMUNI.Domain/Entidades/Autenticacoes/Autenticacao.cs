@@ -1,5 +1,6 @@
 using CRMUNI.Domain.Entidades.Contatos;
 using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.Validacoes.Entidades.Autenticacoes;
 using CRMUNI.Domain.Validacoes.Utilitarios;
@@ -11,7 +12,8 @@ namespace CRMUNI.Domain.Entidades.Autenticacoes
         public string RefreshToken { get; private set; }
         public long ExpirationRefresh { get; private set; }
         public bool Revoke { get; private set; } = false;
-        public Usuario Usuario { get; private set; }
+        public Usuario? Usuario { get; }
+        public Funcionario? Funcionario { get;  }
 
         public Autenticacao()
         {
@@ -23,6 +25,16 @@ namespace CRMUNI.Domain.Entidades.Autenticacoes
             ValidaNulo.Verifica(refreshToken, AutenticacaoMensagens.PropriedadeNula("RefreshToken"));
             ValidaNulo.Verifica(expirationRefresh, AutenticacaoMensagens.PropriedadeNula("ExpirationRefresh"));
             Usuario = usuario;
+            RefreshToken = refreshToken;
+            ExpirationRefresh = expirationRefresh;
+        }
+        
+        public Autenticacao(Funcionario funcionario, string refreshToken, long expirationRefresh)
+        {
+            ValidaNulo.Verifica(funcionario, AutenticacaoMensagens.PropriedadeNula("Funcionario"));
+            ValidaNulo.Verifica(refreshToken, AutenticacaoMensagens.PropriedadeNula("RefreshToken"));
+            ValidaNulo.Verifica(expirationRefresh, AutenticacaoMensagens.PropriedadeNula("ExpirationRefresh"));
+            Funcionario = funcionario;
             RefreshToken = refreshToken;
             ExpirationRefresh = expirationRefresh;
         }

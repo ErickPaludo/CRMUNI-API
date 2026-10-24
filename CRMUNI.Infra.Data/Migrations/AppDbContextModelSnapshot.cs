@@ -75,6 +75,9 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.Property<long>("ExpirationRefresh")
                         .HasColumnType("bigint");
 
+                    b.Property<int?>("FuncionarioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("RefreshToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -82,10 +85,12 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.Property<bool>("Revoke")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("UsuarioId")
+                    b.Property<Guid?>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FuncionarioId");
 
                     b.HasIndex("RefreshToken")
                         .IsUnique();
@@ -422,11 +427,15 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Autenticacoes.Autenticacao", b =>
                 {
+                    b.HasOne("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioId");
+
                     b.HasOne("CRMUNI.Domain.Entidades.Usuarios.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UsuarioId");
+
+                    b.Navigation("Funcionario");
 
                     b.Navigation("Usuario");
                 });

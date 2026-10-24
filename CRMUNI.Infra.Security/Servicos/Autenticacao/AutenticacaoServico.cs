@@ -98,9 +98,17 @@ namespace CRMUNI.Infra.Security.Servicos.Autenticacao
         public ResultadoTokenDto RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao,
             string antigoRefreshToken)
         {
+            string id = autenticacao.Usuario is null
+                ? autenticacao.Funcionario!.Id.ToString()
+                : autenticacao.Usuario!.Id.ToString();
+            
+            string email = autenticacao.Usuario is null
+                ? autenticacao.Funcionario!.Email.Endereco
+                : autenticacao.Usuario!.Email.Endereco;
+
             ValidaRefresh(antigoRefreshToken, autenticacao!.RefreshToken!, autenticacao.ExpirationRefresh);
 
-            return GeraToken(autenticacao.Usuario.Id.ToString(), autenticacao.Usuario.Email.Endereco);
+            return GeraToken(id, email);
         }
     }
 }

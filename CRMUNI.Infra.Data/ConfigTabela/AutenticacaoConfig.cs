@@ -14,6 +14,10 @@ public class AutenticacaoConfig : IEntityTypeConfiguration<Autenticacao>
 
         builder.HasOne(a => a.Usuario)
                .WithMany()
-               .IsRequired();
+               .IsRequired(false);
+
+        builder.HasOne(a => a.Funcionario)
+               .WithMany()
+               .IsRequired(false);
     }
 }

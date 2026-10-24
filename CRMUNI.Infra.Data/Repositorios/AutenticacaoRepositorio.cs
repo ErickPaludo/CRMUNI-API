@@ -18,5 +18,6 @@ public class AutenticacaoRepositorio : BaseRepositorio<Autenticacao>, IAutentica
     public async Task<Autenticacao?> BuscarObjetoUnico(Expression<Func<Autenticacao, bool>> predicado)
         => await _contexto.Set<Autenticacao>()
             .Include(a => a.Usuario)
+            .Include(a => a.Funcionario)
             .FirstOrDefaultAsync(predicado);
 }
