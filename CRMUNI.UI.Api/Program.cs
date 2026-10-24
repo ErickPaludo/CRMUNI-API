@@ -1,4 +1,5 @@
 using CRMUNI.Infra.IoC;
+using CRMUNI.UI.Api.Extensao;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 builder.Host.UseSerilog();
 
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ExcessaoGlobal>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 app.UseSwagger();
 app.UseSwaggerUI();

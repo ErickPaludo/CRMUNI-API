@@ -2,7 +2,7 @@
 using CRMUNI.Application.Interfaces.Autenticacao;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Controllers;
+namespace CRMUNI.UI.Api.Controllers;
 
 [ApiController]
 [Route("CRMUNI/[controller]")]

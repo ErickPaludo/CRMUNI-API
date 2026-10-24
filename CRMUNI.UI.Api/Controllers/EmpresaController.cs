@@ -2,7 +2,7 @@
 using CRMUNI.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Controllers;
+namespace CRMUNI.UI.Api.Controllers;
 
 [ApiController]
 [Route("CRMUNI/[controller]")]
