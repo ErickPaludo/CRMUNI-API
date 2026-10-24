@@ -12,11 +12,15 @@ public sealed record Senha
     {
     }
 
-    public Senha(string salt, string hash)
+    public Senha(string senha,string confirmacaoSenha, string salt, string hash)
     {
+        ValidaNulo.Verifica(senha, SenhaMensagens.ValidaNulo("Senha"));
+        ValidaNulo.Verifica(confirmacaoSenha, SenhaMensagens.ValidaNulo("Confirmação de senha"));
         ValidaNulo.Verifica(salt, SenhaMensagens.ValidaNulo("Salt"));
         ValidaNulo.Verifica(hash, SenhaMensagens.ValidaNulo("Hash"));
-
+        
+        SenhaValidacao.Verifica(!senha.Equals(confirmacaoSenha), SenhaMensagens.SenhasNaoIdenticas);
+        
         Salt = Preparar(salt);
         Hash = Preparar(hash);
     }

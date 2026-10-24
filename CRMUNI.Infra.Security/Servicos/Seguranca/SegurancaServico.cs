@@ -28,7 +28,7 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
             var cripto = CriptografaSenha(senha, saltBytes);
 
             var hash = cripto.GetBytes(32);
-            return MontaSenha(saltBytes, hash);
+            return MontaSenha(senha, confirmacaoSenha,saltBytes, hash);
         }
 
         public void ValidaSenhaArgon(Senha senha, string senhaTexto)
@@ -55,9 +55,9 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
                 KnownSecret = UtilSeguranca.ConverteParaBytes(_segurancaConfig.Pepper)
             };
 
-        private Senha MontaSenha(byte[] salt, byte[] hash)
-            => new Senha(Convert.ToBase64String(salt), Convert.ToBase64String(hash));
-
+        private Senha MontaSenha(string senha, string confirmacaoSenha,byte[] salt, byte[] hash)
+            => new Senha(senha,confirmacaoSenha, Convert.ToBase64String(salt), Convert.ToBase64String(hash));
+        
         private void ValidaNivelDeSegurancaSenha(string senha)
         {
             if (string.IsNullOrWhiteSpace(senha))
