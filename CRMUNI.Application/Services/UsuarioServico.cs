@@ -24,7 +24,7 @@ public class UsuarioServico : IUsuarioServico
         _segurancaServico = segurancaServico;
     }
 
-    public async Task Cadastra(Empresa empresa, UsuarioDTO usuarioDto)
+    public async Task<UsuarioRetornoDto> Cadastra(Empresa empresa, UsuarioDto usuarioDto)
     {
         Email email = Email.Create(usuarioDto.Email);
 
@@ -38,5 +38,15 @@ public class UsuarioServico : IUsuarioServico
         Usuario usuario = new Usuario(empresa, nomeUsuario, email, senha);
 
         await _unitOfWork.UsuarioRepositorio.Insere(usuario);
+
+        return MapeamentoCadastro(usuario);
     }
+
+    public UsuarioRetornoDto MapeamentoCadastro(Usuario usuario)
+        => new UsuarioRetornoDto(usuario.Id,
+            usuario.Empresa.Id,
+            usuario.Nome.Primeiro,
+            usuario.Nome.Segundo!,
+            usuario.Nome.Completo,
+            usuario.Email.Endereco);
 }

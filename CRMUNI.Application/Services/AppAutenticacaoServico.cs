@@ -4,6 +4,7 @@ using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Autenticacao;
 using CRMUNI.Application.Interfaces.Seguranca;
 using CRMUNI.Application.Modelos.Autenticacao;
+using CRMUNI.Domain.Entidades.Autenticacoes;
 using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.ObjetosValor.Funcionarios;
@@ -35,8 +36,11 @@ public class AppAutenticacaoServico : IAppAutenticacaoServico
         if (usuario is not null)
         {
             _segurancaServico.ValidaSenhaArgon(usuario.Senha,dto.Senha);
-       
-            return _autenticacaoServico.GeraToken(usuario.Id.ToString(), email.Endereco);
+            var token = _autenticacaoServico.GeraToken(usuario.Id.ToString(), email.Endereco);
+            Autenticacao auth = new Autenticacao(usuario, token.refreshToken,token.expirationRefreshToken);
+            await _unitOfWork.AutenticacaoRepositorio.Insere(auth);
+            await _unitOfWork.Commit();
+            return token;
         }
 
         Funcionario? funcionario = await

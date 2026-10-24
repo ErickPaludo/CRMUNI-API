@@ -2,6 +2,7 @@ using CRMUNI.Application.DTOs.Cadastro;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Domain.Entidades.Empresas;
+using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.ObjetosValor.Documentos;
 using CRMUNI.Domain.ObjetosValor.Geral;
 using CRMUNI.Domain.ObjetosValor.Nomes;
@@ -27,7 +28,7 @@ public class EmpresaServico : IEmpresaServico
         _usuarioServico = usuarioServico;
     }
 
-    public async Task Cadastra(EmpresaUsuarioDTO empresaUsuarioDto)
+    public async Task<EmpresaRetornoDto> Cadastra(EmpresaUsuarioDto empresaUsuarioDto)
     {
         var empresaDto = empresaUsuarioDto.Empresa;
         Cnpj cnpjEmpresa = new Cnpj(empresaDto.Cnpj);
@@ -53,5 +54,14 @@ public class EmpresaServico : IEmpresaServico
         await _usuarioServico.Cadastra(empresa, usuarioDto);
 
         await _unitOfWork.Commit();
+
+        return MapeamentoCadastro(empresa);
     }
+
+    public EmpresaRetornoDto MapeamentoCadastro(Empresa empresa)
+        => new EmpresaRetornoDto(empresa.Id,
+            empresa.Nome.Completo,
+            empresa.Cnpj.Codigo,
+            empresa.Email.Endereco,
+            empresa.Telefone.Numero);
 }

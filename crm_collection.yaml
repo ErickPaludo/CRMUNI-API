@@ -4,15 +4,15 @@ name: API
 meta:
   id: wrk_ee0561442d2648ab925bff6ab05d1569
   created: 1791744349123
-  modified: 1791744360136
+  modified: 1792870420968
   description: ""
 collection:
-  - url: "{{ _.base }}api/empresa/cadastrar"
+  - url: "{{ _.base }}Empresa/Cadastro"
     name: CadastraEmpresa
     meta:
       id: req_724b00cfcea64c8aa1c19b3ade68111b
       created: 1791744349129
-      modified: 1791744423066
+      modified: 1792869899370
       isPrivate: false
       description: ""
       sortKey: -1791744349129
@@ -23,17 +23,45 @@ collection:
         {
           "empresa": {
             "nome": "PldProjects",
-            "cnpj": "04.152.875/0001-60",
+            "cnpj": "04.152.875/0001-61",
             "email": "pldprojects@gmail.com",
             "telefone": "55 (54) 3226-1100"
           },
           "usuario": {
             "primeiroNome": "Erick",
             "segundoNome": "Paludo",
-            "email": "erickpaludoyt@gmail.com",
+            "email": "erickpaludoyt2@gmail.com",
             "senha": "Mega@160205+++",
             "ConfirmacaoSenha": "Mega@160205+++"
           }
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Autenticacao"
+    name: Autenticacao
+    meta:
+      id: req_698e72ab5ee942428c88d0f3865fe9b4
+      created: 1792869853545
+      modified: 1792869953913
+      isPrivate: false
+      description: ""
+      sortKey: -1791498390053.5
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "erickpaludoyt2@gmail.com",
+          "senha": "Mega@160205+++"
         }
     headers:
       - name: Content-Type
@@ -57,7 +85,7 @@ environments:
   meta:
     id: env_bd58ce1923a67da0b590a5731861900b67753e32
     created: 1791744349126
-    modified: 1791744394916
+    modified: 1792869887927
     isPrivate: false
   data:
-    base: http://localhost:5033/
+    base: http://localhost:5078/CRMUNI/

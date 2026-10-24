@@ -16,9 +16,9 @@ public class EmpresaController : ControllerBase
     }
 
     [HttpPost("Cadastro")]
-    public async Task<IActionResult> CadastroInicial(EmpresaUsuarioDTO dto)
+    public async Task<IActionResult> CadastroInicial(EmpresaUsuarioDto dto)
     {
-        await _empresaServico.Cadastra(dto);
-        return Ok();
+        var ret = await _empresaServico.Cadastra(dto);
+        return Created(string.Empty, ret);
     }
 }
