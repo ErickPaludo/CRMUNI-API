@@ -1,6 +1,6 @@
 ﻿namespace CRMUNI.Application.Modelos.Autenticacao
 {
-    public record ResultadoToken(
+    public record ResultadoTokenDto(
         string token,
         DateTime expirationTokenFormatado,
         string refreshToken,

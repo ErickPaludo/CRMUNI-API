@@ -23,7 +23,7 @@ namespace CRMUNI.Infra.Security.Servicos.Autenticacao
 
         private DateTime GeraExpiracao() => DateTime.UtcNow.AddMinutes(_autenticacaoConfig.ExpiracaoEmMinutos);
 
-        public ResultadoToken GeraToken(string idUsuario, string email)
+        public ResultadoTokenDto GeraToken(string idUsuario, string email)
         {
             DateTime expiration = GeraExpiracao();
 
@@ -50,7 +50,7 @@ namespace CRMUNI.Infra.Security.Servicos.Autenticacao
 
             DateTime expirationRefreshToken = DateTime.UtcNow.AddDays(_autenticacaoConfig.ExpiracaoRefreshTokenDias);
 
-            return new ResultadoToken(tokenString, expiration, refreshToken,
+            return new ResultadoTokenDto(tokenString, expiration, refreshToken,
                 UtilAutenticacao.DateTimeInUnixTimestamp(expirationRefreshToken), expirationRefreshToken);
         }
 
@@ -95,7 +95,7 @@ namespace CRMUNI.Infra.Security.Servicos.Autenticacao
                 throw new Exception("Refresh Token expirado.");
         }
 
-        public ResultadoToken RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao,
+        public ResultadoTokenDto RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao,
             string antigoRefreshToken)
         {
             ValidaRefresh(antigoRefreshToken, autenticacao!.RefreshToken!, autenticacao.ExpirationRefresh);

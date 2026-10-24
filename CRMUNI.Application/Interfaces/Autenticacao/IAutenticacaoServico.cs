@@ -4,13 +4,13 @@ namespace CRMUNI.Application.Interfaces.Autenticacao
 {
     public interface IAutenticacaoServico
     {
-        ResultadoToken GeraToken(string idUsuario, string email);
+        ResultadoTokenDto GeraToken(string idUsuario, string email);
 
         string GeraRefreshToken();
 
         void ValidaToken(string token);
 
-        ResultadoToken RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao,
+        ResultadoTokenDto RefreshToken(Domain.Entidades.Autenticacoes.Autenticacao autenticacao,
             string antigoRefreshToken);
     }
 }

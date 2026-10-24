@@ -69,9 +69,6 @@ namespace CRMUNI.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ContatoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DthrAlteracao")
                         .HasColumnType("datetime2");
 
@@ -80,17 +77,18 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Property<string>("RefreshToken")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Revoke")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("UsuarioId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContatoId");
+                    b.HasIndex("RefreshToken")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioId");
 
@@ -187,6 +185,15 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .HasMaxLength(25)
                                 .HasColumnType("nvarchar(25)")
                                 .HasColumnName("Nome");
+                        });
+
+                    b.ComplexProperty(typeof(Dictionary<string, object>), "Ordem", "CRMUNI.Domain.Entidades.Etapas.Etapa.Ordem#Ordem", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<decimal>("Valor")
+                                .HasColumnType("decimal(18)")
+                                .HasColumnName("Ordem");
                         });
 
                     b.HasKey("Id");
@@ -415,17 +422,11 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Autenticacoes.Autenticacao", b =>
                 {
-                    b.HasOne("CRMUNI.Domain.Entidades.Contatos.Contato", "Contato")
-                        .WithMany()
-                        .HasForeignKey("ContatoId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("CRMUNI.Domain.Entidades.Usuarios.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Contato");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });
@@ -633,26 +634,6 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.HasOne("CRMUNI.Domain.Entidades.Funis.Funil", null)
                         .WithMany("Etapas")
                         .HasForeignKey("FunilId");
-
-                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Etapas.Ordem", "Ordem", b1 =>
-                        {
-                            b1.Property<int>("EtapaId")
-                                .HasColumnType("int");
-
-                            b1.Property<decimal>("Valor")
-                                .HasColumnType("decimal(18)")
-                                .HasColumnName("Ordem");
-
-                            b1.HasKey("EtapaId");
-
-                            b1.ToTable("tb_etapas");
-
-                            b1.WithOwner()
-                                .HasForeignKey("EtapaId");
-                        });
-
-                    b.Navigation("Ordem")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", b =>

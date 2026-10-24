@@ -5,5 +5,6 @@ namespace CRMUNI.Application.Interfaces.Autenticacao;
 
 public interface IAppAutenticacaoServico
 {
-   Task<ResultadoToken> GeraToken(AutenticacaoDto dto);
+   Task<ResultadoTokenDto> GeraToken(AutenticacaoDto dto);
+   Task<ResultadoRefreshTokenDto> GeraRefreshToken(string refreshToken);
 }

@@ -74,18 +74,50 @@ collection:
         send: true
         store: true
       rebuildPath: true
+  - url: "{{ _.base }}Autenticacao/refresh"
+    name: Refresh
+    meta:
+      id: req_840014f838394f95a1663a112a29f20d
+      created: 1792872621492
+      modified: 1792875814940
+      isPrivate: false
+      description: ""
+      sortKey: -1791375410515.75
+    method: POST
+    headers:
+      - name: Cookie
+        value: refreshToken={{ _.refreshToken }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
     id: jar_bd58ce1923a67da0b590a5731861900b67753e32
     created: 1791744349126
-    modified: 1791744349126
+    modified: 1792876343110
+  cookies:
+    - id: f6d9a19e-ed99-4b67-93e2-3788a645e3de
+      key: refreshToken
+      value: w0ZqVAlxF9L%2Bdd7TGhSLS9hXq%2B3B5ApluD7ZmvZyv%2F8%3D
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
 environments:
   name: Base Environment
   meta:
     id: env_bd58ce1923a67da0b590a5731861900b67753e32
     created: 1791744349126
-    modified: 1792869887927
+    modified: 1792876353183
     isPrivate: false
   data:
     base: http://localhost:5078/CRMUNI/
+    refreshToken: w0ZqVAlxF9L+dd7TGhSLS9hXq+3B5ApluD7ZmvZyv/8=
+    "": ""
