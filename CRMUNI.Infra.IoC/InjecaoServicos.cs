@@ -13,10 +13,11 @@ namespace CRMUNI.Infra.IoC
         public static void ConfigurarInjecaoServicos(this IServiceCollection services)
         {
             services.AddScoped<IEmpresaServico, EmpresaServico>();
+            services.AddScoped<IUsuarioServico, UsuarioServico>();
+            services.AddScoped<IFuncionarioSevico, FuncionarioServico>();
             services.AddScoped<ISetorServico, SetorServico>();
             services.AddScoped<IFunilServico, FunilServico>();
             services.AddScoped<IEtapaServico, EtapaServico>();
-            services.AddScoped<IUsuarioServico, UsuarioServico>();
             services.AddScoped<IAppAutenticacaoServico, AppAutenticacaoServico>();
             services.AddScoped<ISegurancaServico, SegurancaServico>();
 
