@@ -6,4 +6,5 @@ namespace CRMUNI.Application.Interfaces;
 public interface IUsuarioServico
 {
     Task<UsuarioRetornoDto> Cadastra(Empresa empresa,UsuarioDto usuarioDto);
+    Task<UsuarioRetornoDto> Retorno(Guid idUsuario);
 }

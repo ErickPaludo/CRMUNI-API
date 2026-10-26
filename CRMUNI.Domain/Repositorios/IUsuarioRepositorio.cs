@@ -1,4 +1,5 @@
-﻿using CRMUNI.Domain.Entidades.Usuarios;
+﻿using System.Linq.Expressions;
+using CRMUNI.Domain.Entidades.Usuarios;
 
 namespace CRMUNI.Domain.Repositorios;
 

@@ -40,9 +40,17 @@ public class UsuarioServico : IUsuarioServico
 
         await _unitOfWork.UsuarioRepositorio.Insere(usuario);
 
+        return MapeamentoCadastro(usuario);
+    }
 
-        
-        
+    public async Task<UsuarioRetornoDto> Retorno(Guid idUsuario)
+    {
+        Usuario? usuario =
+            await _unitOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id == idUsuario);
+
+        if (usuario is null)
+            throw new NaoEncontradoExecao("Usuário não encontrado");
+
         return MapeamentoCadastro(usuario);
     }
 

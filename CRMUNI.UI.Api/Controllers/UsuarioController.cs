@@ -1,12 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CRMUNI.Application.Interfaces;
+using CRMUNI.Domain.Repositorios;
+using CRMUNI.UI.Api.Extensao;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CRMUNI.UI.Api.Controllers;
 
-public class UsuarioController : Controller
+[ApiController]
+[Authorize]
+[Route("CRMUNI/[controller]")]
+public class UsuarioController : ControllerBase
 {
-    // GET
-    public IActionResult Index()
+    private readonly IUsuarioServico _usuarioServico;
+
+    public UsuarioController(IUsuarioServico usuarioServico)
     {
-        return View();
+        _usuarioServico = usuarioServico;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> RetornoUsuario()
+    {
+        var usuario = await _usuarioServico.Retorno(User.GetId());
+        return Ok(usuario);
     }
 }

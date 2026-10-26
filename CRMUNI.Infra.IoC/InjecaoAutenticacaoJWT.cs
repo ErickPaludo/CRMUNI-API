@@ -42,14 +42,17 @@ public static class InjecaoAutenticacaoJWT
                         var sid = context.Principal.FindFirst("sid")?.Value;
 
                         var repo = context.HttpContext.RequestServices
-                           .GetRequiredService<IAutenticacaoRepositorio>();
-                        
-                        var usuario = await repo.IdExiste(userId);
-                        
+                            .GetRequiredService<IAutenticacaoRepositorio>();
+
+                        var usuario = await repo.BuscarObjetoUnico(x
+                            => x.Usuario != null
+                               && x.Usuario.Id.ToString() == userId.ToString());
+
                         if (usuario == null || usuario.RefreshToken != sid || usuario.Revoke)
                         {
                             context.Fail("Sessão inválida");
                         }
+
                         if (usuario!.ExpirationRefresh < DateTimeOffset.UtcNow.ToUnixTimeSeconds())
                         {
                             context.Fail("Sessão expirada");
