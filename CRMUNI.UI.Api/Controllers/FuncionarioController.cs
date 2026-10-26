@@ -17,10 +17,10 @@ public class FuncionarioController : ControllerBase
     {
         _funcionarioSevico = funcionarioSevico;
     }
-
+    [HttpPost]
     public async Task<IActionResult> Criar([FromBody] FuncionarioDto dto)
     {
         var funcionario = await _funcionarioSevico.Cadastra(User.GetId(), dto);
-        return Ok();
+        return Ok(funcionario);
     }
 }

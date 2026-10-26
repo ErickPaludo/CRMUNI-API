@@ -1,7 +1,13 @@
 ﻿using CRMUNI.Application.Excecoes;
 using CRMUNI.Domain.Validacoes.Entidades.Autenticacoes;
 using CRMUNI.Domain.Validacoes.Entidades.Empresas;
+using CRMUNI.Domain.Validacoes.Entidades.Etapas;
+using CRMUNI.Domain.Validacoes.Entidades.Funis;
+using CRMUNI.Domain.Validacoes.Entidades.Setores;
 using CRMUNI.Domain.Validacoes.Entidades.Usuarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Emails;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Nomes;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Telefones;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,8 +29,18 @@ namespace CRMUNI.UI.Api.Extensao
                 EmpresaValidacao => (400, exception.Message),
                 
                 
+                NomeValidacao => (400, exception.Message),
+                EmailValidacao => (400, exception.Message),
+                TelefoneValidacao => (400, exception.Message),
+                SetorValidacao => (400, exception.Message),
+                FunilValidacao => (400, exception.Message),
+                EtapaValidacao => (400, exception.Message),
+                
+                
+                
                 AutenticacaoValidacao => (401, exception.Message),
                 NaoAutorizadoExecao => (401, exception.Message),
+                NaoPermitidoExcecao => (403, exception.Message),
                 
                 ConflitoExecao => (409, exception.Message),
                 

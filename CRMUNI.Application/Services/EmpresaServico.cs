@@ -3,16 +3,11 @@ using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Seguranca;
 using CRMUNI.Domain.Entidades.Empresas;
-using CRMUNI.Domain.Entidades.Funcionarios;
-using CRMUNI.Domain.Entidades.Setores;
-using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.ObjetosValor.Documentos;
-using CRMUNI.Domain.ObjetosValor.Funcionarios;
 using CRMUNI.Domain.ObjetosValor.Geral;
 using CRMUNI.Domain.ObjetosValor.Nomes;
 using CRMUNI.Domain.ObjetosValor.Telefones;
 using CRMUNI.Domain.Servicos;
-
 
 namespace CRMUNI.Application.Services;
 
@@ -62,19 +57,6 @@ public class EmpresaServico : IEmpresaServico
         await _usuarioServico.Cadastra(empresa, usuarioDto);
 
         await _unitOfWork.Commit();
-
-        #region CriaFuncionarioTeste
-
-        Setor? setor = await _unitOfWork.SetorRepositorio.BuscarObjetoUnico(x => x.Tipo == ESetor.Comercial);
-        NomeFuncionario nome = new NomeFuncionario("Roberto", "Carlos");
-        Email email = Email.Create("robertocarlos@gmail.com");
-        Senha senha = _segurancaServico.ConverteSenhaParaHash("PldM3us0v0++", "PldM3us0v0++");
-
-        Funcionario funcionario = new Funcionario(setor, nome, email, senha);
-        await _unitOfWork.FuncionarioRepositorio.Insere(funcionario);
-        await _unitOfWork.Commit(); 
-
-        #endregion
 
         return MapeamentoCadastro(empresa);
     }
