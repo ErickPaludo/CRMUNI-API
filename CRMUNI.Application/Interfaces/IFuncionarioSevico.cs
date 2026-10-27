@@ -5,6 +5,6 @@ namespace CRMUNI.Application.Interfaces;
 
 public interface IFuncionarioSevico
 {
-    Task<FuncionarioRetornoDto> Cadastra(Guid IdUsuario, FuncionarioDto dto);
-    Task<List<FuncionarioRetornoDto>> Retorno(string idUsuario,FuncionarioFiltros filtros);
+    Task<FuncionarioRetornoDto> Cadastra(Guid IdUsuario, FuncionarioCadastroDto cadastroDto);
+    Task<FuncionariosDto> Retorno(string idUsuario,FuncionarioFiltros filtros);
 }

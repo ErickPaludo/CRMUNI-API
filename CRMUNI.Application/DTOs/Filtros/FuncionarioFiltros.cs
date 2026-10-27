@@ -2,7 +2,7 @@
 
 public class FuncionarioFiltros
 {
-    public int? Setor { get; set; }
+    public Guid? Setor { get; set; }
     public int? Id { get; set; }
     public string? PrimeiroNome { get; set; }
     public string? SegundoNome { get; set; }

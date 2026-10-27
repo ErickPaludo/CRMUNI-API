@@ -1,6 +1,6 @@
 ﻿namespace CRMUNI.Application.DTOs.Cadastro;
 
-public record FuncionarioDto(
+public record FuncionarioCadastroDto(
     Guid IdSetor,
     string PrimeiroNome,
     string SegundoNome,
@@ -10,8 +10,14 @@ public record FuncionarioDto(
 
 public record FuncionarioRetornoDto(
     int Id,
-    Guid IdSetor,
     string PrimeiroNome,
     string SegundoNome,
     string NomeCompleto,
-    string Email);
+    string Email,
+    SetorDto Setor);
+
+public record FuncionarioDTO(FuncionarioRetornoDto Funcionario);
+
+public record FuncionariosDto(
+    List<FuncionarioDTO> Funcionarios
+);

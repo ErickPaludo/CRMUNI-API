@@ -19,9 +19,9 @@ public class FuncionarioController : ControllerBase
         _funcionarioSevico = funcionarioSevico;
     }
     [HttpPost]
-    public async Task<IActionResult> Criar([FromBody] FuncionarioDto dto)
+    public async Task<IActionResult> Criar([FromBody] FuncionarioCadastroDto cadastroDto)
     {
-        var funcionario = await _funcionarioSevico.Cadastra(User.GetId(), dto);
+        var funcionario = await _funcionarioSevico.Cadastra(User.GetId(), cadastroDto);
         return Ok(funcionario);
     } 
     [HttpGet]

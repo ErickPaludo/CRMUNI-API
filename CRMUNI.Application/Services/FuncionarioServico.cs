@@ -26,7 +26,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         _segurancaServico = segurancaServico;
     }
 
-    public async Task<FuncionarioRetornoDto> Cadastra(Guid idUsuario, FuncionarioDto dto)
+    public async Task<FuncionarioRetornoDto> Cadastra(Guid idUsuario, FuncionarioCadastroDto cadastroDto)
     {
         Usuario? usuario =
             await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id == idUsuario);
@@ -36,21 +36,21 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
 
         Setor? setor =
-            await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x => x.Id.Equals(dto.IdSetor));
+            await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x => x.Id.Equals(cadastroDto.IdSetor));
 
         if (setor is null)
             throw new NaoEncontradoExecao("Setor não encontrado");
 
-        NomeFuncionario nome = new NomeFuncionario(dto.PrimeiroNome, dto.SegundoNome);
+        NomeFuncionario nome = new NomeFuncionario(cadastroDto.PrimeiroNome, cadastroDto.SegundoNome);
 
         if (await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x
-                => x.Email.Endereco.Equals(dto.Email)) is not null
+                => x.Email.Endereco.Equals(cadastroDto.Email)) is not null
             || await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
-                => x.Email.Endereco.Equals(dto.Email)) is not null)
+                => x.Email.Endereco.Equals(cadastroDto.Email)) is not null)
             throw new ConflitoExecao("Email já está em uso.");
 
-        Email email = Email.Create(dto.Email);
-        Senha senha = _segurancaServico.ConverteSenhaParaHash(dto.Senha, dto.ConfirmacaoSenha);
+        Email email = Email.Create(cadastroDto.Email);
+        Senha senha = _segurancaServico.ConverteSenhaParaHash(cadastroDto.Senha, cadastroDto.ConfirmacaoSenha);
 
         Funcionario funcionario = new Funcionario(setor, nome, email, senha);
         await _unityOfWork.FuncionarioRepositorio.Insere(funcionario);
@@ -59,7 +59,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         return MapeamentoCadastro(funcionario);
     }
 
-    public async Task<List<FuncionarioRetornoDto>> Retorno(string idUsuario, FuncionarioFiltros filtros)
+    public async Task<FuncionariosDto> Retorno(string idUsuario, FuncionarioFiltros filtros)
     {
         bool isUsuario = true;
         Funcionario? funcionario = null;
@@ -84,29 +84,40 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         IQueryable<Funcionario> query = _unityOfWork.FuncionarioRepositorio.Retorno();
 
         query = query.Where(x => x.Setor.Empresa.Id == empresa.Id);
-        
+
+        if (filtros.Setor.HasValue)
+            query = query.Where(x => x.Setor.Id == filtros.Setor.Value);
+
         if (filtros.Id.HasValue)
             query = query.Where(x => x.Id == filtros.Id);
-        
+
         if (filtros.PrimeiroNome is not null)
             query = query.Where(x => x.Nome.Primeiro.Contains(filtros.PrimeiroNome));
-        
+
         if (filtros.SegundoNome is not null)
             query = query.Where(x => x.Nome.Segundo!.Contains(filtros.SegundoNome));
-        
+
         if (filtros.Email is not null)
             query = query.Where(x => x.Email.Endereco.Contains(filtros.Email));
-        
+
         List<Funcionario> funcionarios = await query.ToListAsync();
 
-        return funcionarios.Select(x => MapeamentoCadastro(x)).ToList();
+        List<FuncionarioDTO> funcionariosDto = funcionarios
+            .Select(x => new FuncionarioDTO(MapeamentoCadastro(x)))
+            .ToList();
+
+        return new FuncionariosDto(funcionariosDto);
     }
 
     private FuncionarioRetornoDto MapeamentoCadastro(Funcionario funcionario)
         => new FuncionarioRetornoDto(funcionario.Id,
-            funcionario.Setor.Id,
             funcionario.Nome.Primeiro,
             funcionario.Nome.Segundo!,
             funcionario.Nome.Completo,
-            funcionario.Email.Endereco);
+            funcionario.Email.Endereco,
+            new SetorDto(funcionario.Setor.Id,
+                funcionario.Setor.Empresa.Id,
+                funcionario.Setor.Tipo,
+                funcionario.Setor.Nome.Completo,
+                funcionario.Setor.DescricaoSetor.Texto));
 }
