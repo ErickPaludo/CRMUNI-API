@@ -1,4 +1,5 @@
-﻿using CRMUNI.Application.Interfaces;
+﻿using CRMUNI.Application.DTOs.Filtros;
+using CRMUNI.Application.Interfaces;
 using CRMUNI.Domain.Repositorios;
 using CRMUNI.UI.Api.Extensao;
 using Microsoft.AspNetCore.Authorization;

@@ -1,4 +1,5 @@
 using CRMUNI.Application.DTOs.Cadastro;
+using CRMUNI.Application.DTOs.Filtros;
 using CRMUNI.Domain.Entidades.Empresas;
 
 namespace CRMUNI.Application.Interfaces;

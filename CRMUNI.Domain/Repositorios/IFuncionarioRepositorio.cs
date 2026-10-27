@@ -4,4 +4,5 @@ namespace CRMUNI.Domain.Repositorios;
 
 public interface IFuncionarioRepositorio : IBaseRepositorio<Funcionario>
 {
+    IQueryable<Funcionario> Retorno();
 }

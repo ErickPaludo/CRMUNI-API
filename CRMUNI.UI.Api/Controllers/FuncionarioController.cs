@@ -1,4 +1,5 @@
 ﻿using CRMUNI.Application.DTOs.Cadastro;
+using CRMUNI.Application.DTOs.Filtros;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.UI.Api.Extensao;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,12 @@ public class FuncionarioController : ControllerBase
     public async Task<IActionResult> Criar([FromBody] FuncionarioDto dto)
     {
         var funcionario = await _funcionarioSevico.Cadastra(User.GetId(), dto);
+        return Ok(funcionario);
+    } 
+    [HttpGet]
+    public async Task<IActionResult> Retorno([FromQuery] FuncionarioFiltros filtros)
+    {
+        var funcionario = await _funcionarioSevico.Retorno(User.GetId().ToString(), filtros);
         return Ok(funcionario);
     }
 }

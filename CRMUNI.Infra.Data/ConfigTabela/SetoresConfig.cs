@@ -27,6 +27,10 @@ public class SetoresConfig : IEntityTypeConfiguration<Setor>
             .IsRequired();
 
         
+        builder.HasOne(s => s.Empresa)
+            .WithMany(e => e.Setores)
+            .IsRequired();
+
         builder.OwnsOne(e => e.DescricaoSetor,
             descricao
                 =>

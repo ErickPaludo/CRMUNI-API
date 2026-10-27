@@ -1,4 +1,5 @@
 using CRMUNI.Application.DTOs.Cadastro;
+using CRMUNI.Application.DTOs.Filtros;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Autenticacao;
@@ -41,6 +42,11 @@ public class UsuarioServico : IUsuarioServico
         await _unitOfWork.UsuarioRepositorio.Insere(usuario);
 
         return MapeamentoCadastro(usuario);
+    }
+
+    public Task<UsuarioRetornoDto> Retorno(Guid idUsuario, FuncionarioFiltros filtros)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<UsuarioRetornoDto> Retorno(Guid idUsuario)
