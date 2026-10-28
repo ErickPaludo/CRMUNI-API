@@ -3,3 +3,4 @@
 namespace CRMUNI.Application.DTOs.Cadastro;
 
 public record SetorDto(Guid Id, Guid IdEmpresa, ESetor Tipo,string Nome,string Descricao);
+public record SetoresDto(List<SetorDto> Setores);

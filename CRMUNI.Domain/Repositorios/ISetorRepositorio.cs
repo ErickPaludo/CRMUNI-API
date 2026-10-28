@@ -4,4 +4,5 @@ namespace CRMUNI.Domain.Repositorios;
 
 public interface ISetorRepositorio : IBaseRepositorio<Setor>
 {
+    IQueryable<Setor> Retorno();
 }
