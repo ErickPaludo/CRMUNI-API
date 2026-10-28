@@ -1,4 +1,6 @@
+using CRMUNI.Infra.Data.Contexto;
 using CRMUNI.Infra.IoC;
+using Microsoft.EntityFrameworkCore;
 using CRMUNI.UI.Api.Extensao;
 using Serilog;
 
@@ -23,6 +25,11 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ExcessaoGlobal>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+}
 
 app.UseExceptionHandler();
 

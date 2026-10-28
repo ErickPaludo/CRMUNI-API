@@ -13,7 +13,8 @@ public class FuncionarioConfig : IEntityTypeConfiguration<Funcionario>
         
         builder.HasOne(f => f.Empresa)
             .WithMany(e => e.Funcionarios)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.Setor)
             .WithMany(s => s.Funcionarios)
