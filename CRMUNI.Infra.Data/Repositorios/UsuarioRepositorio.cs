@@ -17,7 +17,7 @@ public class UsuarioRepositorio : BaseRepositorio<Usuario>, IUsuarioRepositorio
     
     public async Task<Usuario?> BuscarObjetoUnico(Expression<Func<Usuario, bool>> predicado)
         => await _contexto.Set<Usuario>()
-            .Include(a => a.Empresa)
+            .Include(u => u.Empresa)
             .FirstOrDefaultAsync(predicado);
     
 }

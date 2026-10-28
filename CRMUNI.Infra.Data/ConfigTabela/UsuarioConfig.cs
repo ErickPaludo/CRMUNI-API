@@ -10,12 +10,6 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
     {
         builder.ToTable("tb_usuarios");
         builder.HasKey(e => e.Id);
-
-        builder.HasOne(e => e.Empresa)
-            .WithMany()
-            .HasForeignKey("EmpresaId")
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
         
         builder.OwnsOne(n => n.Nome,
             nome =>
@@ -69,6 +63,10 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
                     .IsRequired();
             }
         );
+
+        builder.HasOne(u => u.Empresa)
+            .WithMany()
+            .IsRequired();
 
         builder.Property(c => c.DthrCriacao)
             .HasColumnName("DthrCriacao")

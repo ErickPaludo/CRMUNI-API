@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using CRMUNI.Domain.Entidades.Atendimentos;
+using CRMUNI.Domain.Entidades.Empresas;
 using CRMUNI.Domain.Entidades.EntidadesBase;
 using CRMUNI.Domain.Entidades.Mensagens;
 using CRMUNI.Domain.Entidades.Setores;
@@ -13,6 +14,7 @@ namespace CRMUNI.Domain.Entidades.Funcionarios;
 
 public sealed class Funcionario : EntidadeIdInt
 {
+    public Empresa Empresa { get; private set; }
     public Setor Setor { get; private set; }
     public NomeFuncionario Nome { get; private set; }
     public Email Email { get; private set; }
@@ -21,16 +23,21 @@ public sealed class Funcionario : EntidadeIdInt
     public List<Mensagem> Mensagens  { get;} = new List<Mensagem>();
     public List<Atendimento> Atendimentos  { get;} = new();
     public Funcionario(){}
-    public Funcionario(Setor setor, NomeFuncionario nome,Email email, Senha senha)
+    public Funcionario(Empresa empresa, Setor setor, NomeFuncionario nome,Email email, Senha senha)
     {
+        ValidaNulo.Verifica(empresa,FuncionarioMensagens.PropriedadeNula("Empresa"));
         ValidaNulo.Verifica(setor,FuncionarioMensagens.PropriedadeNula("Setor"));
         ValidaNulo.Verifica(nome, FuncionarioMensagens.PropriedadeNula("Nome"));
         ValidaNulo.Verifica(email, FuncionarioMensagens.PropriedadeNula("Email"));
         ValidaNulo.Verifica(senha, FuncionarioMensagens.PropriedadeNula("Setor"));
         
+        Empresa = empresa;
         Email = email;
         Setor = setor;
         Nome = nome;
         Senha = senha;
+        
+        empresa.AddFuncionario(this);
+        
     }
 }

@@ -21,13 +21,13 @@ public class FuncionarioController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] FuncionarioCadastroDto cadastroDto)
     {
-        var funcionario = await _funcionarioSevico.Cadastra(User.GetId(), cadastroDto);
+        var funcionario = await _funcionarioSevico.Cadastra(new Guid(User.GetId()), cadastroDto);
         return Ok(funcionario);
     } 
     [HttpGet]
     public async Task<IActionResult> Retorno([FromQuery] FuncionarioFiltros filtros)
     {
-        var funcionario = await _funcionarioSevico.Retorno(User.GetId().ToString(), filtros);
+        var funcionario = await _funcionarioSevico.Retorno(User.GetId(), filtros);
         return Ok(funcionario);
     }
 }

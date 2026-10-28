@@ -11,6 +11,14 @@ public class FuncionarioConfig : IEntityTypeConfiguration<Funcionario>
         builder.ToTable("tb_funcionarios");
         builder.HasKey(f => f.Id);
         
+        builder.HasOne(f => f.Empresa)
+            .WithMany(e => e.Funcionarios)
+            .IsRequired();
+
+        builder.HasOne(e => e.Setor)
+            .WithMany(s => s.Funcionarios)
+            .IsRequired();
+        
         builder.OwnsOne(n => n.Nome,
             nome =>
             {

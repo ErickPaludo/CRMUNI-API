@@ -52,7 +52,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         Email email = Email.Create(cadastroDto.Email);
         Senha senha = _segurancaServico.ConverteSenhaParaHash(cadastroDto.Senha, cadastroDto.ConfirmacaoSenha);
 
-        Funcionario funcionario = new Funcionario(setor, nome, email, senha);
+        Funcionario funcionario = new Funcionario(usuario.Empresa, setor, nome, email, senha);
         await _unityOfWork.FuncionarioRepositorio.Insere(funcionario);
         await _unityOfWork.Commit();
 
@@ -66,8 +66,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         Usuario? usuario =
             await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
-
-
+        
         if (usuario is null)
             isUsuario = false;
 
@@ -75,11 +74,12 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         {
             funcionario =
                 await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
+            
             if (funcionario is null)
                 throw new NaoEncontradoExecao("Usuário solicitante não encontrado.");
         }
 
-        Empresa empresa = isUsuario ? usuario!.Empresa : funcionario!.Setor.Empresa;
+        Empresa empresa = isUsuario ? usuario!.Empresa : funcionario!.Empresa;
 
         IQueryable<Funcionario> query = _unityOfWork.FuncionarioRepositorio.Retorno();
 

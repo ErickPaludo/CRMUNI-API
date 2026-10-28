@@ -224,10 +224,15 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrCriacao");
 
+                    b.Property<Guid>("EmpresaId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("SetorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
 
                     b.HasIndex("SetorId");
 
@@ -647,6 +652,12 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", b =>
                 {
+                    b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CRMUNI.Domain.Entidades.Setores.Setor", "Setor")
                         .WithMany("Funcionarios")
                         .HasForeignKey("SetorId")
@@ -722,6 +733,8 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Navigation("Email")
                         .IsRequired();
+
+                    b.Navigation("Empresa");
 
                     b.Navigation("Nome")
                         .IsRequired();
@@ -934,7 +947,7 @@ namespace CRMUNI.Infra.Data.Migrations
                     b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", "Empresa")
                         .WithMany()
                         .HasForeignKey("EmpresaId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("CRMUNI.Domain.ObjetosValor.Geral.Email", "Email", b1 =>

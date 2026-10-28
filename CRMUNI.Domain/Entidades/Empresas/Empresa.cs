@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using CRMUNI.Domain.Entidades.Contatos;
 using CRMUNI.Domain.Entidades.EntidadesBase;
+using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Funis;
 using CRMUNI.Domain.Entidades.Planos;
 using CRMUNI.Domain.Entidades.Setores;
@@ -24,6 +25,7 @@ public sealed class Empresa : EntidadeIdGuid
     public List<Funil> Funils { get; } = new();
     public List<Contato> Contatos { get; } = new();
     public List<Plano> Planos { get; } = new();
+    public List<Funcionario> Funcionarios = new();
 
     public Empresa()
     {
@@ -46,7 +48,13 @@ public sealed class Empresa : EntidadeIdGuid
     {
         ValidaNulo.Verifica(setor, EmpresaMensagens.PropriedadeNula("Setor"));
         Setores.Add(setor);
-    }  
+    }
+
+    public void AddFuncionario(Funcionario funcionario)
+    {
+        ValidaNulo.Verifica(funcionario, EmpresaMensagens.PropriedadeNula("Funcionario"));
+        Funcionarios.Add(funcionario);
+    }
     public void AddFunil(Funil funil)
     {
         ValidaNulo.Verifica(funil, EmpresaMensagens.PropriedadeNula("Funil"));
