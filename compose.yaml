@@ -35,6 +35,15 @@
       Auth__Pepper: ${AUTH_PEPPER}
     ports:
       - "${API_PORT}:8080"
+    networks:
+      - default
+      - financ-network
+
+networks:
+  # Rede da outra API, onde roda o cloudflared que expoe o tunel
+  financ-network:
+    external: true
+    name: ${TUNNEL_NETWORK:-financ-network}
 
 volumes:
   crmuni-db-data:
