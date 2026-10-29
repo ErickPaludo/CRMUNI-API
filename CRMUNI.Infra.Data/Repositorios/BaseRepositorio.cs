@@ -24,6 +24,9 @@ public class BaseRepositorio<T> : IBaseRepositorio<T> where T : class
     public void Remove(T entidade)
         => _contexto.Set<T>().Remove(entidade);
 
+    public async Task DeleteAll()
+        => await _contexto.Set<T>().ExecuteDeleteAsync();
+
     public async Task<T?> IdExiste<TId>(TId id)
         => await _contexto.Set<T>().FindAsync(id);
 

@@ -20,6 +20,7 @@ namespace CRMUNI.Infra.IoC
             services.AddScoped<IEtapaServico, EtapaServico>();
             services.AddScoped<IAppAutenticacaoServico, AppAutenticacaoServico>();
             services.AddScoped<ISegurancaServico, SegurancaServico>();
+            services.AddScoped<ITemporarioServico, TemporarioServico>();
 
         }
     }
