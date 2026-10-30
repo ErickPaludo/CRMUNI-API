@@ -45,10 +45,16 @@ public static class InjecaoAutenticacaoJWT
                             .GetRequiredService<IAutenticacaoRepositorio>();
 
                         var usuario = await repo.BuscarObjetoUnico(x
-                            => x.Usuario.Id.ToString() == userId.ToString() 
-                               || x.Funcionario.Id.ToString() == userId.ToString()  );
+                            => x.Usuario.Id.ToString() == userId.ToString()
+                               || x.Funcionario.Id.ToString() == userId.ToString());
 
-                        if (usuario == null || usuario.RefreshToken != sid || usuario.Revoke)
+                        if (usuario == null)
+                        {
+                            context.Fail("Sessão inválida");
+                            return;
+                        }
+
+                        if (usuario.RefreshToken != sid || usuario.Revoke)
                         {
                             context.Fail("Sessão inválida");
                         }

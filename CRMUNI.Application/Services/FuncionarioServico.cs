@@ -59,14 +59,14 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         return MapeamentoCadastro(funcionario);
     }
 
-    public async Task<FuncionariosDto> Retorno(string idUsuario, FuncionarioFiltros filtros)
+    public async Task<FuncionariosDto> RetornoGeral(string idUsuario, FuncionarioFiltros filtros)
     {
         bool isUsuario = true;
         Funcionario? funcionario = null;
 
         Usuario? usuario =
             await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
-        
+
         if (usuario is null)
             isUsuario = false;
 
@@ -74,7 +74,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         {
             funcionario =
                 await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
-            
+
             if (funcionario is null)
                 throw new NaoEncontradoExecao("Usuário solicitante não encontrado.");
         }
@@ -107,6 +107,18 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             .ToList();
 
         return new FuncionariosDto(funcionariosDto);
+    }
+
+    public async Task<FuncionarioRetornoDto> Retorno(string idUsuario)
+    {
+        Funcionario? funcionario =
+            await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
+                => x.Id.ToString() == idUsuario);
+
+        if (funcionario is null)
+            throw new NaoEncontradoExecao("Usuário não encontrado.");
+
+        return MapeamentoCadastro(funcionario);
     }
 
     private FuncionarioRetornoDto MapeamentoCadastro(Funcionario funcionario)

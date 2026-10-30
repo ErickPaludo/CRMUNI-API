@@ -24,10 +24,17 @@ public class FuncionarioController : ControllerBase
         var funcionario = await _funcionarioSevico.Cadastra(new Guid(User.GetId()), cadastroDto);
         return Ok(funcionario);
     } 
-    [HttpGet]
-    public async Task<IActionResult> Retorno([FromQuery] FuncionarioFiltros filtros)
+    [HttpGet("Geral")]
+    public async Task<IActionResult> RetornoGeral([FromQuery] FuncionarioFiltros filtros)
     {
-        var funcionario = await _funcionarioSevico.Retorno(User.GetId(), filtros);
+        var funcionario = await _funcionarioSevico.RetornoGeral(User.GetId(), filtros);
+        return Ok(funcionario);
+    }  
+    
+    [HttpGet]
+    public async Task<IActionResult> Retorno()
+    {
+        var funcionario = await _funcionarioSevico.Retorno(User.GetId());
         return Ok(funcionario);
     }
 }
