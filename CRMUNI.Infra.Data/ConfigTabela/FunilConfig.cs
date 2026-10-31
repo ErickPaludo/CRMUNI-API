@@ -15,6 +15,9 @@ public class FunilConfig : IEntityTypeConfiguration<Funil>
             .HasComment("Funis: 0-Curioso | 1-Potencial Cliente | 2-Vendido")
             .IsRequired();
        
+        builder.HasOne(f => f.Empresa)
+            .WithMany(e => e.Funils);
+
         builder.OwnsOne(e => e.Nome,
             nome
                 =>

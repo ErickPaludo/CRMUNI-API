@@ -255,7 +255,7 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrCriacao");
 
-                    b.Property<Guid?>("EmpresaId")
+                    b.Property<Guid>("EmpresaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Tipo")
@@ -653,7 +653,7 @@ namespace CRMUNI.Infra.Data.Migrations
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", b =>
                 {
                     b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", "Empresa")
-                        .WithMany()
+                        .WithMany("Funcionarios")
                         .HasForeignKey("EmpresaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -747,9 +747,11 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Funis.Funil", b =>
                 {
-                    b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", null)
+                    b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", "Empresa")
                         .WithMany("Funils")
-                        .HasForeignKey("EmpresaId");
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("CRMUNI.Domain.ObjetosValor.Descricoes.DescricaoFunil", "Descricao", b1 =>
                         {
@@ -791,6 +793,8 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Navigation("Descricao")
                         .IsRequired();
+
+                    b.Navigation("Empresa");
 
                     b.Navigation("Nome")
                         .IsRequired();
@@ -1037,6 +1041,8 @@ namespace CRMUNI.Infra.Data.Migrations
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Empresas.Empresa", b =>
                 {
                     b.Navigation("Contatos");
+
+                    b.Navigation("Funcionarios");
 
                     b.Navigation("Funils");
 

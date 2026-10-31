@@ -4,4 +4,5 @@ namespace CRMUNI.Domain.Repositorios;
 
 public interface IFunilRepositorio : IBaseRepositorio<Funil>
 {
+    IQueryable<Funil> Retorno();
 }
