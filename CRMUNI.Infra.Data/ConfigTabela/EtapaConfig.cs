@@ -11,6 +11,10 @@ public class EtapaConfig : IEntityTypeConfiguration<Etapa>
         builder.ToTable("tb_etapas");
         builder.HasKey(x => x.Id);
 
+        builder.HasOne(e => e.Funil)
+            .WithMany(f => f.Etapas)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.ComplexProperty(e => e.Nome,
             nome
                 =>

@@ -1,0 +1,407 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: API
+meta:
+  id: wrk_15cc77aadd0c4a4cad671726ec3bd46a
+  created: 1793467218850
+  modified: 1793467218850
+  description: ""
+collection:
+  - url: "{{ _.base }}Autenticacao/refresh"
+    name: Refresh
+    meta:
+      id: req_883085b1418548688dc4de72591e43d5
+      created: 1792872621492
+      modified: 1793064757708
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645169.0625
+    method: POST
+    headers:
+      - name: Cookie
+        value: refreshToken=1s7tT5REp8J2YSjM3WNhBKZeDjqGL2gO/qR+eqTqJM4=
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Setor"
+    name: Retorna Setores
+    meta:
+      id: req_0737c4c648624eaca1514608a3d7a1bf
+      created: 1793147205657
+      modified: 1793468293586
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645069.0625
+    method: GET
+    parameters:
+      - name: Id
+        value: 01a17fc5-a465-73ea-9f9e-eb97f1e10934
+        disabled: true
+      - name: Tipo
+        value: "1"
+        disabled: false
+    authentication:
+      type: bearer
+      token: "{{ _.TokenFuncionario }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}temporario"
+    name: Deleta tudo
+    meta:
+      id: req_ac28241fd85f4754a300dcee99892625
+      created: 1793274561650
+      modified: 1793364845733
+      isPrivate: false
+      description: ""
+      sortKey: -1791467644969.0625
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.0.2
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Funil"
+    name: Retorna Funils
+    meta:
+      id: req_0f267bb2118e424699fb369b02597e5e
+      created: 1793366888129
+      modified: 1793468406198
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645019.0625
+    method: GET
+    parameters:
+      - name: Id
+        value: "1"
+        disabled: true
+      - name: Tipo
+        value: "2"
+        disabled: true
+      - name: Nome
+        value: Ven
+        description: ""
+        disabled: true
+    authentication:
+      type: bearer
+      token: "{{ _.TokenFuncionario }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Etapa"
+    name: Retorna Etapas
+    meta:
+      id: req_308a797b11674863ba24b84d36243692
+      created: 1793469766136
+      modified: 1793470499302
+      isPrivate: false
+      description: ""
+      sortKey: -1791467644994.0625
+    method: GET
+    parameters:
+      - name: Id
+        value: "1"
+        disabled: true
+      - name: Tipo
+        value: "2"
+        disabled: true
+      - name: Nome
+        value: Ini
+        description: ""
+        disabled: false
+      - name: IdFunil
+        value: "3"
+        description: ""
+        disabled: true
+    authentication:
+      type: bearer
+      token: "{{ _.TokenAdm }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - name: Empresa e Usuario
+    meta:
+      id: fld_6d35576be5244d66a987bd9bf1577910
+      created: 1793364730722
+      modified: 1793364748745
+      sortKey: -1793364730722
+      description: ""
+    children:
+      - url: "{{ _.base }}Empresa/Cadastro"
+        name: CadastraEmpresa
+        meta:
+          id: req_6ef71579e4cf49ea9a58b91db427f444
+          created: 1791744349129
+          modified: 1793364740038
+          isPrivate: false
+          description: ""
+          sortKey: -1793364739921
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "empresa": {
+                "nome": "PldProjects",
+                "cnpj": "04.152.875/0001-61",
+                "email": "pldprojects@gmail.com",
+                "telefone": "55 (54) 3226-1100"
+              },
+              "usuario": {
+                "primeiroNome": "Erick",
+                "segundoNome": "Paludo",
+                "email": "erickpaludoyt2@gmail.com",
+                "senha": "Mega@160205+++",
+                "ConfirmacaoSenha": "Mega@160205+++"
+              }
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Usuarios ADM
+    meta:
+      id: fld_dbd545dfb14f40779c3e299a8b55a403
+      created: 1793364767317
+      modified: 1793364767317
+      sortKey: -1793364767317
+      description: ""
+    children:
+      - url: "{{ _.base }}Autenticacao"
+        name: Autenticacao
+        meta:
+          id: req_e2c1441aabdf4af7925423699f939161
+          created: 1792869853545
+          modified: 1793364775964
+          isPrivate: false
+          description: ""
+          sortKey: -1793364775850
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email": "erickpaludoyt2@gmail.com",
+              "senha": "Mega@160205+++"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}Usuario"
+        name: Retorna Usuario
+        meta:
+          id: req_58d8377a9a314740b2bf78e66a013564
+          created: 1793064264358
+          modified: 1793364780098
+          isPrivate: false
+          description: ""
+          sortKey: -1793364775950
+        method: GET
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMDA0IiwiZW1haWwiOiJzdHJpbmcyQHN0cmluZy5jb20iLCJzaWQiOiJZUTYzQVBhekJNOFZOSnBUTEZJWmU1ZnNhbDRJakdmbnpRbUllc3lMbW1BPSIsImV4cCI6Nzc5MzM2MzM4N30.f5CPUNAMPwHTJIi7WAMkymLKRHUANzBWXD5M1ib-6o0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Funcionarios
+    meta:
+      id: fld_1353ab51862a42048b8e74c63fb2d761
+      created: 1793364798942
+      modified: 1793364828177
+      sortKey: -1793364798942
+      description: ""
+    children:
+      - url: "{{ _.base }}Autenticacao"
+        name: AutenticacaoFuncionario
+        meta:
+          id: req_8e2a6e2892bb465cadc01e73254f3300
+          created: 1792878085336
+          modified: 1793364815162
+          isPrivate: false
+          description: ""
+          sortKey: -1793364802762
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email": "string2@string.com",
+              "senha": "St1ng54++"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}Funcionario"
+        name: Cadastra Funcionario
+        meta:
+          id: req_b46a2a94635040b098d61b5184fcb033
+          created: 1793063884068
+          modified: 1793468205745
+          isPrivate: false
+          description: ""
+          sortKey: -1793364802712
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "idSetor": "01a19305-6de0-77da-bed9-ef3c1ab35ce4",
+              "primeiroNome": "string",
+              "segundoNome": "string",
+              "email": "string2@string.com",
+              "senha": "St1ng54++",
+              "confirmacaoSenha": "St1ng54++"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.TokenAdm }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}Funcionario/Geral"
+        name: Retorna Funcionarios
+        meta:
+          id: req_0c62b9179f674472837a450008987685
+          created: 1793064848111
+          modified: 1793364808126
+          isPrivate: false
+          description: ""
+          sortKey: -1793364802812
+        method: GET
+        parameters:
+          - name: Setor
+            value: 01a17af1-b2e5-73e2-9f95-7c3495e368a3
+            disabled: true
+          - name: Id
+            value: "1003"
+            disabled: true
+          - name: PrimeiroNome
+            value: stri
+            disabled: true
+          - name: SegundoNome
+            value: ee
+            disabled: true
+          - name: Email
+            value: string2@st
+            disabled: true
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMDA0IiwiZW1haWwiOiJzdHJpbmcyQHN0cmluZy5jb20iLCJzaWQiOiJZUTYzQVBhekJNOFZOSnBUTEZJWmU1ZnNhbDRJakdmbnpRbUllc3lMbW1BPSIsImV4cCI6Nzc5MzM2MzM4N30.f5CPUNAMPwHTJIi7WAMkymLKRHUANzBWXD5M1ib-6o0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}Funcionario"
+        name: Retorna Funcionario
+        meta:
+          id: req_c6d4af47d91744e09a5b099181d4717c
+          created: 1793363337107
+          modified: 1793468020624
+          isPrivate: false
+          description: ""
+          sortKey: -1793364802912
+        method: GET
+        authentication:
+          type: bearer
+          token: 01a19305-6de0-77da-bed9-ef3c1ab35ce4"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_3de23ae3dc9449929f152672bb0e0c22
+    created: 1791744349126
+    modified: 1793064759392
+  cookies:
+    - id: 6bc3c6a8-58bf-4ae6-a7c5-7b7dcfc12264
+      key: refreshToken
+      value: 5Fkr0Plrgna00mdOq1mV3gYuAVWRr2aKYBBgqdZRk7k%3D
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+environments:
+  name: Base Environment
+  meta:
+    id: env_5c444d5fb2b643f99bf97b2a656be9a9
+    created: 1791744349126
+    modified: 1793468229470
+    isPrivate: false
+  data:
+    base: http://localhost:5078/CRMUNI/
+    refreshToken: MBUrA8I3efuXgwgi+Tb3++tLx8H2Bi/5r63qkdCFSrY=
+    TokenAdm: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExOTMwNS02ZmZhLTdlZTEtYThjZi1kNWVkMWM5ZTk4ZjEiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXQyQGdtYWlsLmNvbSIsInNpZCI6IlNWRHFEc2xYNTdHREtGMjZ1cC84dGtXTWszeXhhZldkbkUvOHVKMFBuVEE9IiwiZXhwIjo3NzkzNDY3OTE3fQ.cgAOrMdeAJU_-RXUanf7o2t_muSs53ExAI1PfQ3XlVk
+    TokenFuncionario: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJzdHJpbmcyQHN0cmluZy5jb20iLCJzaWQiOiJRRlEvVU1VOWlxc1YvUWQ3Y0wwckc5YUgzajF5eFR3UTBGcDE2cmgxL3lJPSIsImV4cCI6Nzc5MzQ2ODE1Mn0.9HykCwYRlRpEZZZFdLdBXNltRHxXkDtq32tQUflbtPI

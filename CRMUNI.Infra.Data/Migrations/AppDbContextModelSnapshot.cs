@@ -174,7 +174,7 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrCriacao");
 
-                    b.Property<int?>("FunilId")
+                    b.Property<int>("FunilId")
                         .HasColumnType("int");
 
                     b.Property<int>("Tipo")
@@ -645,9 +645,13 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Etapas.Etapa", b =>
                 {
-                    b.HasOne("CRMUNI.Domain.Entidades.Funis.Funil", null)
+                    b.HasOne("CRMUNI.Domain.Entidades.Funis.Funil", "Funil")
                         .WithMany("Etapas")
-                        .HasForeignKey("FunilId");
+                        .HasForeignKey("FunilId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Funil");
                 });
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", b =>

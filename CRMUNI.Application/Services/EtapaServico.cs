@@ -1,10 +1,17 @@
+using CRMUNI.Application.DTOs.Cadastro;
+using CRMUNI.Application.DTOs.Filtros;
+using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
+using CRMUNI.Domain.Entidades.Empresas;
 using CRMUNI.Domain.Entidades.Etapas;
+using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Funis;
+using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.Entidades.Setores;
 using CRMUNI.Domain.ObjetosValor.Etapas;
 using CRMUNI.Domain.ObjetosValor.Nomes;
 using CRMUNI.Domain.Servicos;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMUNI.Application.Services;
 
@@ -138,5 +145,64 @@ public class EtapaServico : IEtapaServico
         await _unitOfWork.EtapaRepositorio.Insere(perdidoVendido);
 
         #endregion
+    }
+
+    public async Task<EtapasDto> Retorno(string idUsuario, EtapaFiltro filtros)
+    {
+        bool isUsuario = true;
+        Funcionario? funcionario = null;
+
+        Usuario? usuario =
+            await _unitOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
+
+        if (usuario is null)
+            isUsuario = false;
+
+        if (!isUsuario)
+        {
+            funcionario =
+                await _unitOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
+
+            if (funcionario is null)
+                throw new NaoEncontradoExecao("Usuário solicitante não encontrado.");
+        }
+
+        Empresa empresa = isUsuario ? usuario!.Empresa : funcionario!.Empresa;
+
+        IQueryable<Etapa> query = _unitOfWork.EtapaRepositorio.Retorno();
+
+        query = query.Where(x => x.Funil.Empresa.Id.Equals(empresa.Id));
+
+        if (filtros.Id.HasValue)
+            query = query.Where(x => x.Id == filtros.Id.Value);
+
+        if (filtros.IdFunil.HasValue)
+            query = query.Where(x => x.Funil.Id == filtros.IdFunil.Value);
+
+        if (filtros.Tipo.HasValue)
+            query = query.Where(x => x.Tipo == filtros.Tipo.Value);
+
+        if (filtros.Nome is not null)
+            query = query.Where(x => x.Nome.Primeiro.Contains(filtros.Nome));
+
+        List<Etapa> etapas = await query
+            .OrderBy(x => x.Funil.Id)
+            .ThenBy(x => x.Ordem.Valor)
+            .ToListAsync();
+
+        List<EtapaDto> etapaDtos = etapas
+            .Select(MapeamentoDto)
+            .ToList();
+
+        return new EtapasDto(etapaDtos);
+    }
+
+    private static EtapaDto MapeamentoDto(Etapa etapa)
+    {
+        Funil funil = etapa.Funil;
+        FunilEtapaDto funilDto = new FunilEtapaDto(funil.Id, funil.Tipo, funil.Nome.Completo, funil.Descricao.Texto);
+
+        return new EtapaDto(etapa.Id, funil.Empresa.Id, etapa.Tipo, funilDto, etapa.Nome.Completo,
+            etapa.Ordem.Valor);
     }
 }

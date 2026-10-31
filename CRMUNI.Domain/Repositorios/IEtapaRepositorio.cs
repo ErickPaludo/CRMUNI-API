@@ -4,4 +4,5 @@ namespace CRMUNI.Domain.Repositorios;
 
 public interface IEtapaRepositorio : IBaseRepositorio<Etapa>
 {
+    IQueryable<Etapa> Retorno();
 }
