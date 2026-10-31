@@ -18,17 +18,15 @@ public sealed class Plano : EntidadeIdGuid
     {
     }
 
-    public Plano(Empresa empresa, NomePlano nome, DescricaoPlano descricao, EPlanoSituacao situacao)
+    public Plano(Empresa empresa, NomePlano nome, DescricaoPlano descricao)
     {
         ValidaNulo.Verifica(empresa, PlanoMensagens.PropriedadeNula("Empresa"));
         ValidaNulo.Verifica(nome, PlanoMensagens.PropriedadeNula("Nome"));
         ValidaNulo.Verifica(descricao, PlanoMensagens.PropriedadeNula("Descrição"));
 
-        ValidaEnum<EPlanoSituacao>.Verifica(situacao, PlanoMensagens.SituacaoInvalida);
-
         Empresa = empresa;
         Nome = nome;
         Descricao = descricao;
-        Situacao = situacao;
+        Situacao = EPlanoSituacao.Ativo;
     }
 }

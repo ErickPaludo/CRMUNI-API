@@ -35,7 +35,7 @@ namespace CRMUNI.Domain.ObjetosValor.descricoes
         private void ValidaTamanhoCaracteres(string texto)
         {
             DescricaoValidacao.Verifica(texto.Length < TamanhoMinimo,
-                DescricaoMensagens.DescricaoMaximo(TamanhoMinimo));
+                DescricaoMensagens.DescricaoMinimo(TamanhoMinimo));
             DescricaoValidacao.Verifica(texto.Length > TamanhoMaximo,
                 DescricaoMensagens.DescricaoMaximo(TamanhoMaximo));
         }

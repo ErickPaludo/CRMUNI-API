@@ -1,24 +1,197 @@
 type: collection.insomnia.rest/5.0
+schema_version: "5.1"
 name: API
 meta:
-  id: wrk_fc0fd05b8df2480db77622d7bbf56ff4
-  created: 1793063480189
-  modified: 1793063480189
+  id: wrk_15cc77aadd0c4a4cad671726ec3bd46a
+  created: 1793467218850
+  modified: 1793467218850
+  description: ""
 collection:
+  - url: "{{ _.base }}Autenticacao/refresh"
+    name: Refresh
+    meta:
+      id: req_883085b1418548688dc4de72591e43d5
+      created: 1792872621492
+      modified: 1793064757708
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645169.0625
+    method: POST
+    headers:
+      - name: Cookie
+        value: refreshToken=1s7tT5REp8J2YSjM3WNhBKZeDjqGL2gO/qR+eqTqJM4=
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Setor"
+    name: Retorna Setores
+    meta:
+      id: req_0737c4c648624eaca1514608a3d7a1bf
+      created: 1793147205657
+      modified: 1793471170290
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645069.0625
+    method: GET
+    parameters:
+      - name: Id
+        value: 01a17fc5-a465-73ea-9f9e-eb97f1e10934
+        disabled: true
+      - name: Tipo
+        value: "1"
+        disabled: true
+    authentication:
+      type: bearer
+      token: "{{ _.TokenAdm }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}temporario"
+    name: Deleta tudo
+    meta:
+      id: req_ac28241fd85f4754a300dcee99892625
+      created: 1793274561650
+      modified: 1793364845733
+      isPrivate: false
+      description: ""
+      sortKey: -1791467644969.0625
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.0.2
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Funil"
+    name: Retorna Funils
+    meta:
+      id: req_0f267bb2118e424699fb369b02597e5e
+      created: 1793366888129
+      modified: 1793471184115
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645019.0625
+    method: GET
+    parameters:
+      - name: Id
+        value: "1"
+        disabled: true
+      - name: Tipo
+        value: "2"
+        disabled: true
+      - name: Nome
+        value: Ven
+        description: ""
+        disabled: true
+    authentication:
+      type: bearer
+      token: "{{ _.TokenAdm }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Etapa"
+    name: Retorna Etapas
+    meta:
+      id: req_308a797b11674863ba24b84d36243692
+      created: 1793469766136
+      modified: 1793471201284
+      isPrivate: false
+      description: ""
+      sortKey: -1791467644994.0625
+    method: GET
+    parameters:
+      - name: Id
+        value: "1"
+        disabled: true
+      - name: Tipo
+        value: "2"
+        disabled: true
+      - name: Nome
+        value: Ini
+        description: ""
+        disabled: true
+      - name: IdFunil
+        value: "3"
+        description: ""
+        disabled: true
+    authentication:
+      type: bearer
+      token: "{{ _.TokenAdm }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Plano"
+    name: Cadastra Plano
+    meta:
+      id: req_abb13ec5d778400488391fa34511ddc7
+      created: 1793475976962
+      modified: 1793476735472
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645006.5625
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+          "nome": "string",
+          "descricao": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{{ _.TokenFuncionario }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
   - name: Empresa e Usuario
     meta:
-      id: fld_5adeac06e1324ea9a8c758777b5ca879
+      id: fld_6d35576be5244d66a987bd9bf1577910
       created: 1793364730722
       modified: 1793364748745
       sortKey: -1793364730722
+      description: ""
     children:
       - url: "{{ _.base }}Empresa/Cadastro"
         name: CadastraEmpresa
         meta:
-          id: req_43ae0c469e8d4d5fb9e18b84806749f6
+          id: req_6ef71579e4cf49ea9a58b91db427f444
           created: 1791744349129
           modified: 1793364740038
           isPrivate: false
+          description: ""
           sortKey: -1793364739921
         method: POST
         body:
@@ -52,18 +225,20 @@ collection:
           rebuildPath: true
   - name: Usuarios ADM
     meta:
-      id: fld_106eee40e4bd4333a304aa85fe4e43ae
+      id: fld_dbd545dfb14f40779c3e299a8b55a403
       created: 1793364767317
       modified: 1793364767317
       sortKey: -1793364767317
+      description: ""
     children:
       - url: "{{ _.base }}Autenticacao"
         name: Autenticacao
         meta:
-          id: req_0b49296f15624c638ddb1e944147f4a1
+          id: req_e2c1441aabdf4af7925423699f939161
           created: 1792869853545
           modified: 1793364775964
           isPrivate: false
+          description: ""
           sortKey: -1793364775850
         method: POST
         body:
@@ -87,10 +262,11 @@ collection:
       - url: "{{ _.base }}Usuario"
         name: Retorna Usuario
         meta:
-          id: req_6d0acecae6a146048ba4b0547a8aac0e
+          id: req_58d8377a9a314740b2bf78e66a013564
           created: 1793064264358
           modified: 1793364780098
           isPrivate: false
+          description: ""
           sortKey: -1793364775950
         method: GET
         authentication:
@@ -106,18 +282,20 @@ collection:
           rebuildPath: true
   - name: Funcionarios
     meta:
-      id: fld_204efe35a26c4281a01b8c769dc69e11
+      id: fld_1353ab51862a42048b8e74c63fb2d761
       created: 1793364798942
       modified: 1793364828177
       sortKey: -1793364798942
+      description: ""
     children:
       - url: "{{ _.base }}Autenticacao"
         name: AutenticacaoFuncionario
         meta:
-          id: req_0171ff076d8a44f19d3c80e06887f18c
+          id: req_8e2a6e2892bb465cadc01e73254f3300
           created: 1792878085336
           modified: 1793364815162
           isPrivate: false
+          description: ""
           sortKey: -1793364802762
         method: POST
         body:
@@ -141,17 +319,18 @@ collection:
       - url: "{{ _.base }}Funcionario"
         name: Cadastra Funcionario
         meta:
-          id: req_eda176b0889544f2bfe20ef58d92e8fe
+          id: req_b46a2a94635040b098d61b5184fcb033
           created: 1793063884068
-          modified: 1793364802787
+          modified: 1793471143424
           isPrivate: false
+          description: ""
           sortKey: -1793364802712
         method: POST
         body:
           mimeType: application/json
           text: |-
             {
-              "idSetor": "01a18775-ee50-7d9c-b274-8ccf6082580f",
+              "idSetor": "01a19334-3397-7782-b296-c0c76617453b",
               "primeiroNome": "string",
               "segundoNome": "string",
               "email": "string2@string.com",
@@ -163,7 +342,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExODc3NS1lZjlmLTdjMzYtYWI3Zi1mNjhjMDNiMDkxM2QiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXQyQGdtYWlsLmNvbSIsInNpZCI6ImtlaFNSVDV3ZWxEbzUrSmZOeEhHVHFMMGw3bG5RNUJvWm50ekltMFJudkU9IiwiZXhwIjo3NzkzMzYzMzQwfQ.2kE1t0ywol1PQDPYlPKEU3EgCgZrbg-CuBmTVYnCHqA
+          token: "{{ _.TokenAdm }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -175,36 +354,32 @@ collection:
       - url: "{{ _.base }}Funcionario/Geral"
         name: Retorna Funcionarios
         meta:
-          id: req_25be55da293d492f8bd452edb7492133
+          id: req_0c62b9179f674472837a450008987685
           created: 1793064848111
-          modified: 1793364808126
+          modified: 1793471163493
           isPrivate: false
+          description: ""
           sortKey: -1793364802812
         method: GET
         parameters:
           - name: Setor
             value: 01a17af1-b2e5-73e2-9f95-7c3495e368a3
-            id: pair_76a5f01a4b2644b684c312c1b5f5cb06
             disabled: true
           - name: Id
             value: "1003"
-            id: pair_25bf55ad67474f3d9d2015328f40200d
             disabled: true
           - name: PrimeiroNome
             value: stri
-            id: pair_d3a853fcb4e3487d9c4ddd842419e148
             disabled: true
           - name: SegundoNome
             value: ee
-            id: pair_cc754b4d59294add8d909bf33d904e69
             disabled: true
           - name: Email
             value: string2@st
-            id: pair_04430a76cc584e51b03c1c6c9a532a8c
             disabled: true
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMDA0IiwiZW1haWwiOiJzdHJpbmcyQHN0cmluZy5jb20iLCJzaWQiOiJZUTYzQVBhekJNOFZOSnBUTEZJWmU1ZnNhbDRJakdmbnpRbUllc3lMbW1BPSIsImV4cCI6Nzc5MzM2MzM4N30.f5CPUNAMPwHTJIi7WAMkymLKRHUANzBWXD5M1ib-6o0
+          token: "{{ _.TokenAdm }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -216,18 +391,16 @@ collection:
       - url: "{{ _.base }}Funcionario"
         name: Retorna Funcionario
         meta:
-          id: req_4df3952f97674a458b58f3f159dc3754
+          id: req_c6d4af47d91744e09a5b099181d4717c
           created: 1793363337107
-          modified: 1793364811107
+          modified: 1793468020624
           isPrivate: false
+          description: ""
           sortKey: -1793364802912
         method: GET
-        parameters:
-          - id: pair_7724345c4b3545e4bcbfe6a1a5fdae86
-            disabled: false
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMDA0IiwiZW1haWwiOiJzdHJpbmcyQHN0cmluZy5jb20iLCJzaWQiOiJZUTYzQVBhekJNOFZOSnBUTEZJWmU1ZnNhbDRJakdmbnpRbUllc3lMbW1BPSIsImV4cCI6Nzc5MzM2MzM4N30.f5CPUNAMPwHTJIi7WAMkymLKRHUANzBWXD5M1ib-6o0
+          token: 01a19305-6de0-77da-bed9-ef3c1ab35ce4"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -236,130 +409,32 @@ collection:
             send: true
             store: true
           rebuildPath: true
-  - url: "{{ _.base }}Autenticacao/refresh"
-    name: Refresh
-    meta:
-      id: req_0ccc82e4b87043f589836b818a84463c
-      created: 1792872621492
-      modified: 1793064757708
-      isPrivate: false
-      sortKey: -1791467645169.0625
-    method: POST
-    headers:
-      - name: Cookie
-        value: refreshToken=1s7tT5REp8J2YSjM3WNhBKZeDjqGL2gO/qR+eqTqJM4=
-        id: pair_25a6a9d095654af1a78fbb27adb89321
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: "{{ _.base }}Setor"
-    name: Retorna Setores
-    meta:
-      id: req_432102bd75c24be893289eea51713a25
-      created: 1793147205657
-      modified: 1793363420379
-      isPrivate: false
-      sortKey: -1791467645069.0625
-    method: GET
-    parameters:
-      - id: pair_591e18b6114a4e04983d40c9fc47b430
-        name: Id
-        value: 01a17fc5-a465-73ea-9f9e-eb97f1e10934
-        disabled: true
-      - id: pair_392c4d47140d4421ab18d1bd61cb52a3
-        name: Tipo
-        value: "0"
-        disabled: true
-    authentication:
-      type: bearer
-      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExODc3NS1lZjlmLTdjMzYtYWI3Zi1mNjhjMDNiMDkxM2QiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXQyQGdtYWlsLmNvbSIsInNpZCI6ImtlaFNSVDV3ZWxEbzUrSmZOeEhHVHFMMGw3bG5RNUJvWm50ekltMFJudkU9IiwiZXhwIjo3NzkzMzYzMzQwfQ.2kE1t0ywol1PQDPYlPKEU3EgCgZrbg-CuBmTVYnCHqA
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: "{{ _.base }}temporario"
-    name: Deleta tudo
-    meta:
-      id: req_eb1ba6e647564d12a8ab5c3f7eab22b7
-      created: 1793274561650
-      modified: 1793364845733
-      isPrivate: false
-      sortKey: -1791467644969.0625
-    method: DELETE
-    headers:
-      - name: User-Agent
-        value: insomnia/11.0.2
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: "{{ _.base }}Funil"
-    name: Retorna Funils
-    meta:
-      id: req_569bb52229ce4359bf060850cc800b27
-      created: 1793366888129
-      modified: 1793366934256
-      isPrivate: false
-      sortKey: -1791467645019.0625
-    method: GET
-    parameters:
-      - id: pair_591e18b6114a4e04983d40c9fc47b430
-        name: Id
-        value: 01a17fc5-a465-73ea-9f9e-eb97f1e10934
-        disabled: true
-      - id: pair_392c4d47140d4421ab18d1bd61cb52a3
-        name: Tipo
-        value: "0"
-        disabled: true
-    authentication:
-      type: bearer
-      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExOGNjYy05OWNlLTdiNDUtODY4OC0xNDU1Y2E2NmY0OTgiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXQyQGdtYWlsLmNvbSIsInNpZCI6IllRemhaYk9HMEJQZWRZc0hQT3JpejR0UWRSdkJPUmU5dDJNcmIzZnRGY289IiwiZXhwIjo3NzkzMzY2ODQ4fQ.iY59X_AQ5t2skg8RM0JEWdOOsxLIy6hhVNgIFEd7JVQ
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
-    id: jar_6fe532878cbd4189b840ea18c801b6e4
+    id: jar_3de23ae3dc9449929f152672bb0e0c22
     created: 1791744349126
     modified: 1793064759392
   cookies:
-    - key: refreshToken
+    - id: 6bc3c6a8-58bf-4ae6-a7c5-7b7dcfc12264
+      key: refreshToken
       value: 5Fkr0Plrgna00mdOq1mV3gYuAVWRr2aKYBBgqdZRk7k%3D
       domain: localhost
       path: /
       secure: true
       httpOnly: true
       hostOnly: true
-      creation: 2026-10-27T01:21:25.889Z
-      lastAccessed: 2026-10-27T01:32:39.391Z
-      sameSite: none
-      id: 6bc3c6a8-58bf-4ae6-a7c5-7b7dcfc12264
 environments:
   name: Base Environment
   meta:
-    id: env_84e85b8a0451415ebbac1ad04cea4584
+    id: env_5c444d5fb2b643f99bf97b2a656be9a9
     created: 1791744349126
-    modified: 1793363106353
+    modified: 1793476198349
     isPrivate: false
   data:
     base: http://localhost:5078/CRMUNI/
     refreshToken: MBUrA8I3efuXgwgi+Tb3++tLx8H2Bi/5r63qkdCFSrY=
+    TokenAdm: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExOTMwNS02ZmZhLTdlZTEtYThjZi1kNWVkMWM5ZTk4ZjEiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXQyQGdtYWlsLmNvbSIsInNpZCI6IlFFc250dHpvUmRzZEw1ODZuRi9mUms5SmlmZTJYb1BhaTRndzVWNWRPVUk9IiwiZXhwIjo3NzkzNDc2MDg0fQ.hA1AQM4LCsli0lSNQO7VmNx8m6KElfYmr5P0zXWA16o
+    TokenFuncionario: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJzdHJpbmcyQHN0cmluZy5jb20iLCJzaWQiOiJRRlEvVU1VOWlxc1YvUWQ3Y0wwckc5YUgzajF5eFR3UTBGcDE2cmgxL3lJPSIsImV4cCI6Nzc5MzQ2ODE1Mn0.9HykCwYRlRpEZZZFdLdBXNltRHxXkDtq32tQUflbtPI
+    prod: https://crmuniapi.pldprojects.com.br/CRMUNI/
+    "": ""
