@@ -15,12 +15,12 @@ namespace CRMUNI.Application.Services;
 
 public class FunilServico : IFunilServico
 {
-    private readonly IUnityOfWork _unitOfWork;
+    private readonly IUnityOfWork _unityOfWork;
     private readonly IEtapaServico _etapaServico;
 
-    public FunilServico(IUnityOfWork unitOfWork, IEtapaServico etapaServico)
+    public FunilServico(IUnityOfWork unityOfWork, IEtapaServico etapaServico)
     {
-        _unitOfWork = unitOfWork;
+        _unityOfWork = unityOfWork;
         _etapaServico = etapaServico;
     }
 
@@ -33,7 +33,7 @@ public class FunilServico : IFunilServico
         NomeFunil nomeFunilCurioso = new NomeFunil("Curioso");
         DescricaoFunil descricaoFunilCurioso = new DescricaoFunil("Dedicado a clientes com duvidas sobre valores");
         Funil curioso = new Funil(empresa, EFunil.Curioso, nomeFunilCurioso, descricaoFunilCurioso);
-        await _unitOfWork.FunilRepositorio.Insere(curioso);
+        await _unityOfWork.FunilRepositorio.Insere(curioso);
         funils[0] = curioso;
 
         #endregion
@@ -45,7 +45,7 @@ public class FunilServico : IFunilServico
             new DescricaoFunil("Dedicado a clientes com duvidas sobre valores");
         Funil potencialCliente = new Funil(empresa, EFunil.PotencialCliente, nomeFunilPotencialCliente,
             descricaoFunilPotencialCliente);
-        await _unitOfWork.FunilRepositorio.Insere(potencialCliente);
+        await _unityOfWork.FunilRepositorio.Insere(potencialCliente);
         funils[1] = potencialCliente;
 
         #endregion
@@ -57,7 +57,7 @@ public class FunilServico : IFunilServico
             new DescricaoFunil("Dedicado a clientes com duvidas sobre valores");
         Funil vendido = new Funil(empresa, EFunil.Vendido, nomeFunilVendido,
             descricaoFunilVendido);
-        await _unitOfWork.FunilRepositorio.Insere(vendido);
+        await _unityOfWork.FunilRepositorio.Insere(vendido);
         funils[2] = vendido;
 
         #endregion
@@ -72,7 +72,7 @@ public class FunilServico : IFunilServico
         Funcionario? funcionario = null;
 
         Usuario? usuario =
-            await _unitOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id == new Guid(idUsuario));
+            await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
 
         if (usuario is null)
             isUsuario = false;
@@ -80,7 +80,7 @@ public class FunilServico : IFunilServico
         if (!isUsuario)
         {
             funcionario =
-                await _unitOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
+                await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
 
             if (funcionario is null)
                 throw new NaoEncontradoExecao("Usuário solicitante não encontrado.");
@@ -88,7 +88,7 @@ public class FunilServico : IFunilServico
 
         Empresa empresa = isUsuario ? usuario!.Empresa : funcionario!.Empresa;
 
-        IQueryable<Funil> query = _unitOfWork.FunilRepositorio.Retorno();
+        IQueryable<Funil> query = _unityOfWork.FunilRepositorio.Retorno();
 
         query = query.Where(x => x.Empresa.Id.Equals(empresa.Id));
 
