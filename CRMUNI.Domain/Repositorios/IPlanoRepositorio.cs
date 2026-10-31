@@ -4,4 +4,5 @@ namespace CRMUNI.Domain.Repositorios;
 
 public interface IPlanoRepositorio : IBaseRepositorio<Plano>
 {
+    IQueryable<Plano> Retorno();
 }

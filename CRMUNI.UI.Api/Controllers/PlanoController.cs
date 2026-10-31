@@ -1,4 +1,5 @@
 using CRMUNI.Application.DTOs.Cadastro;
+using CRMUNI.Application.DTOs.Filtros;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Domain.Repositorios;
 using CRMUNI.UI.Api.Extensao;
@@ -23,5 +24,12 @@ public class PlanoController : ControllerBase
     {
         var ret = await _planoServico.Cadatro(User.GetId(), dto);
         return Created(string.Empty,ret);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Retorno([FromQuery] PlanoFiltro filtro)
+    {
+        var planos = await _planoServico.Retorno(User.GetId(), filtro);
+        return Ok(planos);
     }
 }

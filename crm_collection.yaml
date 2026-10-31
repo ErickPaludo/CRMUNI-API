@@ -150,7 +150,7 @@ collection:
     meta:
       id: req_abb13ec5d778400488391fa34511ddc7
       created: 1793475976962
-      modified: 1793476735472
+      modified: 1793477856209
       isPrivate: false
       description: ""
       sortKey: -1791467645006.5625
@@ -162,6 +162,50 @@ collection:
           "nome": "string",
           "descricao": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring"
         }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{{ _.TokenAdm }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base }}Plano"
+    name: Retorna Planos
+    meta:
+      id: req_9f5546671916445f8b87ebbb84821c1d
+      created: 1793477837050
+      modified: 1793477907356
+      isPrivate: false
+      description: ""
+      sortKey: -1791467645000.3125
+    method: GET
+    body:
+      mimeType: application/json
+      text: >-
+        {
+          "nome": "string",
+          "descricao": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring"
+        }
+    parameters:
+      - name: Id
+        value: 01a1939c-4cc2-7aaf-86b6-291aa69bcf2e
+        description: ""
+        disabled: true
+      - name: Situacao
+        value: "1"
+        description: ""
+        disabled: true
+      - name: Nome
+        value: sttff
+        description: ""
+        disabled: true
     headers:
       - name: Content-Type
         value: application/json

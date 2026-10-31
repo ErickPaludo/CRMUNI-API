@@ -28,5 +28,7 @@ public sealed class Plano : EntidadeIdGuid
         Nome = nome;
         Descricao = descricao;
         Situacao = EPlanoSituacao.Ativo;
+        
+        empresa.AddPlanos(this);
     }
 }

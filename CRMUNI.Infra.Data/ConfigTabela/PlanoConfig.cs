@@ -10,6 +10,9 @@ public class PlanoConfig : IEntityTypeConfiguration<Plano>
     {
         builder.ToTable("tb_planos");
         builder.HasKey(p => p.Id);
+
+        builder.HasOne(p => p.Empresa)
+            .WithMany(e => e.Planos);
         
         builder.OwnsOne(n => n.Nome,
             nome

@@ -60,4 +60,10 @@ public sealed class Empresa : EntidadeIdGuid
         ValidaNulo.Verifica(funil, EmpresaMensagens.PropriedadeNula("Funil"));
         Funils.Add(funil);
     }
+    public void AddPlanos(Plano plano)
+    {
+        ValidaNulo.Verifica(plano, EmpresaMensagens.PropriedadeNula("Plano"));
+        Planos.Add(plano);
+    }
+    
 }
