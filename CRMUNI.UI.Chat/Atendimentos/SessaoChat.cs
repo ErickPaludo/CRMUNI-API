@@ -4,8 +4,10 @@ namespace CRMUNI.UI.Chat.Atendimentos;
 
 public sealed record SessaoChat(
     Guid Id,
+    int IdAtendimento,
     string ConnectionIdCliente,
     string NomeCliente,
+    string TelefoneCliente,
     string ConnectionIdFuncionario,
     string IdFuncionario,
     string NomeFuncionario,
@@ -22,5 +24,6 @@ public sealed record SessaoChat(
 
     public string GrupoSignalR => $"sessao-{Id}";
 
-    public SessaoDto ParaDto() => new(Id, NomeCliente, NomeFuncionario, DataInicio);
+    public SessaoDto ParaDto()
+        => new(Id, IdAtendimento, NomeCliente, TelefoneCliente, NomeFuncionario, DataInicio);
 }

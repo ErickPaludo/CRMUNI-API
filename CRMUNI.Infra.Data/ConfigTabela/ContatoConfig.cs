@@ -1,4 +1,4 @@
-﻿using CRMUNI.Domain.Entidades.Contatos;
+using CRMUNI.Domain.Entidades.Contatos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,6 +10,10 @@ public class ContatoConfig : IEntityTypeConfiguration<Contato>
     {
         builder.ToTable("tb_contatos");
         builder.HasKey(x => x.Id);
+
+        // Navegacao somente leitura (sem setter): precisa ser mapeada explicitamente.
+        builder.HasOne(c => c.Empresa)
+            .WithMany(e => e.Contatos);
 
         builder.OwnsOne(n => n.Cpf,
             cpf =>
@@ -51,9 +55,9 @@ public class ContatoConfig : IEntityTypeConfiguration<Contato>
             endereco
                 =>
             {
+                // Email opcional: contatos vindos do chat so informam nome e celular.
                 endereco.Property(e => e.Endereco)
                     .HasColumnName("Email")
-                    .IsRequired()
                     .HasMaxLength(256);
                 ;
             }

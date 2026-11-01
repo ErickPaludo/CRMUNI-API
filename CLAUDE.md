@@ -4,6 +4,8 @@
 - **Compilar Solução**: `dotnet build CRMUNI.sln`
 - **Executar Testes**: `dotnet test`
 - **Executar API**: `dotnet run --project CRMUNI.UI.Api/CRMUNI.UI.Api.csproj`
+- **Executar Chat**: `dotnet run --project CRMUNI.UI.Chat/CRMUNI.UI.Chat.csproj`
+- **Cliente de testes do Chat**: `dotnet run --project CRMUNI.UI.Chat.Cliente/CRMUNI.UI.Chat.Cliente.csproj`
 
 ## Arquitetura e Camadas
 
@@ -34,5 +36,15 @@ O projeto segue os princípios de Arquitetura Limpa (Clean Architecture) / Domai
    - **Controladores (`Controllers/`)**: Camada de apresentação expondo endpoints REST (ex: `FuncionarioController`, `UsuarioController`).
    - Ponto de entrada (`Program.cs`) configurando middleware, roteamento e serviços.
 
-7. **CRMUNI.UnitTests.Domain**
+7. **CRMUNI.UI.Chat**
+   - Chat em tempo real (SignalR, hub em `/hubs/chat`) entre cliente anônimo e funcionário autenticado por JWT.
+   - Mensagens não são persistidas; contato e atendimento são criados via `AtendimentoChatServico`.
+   - Serviços injetados no `ChatHub` devem ser registrados em `CRMUNI.UI.Chat/Program.cs`.
+   - Contexto completo (fluxo, métodos, eventos, regras e limitações): `claude/contexto_chat.md`.
+
+8. **CRMUNI.UI.Chat.Cliente**
+   - Console de testes do websocket (modo Cliente ou Funcionário).
+
+9. **CRMUNI.UnitTests.Domain**
    - Testes unitários cobrindo entidades de domínio, objetos de valor e regras de negócio.
+   - Padrão de escrita dos testes: `claude/padrao_teste_domain.md`.

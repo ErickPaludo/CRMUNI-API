@@ -116,7 +116,7 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DthrCriacao");
 
-                    b.Property<Guid?>("EmpresaId")
+                    b.Property<Guid>("EmpresaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Origem")
@@ -447,9 +447,11 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Contatos.Contato", b =>
                 {
-                    b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", null)
+                    b.HasOne("CRMUNI.Domain.Entidades.Empresas.Empresa", "Empresa")
                         .WithMany("Contatos")
-                        .HasForeignKey("EmpresaId");
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CRMUNI.Domain.Entidades.Planos.Plano", "Plano")
                         .WithMany()
@@ -543,8 +545,9 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Navigation("Cpf");
 
-                    b.Navigation("Email")
-                        .IsRequired();
+                    b.Navigation("Email");
+
+                    b.Navigation("Empresa");
 
                     b.Navigation("Nome")
                         .IsRequired();

@@ -1,3 +1,9 @@
 namespace CRMUNI.UI.Chat.Contratos;
 
-public record SessaoDto(Guid Id, string NomeCliente, string NomeFuncionario, DateTime DataInicio);
+public record SessaoDto(
+    Guid Id,
+    int IdAtendimento,
+    string NomeCliente,
+    string TelefoneCliente,
+    string NomeFuncionario,
+    DateTime DataInicio);

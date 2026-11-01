@@ -8,5 +8,7 @@ public sealed record Celular : Telefone
     private Celular(string numeroTelefone) : base(numeroTelefone) 
     {
     }
+
+    public static new Celular Create(string numeroTelefone) => new Celular(numeroTelefone);
     
 }

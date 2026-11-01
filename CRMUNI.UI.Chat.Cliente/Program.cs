@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -19,31 +19,74 @@ return modo == "2"
 
 static async Task<int> ModoCliente(string urlChat)
 {
-    string nome = Ler("Seu nome");
     Guid? idSessao = null;
 
     await using HubConnection conexao = CriarConexao(urlChat, token: null);
-    RegistrarEventosComuns(conexao, () => idSessao = null);
+    RegistrarEventosComuns(conexao, _ => idSessao = null);
 
     conexao.On<Sessao>("AtendimentoIniciado", s =>
     {
         idSessao = s.Id;
-        Escrever($"*** {s.NomeFuncionario} iniciou seu atendimento. Pode digitar. ***", ConsoleColor.Green);
+        Escrever($"*** {s.NomeFuncionario} iniciou o atendimento nº {s.IdAtendimento}. Pode digitar. ***",
+            ConsoleColor.Green);
     });
 
     if (!await Conectar(conexao)) return 1;
 
     try
     {
-        await conexao.InvokeAsync<Solicitacao>("SolicitarAtendimento", nome);
-        Escrever("Aguardando um funcionário... ('/sair' para desistir)", ConsoleColor.Cyan);
+        // 1) Identificacao: empresa + celular + nome. Repete enquanto o servidor rejeitar os dados.
+        RespostaContato resposta;
+        while (true)
+        {
+            Guid idEmpresa = LerGuid("Id da empresa");
+            string telefone = Ler("Seu celular com DDI e DDD (ex: 55 11 91234-5678)");
+            string nome = Ler("Seu nome e sobrenome");
+            if (!ConexaoAtiva(conexao)) return 1;
+
+            try
+            {
+                resposta = await conexao.InvokeAsync<RespostaContato>(
+                    "SolicitarAtendimento", idEmpresa, telefone, nome);
+                break;
+            }
+            catch (HubException ex)
+            {
+                Escrever($"Erro: {ex.Message}", ConsoleColor.Red);
+            }
+        }
+
+        Escrever(resposta.Mensagem, ConsoleColor.Cyan);
+
+        // 2) Sem atendimento em andamento: escolha do setor (repete se invalido ou sem funcionario).
+        while (resposta.Tipo == TipoResposta.SelecionarSetor)
+        {
+            if (!int.TryParse(Ler("Setor"), out int setor))
+            {
+                Escrever("Informe 1, 2 ou 3.", ConsoleColor.Yellow);
+                continue;
+            }
+
+            if (!ConexaoAtiva(conexao)) return 1;
+
+            try
+            {
+                resposta = await conexao.InvokeAsync<RespostaContato>("SelecionarSetor", setor);
+                Escrever(resposta.Mensagem, ConsoleColor.Cyan);
+            }
+            catch (HubException ex)
+            {
+                Escrever($"Erro: {ex.Message}", ConsoleColor.Red);
+            }
+        }
     }
-    catch (HubException ex)
+    catch (InvalidOperationException)
     {
-        Escrever($"Erro: {ex.Message}", ConsoleColor.Red);
+        ConexaoAtiva(conexao, forcarPerdida: true);
         return 1;
     }
 
+    Escrever("Aguardando o funcionário... ('/sair' para desistir)", ConsoleColor.Cyan);
     await LoopDigitacao(conexao, () => idSessao, _ => Task.FromResult(false));
     return 0;
 }
@@ -67,28 +110,50 @@ static async Task<int> ModoFuncionario(string urlChat, string? urlApiArg)
         return 1;
     }
 
-    Guid? idSessao = null;
+    // Um funcionario pode atender varios clientes ao mesmo tempo: guarda todas as sessoes
+    // e qual esta ativa (para onde vai o texto digitado). Trocar de sessao nao desconecta ninguem.
+    var sessoes = new System.Collections.Concurrent.ConcurrentDictionary<Guid, Sessao>();
+    Guid? idSessaoAtiva = null;
     List<Solicitacao> fila = new();
 
     await using HubConnection conexao = CriarConexao(urlChat, token);
-    RegistrarEventosComuns(conexao, () => idSessao = null);
+    RegistrarEventosComuns(
+        conexao,
+        idEncerrada =>
+        {
+            sessoes.TryRemove(idEncerrada, out _);
+            if (idSessaoAtiva == idEncerrada)
+            {
+                idSessaoAtiva = null;
+                if (!sessoes.IsEmpty)
+                    Escrever("Atendimento ativo encerrado. Use /atendimentos e /trocar <nº>.", ConsoleColor.Yellow);
+            }
+        },
+        idSessao => sessoes.TryGetValue(idSessao, out Sessao? s)
+            ? $"[nº {s.IdAtendimento}{(idSessao == idSessaoAtiva ? "" : " - outro atendimento")}] "
+            : null);
 
     conexao.On<Sessao>("AtendimentoIniciado", s =>
     {
-        idSessao = s.Id;
-        Escrever($"*** Atendimento com {s.NomeCliente} iniciado. ***", ConsoleColor.Green);
+        sessoes[s.Id] = s;
+        idSessaoAtiva = s.Id; // o atendimento recem-aceito vira o ativo
+        Escrever($"*** Atendimento nº {s.IdAtendimento} com {s.NomeCliente} ({s.TelefoneCliente}) iniciado e ativo. ***",
+            ConsoleColor.Green);
     });
     conexao.On<Solicitacao>("NovaSolicitacao", s =>
-        Escrever($"[fila] Novo cliente aguardando: {s.NomeCliente}  (use /fila e /aceitar <n>)", ConsoleColor.Yellow));
+        Escrever($"[fila] Atendimento nº {s.IdAtendimento}: {s.NomeCliente} - {s.TelefoneCliente} aguardando  (use /fila e /aceitar <n>)",
+            ConsoleColor.Yellow));
     conexao.On<Guid>("SolicitacaoRemovida", id =>
         Escrever($"[fila] Uma solicitação saiu da fila.", ConsoleColor.DarkYellow));
 
     if (!await Conectar(conexao)) return 1;
 
-    Escrever("Comandos: /fila | /aceitar <n> | /encerrar | /sair. Texto livre envia na sessão ativa.", ConsoleColor.Cyan);
+    Escrever("Comandos: /fila | /aceitar <n> | /atendimentos | /trocar <nº atendimento> | /encerrar | /sair.",
+        ConsoleColor.Cyan);
+    Escrever("Texto livre é enviado no atendimento ativo.", ConsoleColor.Cyan);
     await MostrarFila();
 
-    await LoopDigitacao(conexao, () => idSessao, async linha =>
+    await LoopDigitacao(conexao, () => idSessaoAtiva, async linha =>
     {
         if (linha.Equals("/fila", StringComparison.OrdinalIgnoreCase))
         {
@@ -96,14 +161,32 @@ static async Task<int> ModoFuncionario(string urlChat, string? urlApiArg)
             return true;
         }
 
-        if (linha.StartsWith("/aceitar", StringComparison.OrdinalIgnoreCase))
+        if (linha.Equals("/atendimentos", StringComparison.OrdinalIgnoreCase))
         {
-            if (idSessao is not null)
+            MostrarAtendimentos();
+            return true;
+        }
+
+        if (linha.StartsWith("/trocar", StringComparison.OrdinalIgnoreCase))
+        {
+            string[] partes = linha.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            Sessao? destino = partes.Length >= 2 && int.TryParse(partes[1], out int numero)
+                ? sessoes.Values.FirstOrDefault(x => x.IdAtendimento == numero)
+                : null;
+
+            if (destino is null)
             {
-                Escrever("Encerre o atendimento atual antes de aceitar outro.", ConsoleColor.Yellow);
+                Escrever("Uso: /trocar <nº do atendimento>. Veja os abertos com /atendimentos.", ConsoleColor.Yellow);
                 return true;
             }
 
+            idSessaoAtiva = destino.Id;
+            Escrever($"Atendimento ativo: nº {destino.IdAtendimento} - {destino.NomeCliente}.", ConsoleColor.Green);
+            return true;
+        }
+
+        if (linha.StartsWith("/aceitar", StringComparison.OrdinalIgnoreCase))
+        {
             string[] partes = linha.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (partes.Length < 2 || !int.TryParse(partes[1], out int n) || n < 1 || n > fila.Count)
             {
@@ -112,6 +195,7 @@ static async Task<int> ModoFuncionario(string urlChat, string? urlApiArg)
             }
 
             await conexao.InvokeAsync<Sessao>("AceitarAtendimento", fila[n - 1].Id);
+            fila.RemoveAt(n - 1);
             return true;
         }
 
@@ -120,12 +204,24 @@ static async Task<int> ModoFuncionario(string urlChat, string? urlApiArg)
 
     return 0;
 
+    void MostrarAtendimentos()
+    {
+        Escrever($"--- Atendimentos abertos ({sessoes.Count}) ---", ConsoleColor.Cyan);
+        foreach (Sessao s in sessoes.Values.OrderBy(x => x.DataInicio))
+            Escrever(
+                $"  {(s.Id == idSessaoAtiva ? "*" : " ")} nº {s.IdAtendimento} - {s.NomeCliente} - {s.TelefoneCliente}",
+                ConsoleColor.White);
+        if (!sessoes.IsEmpty)
+            Escrever("  (* = ativo; use /trocar <nº> para mudar)", ConsoleColor.DarkGray);
+    }
+
     async Task MostrarFila()
     {
         fila = await conexao.InvokeAsync<List<Solicitacao>>("ListarFila");
         Escrever($"--- Fila ({fila.Count}) ---", ConsoleColor.Cyan);
         for (int i = 0; i < fila.Count; i++)
-            Escrever($"  {i + 1}. {fila[i].NomeCliente} (desde {fila[i].DataSolicitacao.ToLocalTime():HH:mm:ss})",
+            Escrever(
+                $"  {i + 1}. Atendimento nº {fila[i].IdAtendimento} - {fila[i].NomeCliente} - {fila[i].TelefoneCliente} (desde {fila[i].DataSolicitacao.ToLocalTime():HH:mm:ss})",
                 ConsoleColor.White);
     }
 }
@@ -141,16 +237,22 @@ static HubConnection CriarConexao(string urlChat, string? token)
         })
         .Build();
 
-static void RegistrarEventosComuns(HubConnection conexao, Action aoEncerrar)
+/// <param name="aoEncerrar">Recebe o id da sessao encerrada.</param>
+/// <param name="rotuloSessao">Prefixo exibido antes da mensagem (ex.: numero do atendimento); null = sem prefixo.</param>
+static void RegistrarEventosComuns(HubConnection conexao, Action<Guid> aoEncerrar,
+    Func<Guid, string?>? rotuloSessao = null)
 {
     // Endpoint de retorno: mensagens da sessao.
     conexao.On<Mensagem>("ReceberMensagem", m =>
-        Escrever($"[{m.DataHora.ToLocalTime():HH:mm:ss}] {m.Remetente} ({m.Tipo}): {m.Texto}",
-            m.Tipo == TipoRemetente.Funcionario ? ConsoleColor.Magenta : ConsoleColor.White));
-
-    conexao.On<Guid, string>("AtendimentoEncerrado", (_, motivo) =>
     {
-        aoEncerrar();
+        string? rotulo = rotuloSessao?.Invoke(m.IdSessao);
+        Escrever($"{rotulo}[{m.DataHora.ToLocalTime():HH:mm:ss}] {m.Remetente} ({m.Tipo}): {m.Texto}",
+            m.Tipo == TipoRemetente.Funcionario ? ConsoleColor.Magenta : ConsoleColor.White);
+    });
+
+    conexao.On<Guid, string>("AtendimentoEncerrado", (idSessao, motivo) =>
+    {
+        aoEncerrar(idSessao);
         Escrever($"*** {motivo} ***", ConsoleColor.Yellow);
     });
 
@@ -166,7 +268,9 @@ static async Task<bool> Conectar(HubConnection conexao)
     try
     {
         await conexao.StartAsync();
-        Escrever($"Conectado ao chat ({conexao.ConnectionId}).", ConsoleColor.Green);
+        Escrever(string.IsNullOrEmpty(conexao.ConnectionId)
+            ? "Conectado ao chat."
+            : $"Conectado ao chat ({conexao.ConnectionId}).", ConsoleColor.Green);
         return true;
     }
     catch (Exception ex)
@@ -191,6 +295,9 @@ static async Task LoopDigitacao(HubConnection conexao, Func<Guid?> sessaoAtual, 
 
         if (linha.Length == 0)
             continue;
+
+        if (!ConexaoAtiva(conexao))
+            return;
 
         try
         {
@@ -219,9 +326,27 @@ static async Task LoopDigitacao(HubConnection conexao, Func<Guid?> sessaoAtual, 
         {
             Escrever($"Erro: {ex.Message}", ConsoleColor.Red);
         }
+        catch (InvalidOperationException)
+        {
+            // Conexao caiu entre a verificacao e a chamada.
+            ConexaoAtiva(conexao, forcarPerdida: true);
+            return;
+        }
     }
 
     await conexao.StopAsync();
+}
+
+/// <summary>
+/// Retorna false (e avisa o usuario) se a conexao com o hub nao estiver mais ativa.
+/// </summary>
+static bool ConexaoAtiva(HubConnection conexao, bool forcarPerdida = false)
+{
+    if (!forcarPerdida && conexao.State == HubConnectionState.Connected)
+        return true;
+
+    Escrever("Conexão com o chat perdida.", ConsoleColor.Red);
+    return false;
 }
 
 static async Task<string> Autenticar(string urlApi, string email, string senha)
@@ -241,12 +366,24 @@ static async Task<string> Autenticar(string urlApi, string email, string senha)
         : corpo.Token;
 }
 
+static Guid LerGuid(string rotulo)
+{
+    while (true)
+    {
+        if (Guid.TryParse(Ler(rotulo), out Guid valor)) return valor;
+        Escrever("Informe um GUID válido (ex: 0193f1a2-...).", ConsoleColor.Yellow);
+    }
+}
+
 static string Ler(string rotulo, string? padrao = null)
 {
     while (true)
     {
         Console.Write(padrao is null ? $"{rotulo}: " : $"{rotulo} [{padrao}]: ");
         string? valor = Console.ReadLine()?.Trim();
+
+        // Entrada encerrada (Ctrl+D / stdin fechado): sai em vez de repetir a pergunta para sempre.
+        if (valor is null) Environment.Exit(0);
 
         if (!string.IsNullOrEmpty(valor)) return valor;
         if (padrao is not null) return padrao;
@@ -272,8 +409,18 @@ enum TipoRemetente
 
 record Mensagem(Guid IdSessao, string Remetente, TipoRemetente Tipo, string Texto, DateTime DataHora);
 
-record Solicitacao(Guid Id, string NomeCliente, DateTime DataSolicitacao);
+record Solicitacao(Guid Id, int IdAtendimento, string NomeCliente, string TelefoneCliente, DateTime DataSolicitacao);
 
-record Sessao(Guid Id, string NomeCliente, string NomeFuncionario, DateTime DataInicio);
+record Sessao(Guid Id, int IdAtendimento, string NomeCliente, string TelefoneCliente, string NomeFuncionario,
+    DateTime DataInicio);
+
+enum TipoResposta
+{
+    AtendimentoEmAndamento,
+    SelecionarSetor,
+    AtendimentoAberto
+}
+
+record RespostaContato(TipoResposta Tipo, string Mensagem, int? IdAtendimento);
 
 record RespostaToken(string Token);

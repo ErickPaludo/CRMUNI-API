@@ -10,15 +10,15 @@ public interface IChatCliente
     /// <summary>Nova mensagem na sessao (cliente e funcionario).</summary>
     Task ReceberMensagem(MensagemChatDto mensagem);
 
-    /// <summary>Um funcionario aceitou a solicitacao: a sessao comecou (cliente e funcionario).</summary>
+    /// <summary>O funcionario aceitou a solicitacao: a sessao comecou (cliente e funcionario).</summary>
     Task AtendimentoIniciado(SessaoDto sessao);
 
     /// <summary>A sessao foi encerrada por um dos lados ou por desconexao.</summary>
     Task AtendimentoEncerrado(Guid idSessao, string motivo);
 
-    /// <summary>Novo cliente na fila (somente funcionarios).</summary>
+    /// <summary>Novo cliente na fila (somente o funcionario responsavel pelo atendimento).</summary>
     Task NovaSolicitacao(SolicitacaoDto solicitacao);
 
-    /// <summary>Solicitacao saiu da fila: aceita por alguem ou cliente desistiu (somente funcionarios).</summary>
+    /// <summary>Solicitacao saiu da fila porque o cliente desistiu (somente o funcionario responsavel).</summary>
     Task SolicitacaoRemovida(Guid idSolicitacao);
 }
