@@ -131,7 +131,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         if (usuario is null)
             isUsuario = false;
 
-        Funcionario? funcionario;
+        Funcionario? funcionario = new();
 
         if (!isUsuario)
         {
@@ -153,7 +153,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         if (isUsuario)
             return await OperadorUsuarioAtualiza(funcionarioDestino, dto);
 
-        return await OperadorFuncionarioAtualiza(funcionarioDestino, dto);
+        return await OperadorFuncionarioAtualiza(funcionario, funcionarioDestino, dto);
     }
 
     private async Task<FuncionarioRetornoDto> OperadorUsuarioAtualiza(Funcionario funcionario,
@@ -176,9 +176,13 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         return MapeamentoDto(funcionario);
     }
 
-    private async Task<FuncionarioRetornoDto> OperadorFuncionarioAtualiza(Funcionario funcionario,
+    private async Task<FuncionarioRetornoDto> OperadorFuncionarioAtualiza(Funcionario funcionarioSolucitante,
+        Funcionario funcionario,
         FuncionarioAtualizarDto dto)
     {
+        if (funcionarioSolucitante != funcionario)
+            throw new NaoPermitidoExcecao("Sem permissão para atualizar outro funcionário");
+        
         if (dto.Email is not null)
             throw new NaoPermitidoExcecao("Sem permissão para atualizar email.");
 
