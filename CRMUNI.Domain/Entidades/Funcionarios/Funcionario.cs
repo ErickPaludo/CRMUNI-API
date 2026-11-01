@@ -49,7 +49,7 @@ public sealed class Funcionario : EntidadeIdInt
     {
         ValidaNulo.Verifica(setor, FuncionarioMensagens.PropriedadeNula("Setor"));
         SetorValidacao.Verifica(Atendimentos.Any(a
-            => !a.Situacao.Equals(EAtendimentoSituacao.Finalizado)), SetorMensagens.PossuiAtendimentosAtivos);
+            => !a.Situacao.Equals(EAtendimentoSituacao.Finalizado)), SetorMensagens.PossuiAtendimentosAtivos);    
         Setor = setor;
     }
     
@@ -62,12 +62,14 @@ public sealed class Funcionario : EntidadeIdInt
     public void AlterarEmail(Email email)
     {
         ValidaNulo.Verifica(email, FuncionarioMensagens.PropriedadeNula("Email"));
+        SetorValidacao.Verifica(Email == email, SetorMensagens.EmailsIdenticos);
         Email = email;
     }
     
     public void AlterarSenha(Senha senha)
     {
         ValidaNulo.Verifica(senha, FuncionarioMensagens.PropriedadeNula("Senha"));
+        SetorValidacao.Verifica(Senha == senha, SetorMensagens.SenhasIdenticos);
         Senha = senha;
     }
 }

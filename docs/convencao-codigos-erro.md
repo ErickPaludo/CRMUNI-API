@@ -53,6 +53,7 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | Funil | `7` → `7.0.x` |
 | Usuario | `8` → `8.0.x` |
 | Plano | `9` → `9.0.x` |
+| Autenticacao | `10` → `10.0.x` |
 
 ### Objetos de Valor (Compartilhados / Gerais)
 
@@ -93,8 +94,13 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
-| `1.0.0` | `PropriedadeNula(propriedade)` | "{prpriedade} não pode ser nulla." | Ocorre quando a instância ou dados essenciais da entidade Setor são enviados como nulos na requisição. |
+| `1.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando a instância ou dados essenciais da entidade Setor são enviados como nulos na requisição. |
 | `1.0.6` | `TipoInvalido` | "Tipo de setor inválido." | Disparado quando o tipo informado para o setor não corresponde a nenhum valor válido. |
+| `1.0.11` | `PossuiAtendimentosAtivos` | "Funcionario possuí atendimentos em andamento." | Disparado ao tentar alterar/inativar um funcionário que ainda possui atendimentos não finalizados. |
+| `1.0.12` | `EmailsIdenticos` | "Insira um email diferente do atual." | Disparado quando o novo e-mail informado para o funcionário é igual ao e-mail atual. |
+| `1.0.14` | `SenhasIdenticos` | "A nova senha deve ser diferente da anterior." | Disparado quando a nova senha informada para o funcionário é igual à senha atual. |
+
+> **Nota:** Códigos `1.0.11+` destinam-se a regras de negócio específicas.
 
 #### 1.3 Funcionário (Código 2.0.x)
 
@@ -164,6 +170,15 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | `9.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Ocorre quando a instância ou dados essenciais da entidade Plano são enviados como nulos na requisição. |
 | `9.0.6` | `SituacaoInvalida` | "Situação não pode ser nulla." | Disparado quando a situação informada para o plano é inválida. |
 
+#### 1.11 Autenticacao (Código 10.0.x)
+
+> `CRMUNI.DOMAIN/Validacoes/Entidades/Autenticacoes/AutenticacaoMensagens.cs`
+
+| Código | Constante | Mensagem | Descrição para QA |
+|--------|-----------|----------|-------------------|
+| `10.0.0` | `PropriedadeNula(propriedade)` | "{propriedade} não pode ser nulla." | Disparado quando qualquer propriedade obrigatória da entidade Autenticacao (`Usuario`/`Funcionario`, `RefreshToken` ou `ExpirationRefresh`) é enviada como nula. |
+| `10.0.4` | `RefreshTokenInvalido` | "Refresh token invalido." | Disparado quando o refresh token informado não corresponde ao refresh token armazenado/válido. |
+
 ---
 
 ### 2. Objetos de Valor
@@ -174,10 +189,10 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
-| `0.0.0` | `EmailNulo` | "Email nullo." | Disparado quando o valor do e-mail é passado como nulo para o objeto de valor. |
-| `0.0.1` | `EmailObrigatorio` | "O email deve ser informado." | Disparado quando o e-mail é obrigatório no fluxo atual, porém foi enviado vazio/em branco. |
-| `0.0.2` | `EmailCaracteresMinimo` | "Email deve conter no mínimo 6 caracteres." | Validação de tamanho mínimo. Dispara se o e-mail tiver menos de 6 caracteres. |
-| `0.0.3` | `EmailCaracteresMaximo` | "Email deve conter no maximo 256 caracteres." | Validação de limite máximo de caracteres permitido para o e-mail (excede 256). |
+| `0.0.0` | `EmailNullo` | "Email nullo." | Disparado quando o valor do e-mail é passado como nulo para o objeto de valor. |
+| `0.0.1` | `EmailExigido` | "O email deve ser informado." | Disparado quando o e-mail é obrigatório no fluxo atual, porém foi enviado vazio/em branco. |
+| `0.0.2` | `EmailMinimo(min)` | "Email deve conter no mínimo {min} caracteres." | Validação de tamanho mínimo. Dispara se o e-mail tiver menos caracteres que o mínimo parametrizado ({min}). |
+| `0.0.3` | `EmailMaximo(max)` | "Email deve conter no maximo {max} caracteres." | Validação de limite máximo de caracteres permitido para o e-mail (excede {max}). |
 | `0.0.4` | `EmailInvalido` | "O email informado está em um formato inválido." | Disparado quando a estrutura do e-mail não atende ao padrão esperado de endereço (falha na regex do e-mail). |
 
 #### 2.2 Nome (Código 0.1.x)
@@ -189,10 +204,11 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 | `0.1.0` | `NomeNulo` | "Nome não pode ser nullo" | Disparado se o atributo nome for enviado nulo. |
 | `0.1.1` | `NomeObrigatorio` | "Nome deve ser informado." | Disparado quando o campo nome for obrigatório e estiver em branco. |
 | `0.1.3` | `PrimeiroNomeCaracteresMaximo` | "Primeiro nome deve possuir no máximo {max} caracteres." | O primeiro nome excede a quantidade de caracteres configurada para {max}. |
-| `0.1.4` | `PrimeiroNomeCaracteresMinimo` / `NomeInvalido` | "Primeiro nome deve possuir no mínimo {min} caracteres." ou "Nome inválido." | O primeiro nome tem menos caracteres que o limite mínimo {min} ou possui caracteres não permitidos. |
+| `0.1.4` | `PrimeiroNomeCaracteresMinimo(min)` | "Primeiro nome deve possuir no mínimo {min} caracteres." | O primeiro nome tem menos caracteres que o limite mínimo {min}. |
+| `0.1.4` | `NomeInvalido` | "Nome inválido." | O nome possui caracteres não permitidos ou formato inválido. |
 | `0.1.5` | `SegundoNomeObrigatorio` | "Segundo nome deve ser informado." | Disparado quando o sobrenome/segundo nome é exigido na validação mas foi enviado em branco. |
-| `0.1.11` | `SegundoNomeCaracteresMaximo` | "Segundo nome deve possuir no máximo {max} caracteres." | O segundo nome ultrapassa o número máximo de caracteres parametrizado ({max}). |
-| `0.1.12` | `SegundoNomeCaracteresMinimo` | "Segundo nome deve possuir no mínimo {min} caracteres." | O segundo nome não atinge a quantidade mínima de caracteres parametrizada ({min}). |
+| `0.1.11` | `SegundoNomeCaracteresMaximo(max)` | "Primeiro nome deve possuir no máximo {max} caracteres." | O segundo nome ultrapassa o número máximo de caracteres parametrizado ({max}). |
+| `0.1.12` | `SegundoNomeCaracteresMinimo(min)` | "Primeiro nome deve possuir no mínimo {min} caracteres." | O segundo nome não atinge a quantidade mínima de caracteres parametrizada ({min}). |
 
 #### 2.3 Telefone / Celular (Código 0.2.x)
 
@@ -222,10 +238,10 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
-| `0.4.0` | `DescricaoNula` | "Descrição não pode ser nullo" | Disparado quando o objeto ou valor do campo de descrição for nulo. |
-| `0.4.1` | `DescricaoObrigatoria` | "Descrição deve ser informado." | Disparado quando o preenchimento da descrição for obrigatório e for enviado vazio. |
-| `0.4.2` | `DescricaoMinimo` | "Descrição deve conter no mínimo {min} caracteres." | O texto informado no campo descrição não possui a quantidade mínima de caracteres ({min}). |
-| `0.4.3` | `DescricaoMaximo` | "Descrição deve possuir no máximo {max} dígitos." | O texto informado excede o limite máximo de caracteres/dígitos parametrizado ({max}). |
+| `0.4.0` | `DescricaoNula` | "Descricao não pode ser nullo" | Disparado quando o objeto ou valor do campo de descrição for nulo. |
+| `0.4.1` | `DescricaoObrigatoria` | "Descricao deve ser informado." | Disparado quando o preenchimento da descrição for obrigatório e for enviado vazio. |
+| `0.4.2` | `DescricaoMinimo(min)` | "Descricao deve conter no mínimo {min} caracteres." | O texto informado no campo descrição não possui a quantidade mínima de caracteres ({min}). |
+| `0.4.3` | `DescricaoMaximo(max)` | "Descricao deve possuir no máximo {max} dígitos." | O texto informado excede o limite máximo de caracteres/dígitos parametrizado ({max}). |
 
 
 #### 2.6 Senha (Código 0.5.x)
@@ -234,9 +250,10 @@ Os dígitos finais de `0` a `10` são reservados para erros genéricos e recorre
 
 | Código | Constante | Mensagem | Descrição para QA |
 |--------|-----------|----------|-------------------|
-| `0.5.0` | `SenhaNula` | "Senha não pode ser nula" | Disparado quando o objeto Senha passado para atualização for nulo. |
+| `0.5.0` | `ValidaNulo(valor)` | "{valor} não pode ser nula" | Disparado quando o objeto Senha (ou valor relacionado) passado for nulo. |
 | `0.5.1` | `SenhaObrigatoria` | "Senha deve ser informada." | Disparado quando o salt ou hash for enviado vazio, nulo ou apenas com espaços em branco. |
 | `0.5.11` | `SenhasIdenticas` | "As senhas são identicas." | Disparado quando a nova senha informada for idêntica à senha atual. |
+| `0.5.12` | `SenhasNaoIdenticas` | "As senhas não são identicas." | Disparado quando a senha e a confirmação de senha informadas não coincidem. |
 
 > **Nota:** Códigos `0.5.0` até `0.5.10` são reservados para códigos "COMUNS" (Nula/Obrigatória). Códigos `0.5.11+` destinam-se a regras de negócio específicas.
 

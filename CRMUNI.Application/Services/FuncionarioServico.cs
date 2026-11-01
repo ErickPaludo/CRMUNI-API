@@ -159,6 +159,17 @@ public sealed class FuncionarioServico : IFuncionarioSevico
     private async Task<FuncionarioRetornoDto> OperadorUsuarioAtualiza(Funcionario funcionario,
         FuncionarioAtualizarDto dto)
     {
+        if (dto.IdSetor is not null)
+        {
+            Setor? setor = await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x 
+                =>x.Id.Equals(dto.IdSetor));
+            
+            if (setor is null)
+                throw new NaoEncontradoExecao("Setor não encontrado.");
+            
+            funcionario.AlterarSetor(setor);
+        }
+        
         if (dto.Email is not null)
             funcionario.AlterarEmail(Email.Create(dto.Email));
 
@@ -180,9 +191,12 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         Funcionario funcionario,
         FuncionarioAtualizarDto dto)
     {
-        if (funcionarioSolucitante != funcionario)
+        if (funcionarioSolucitante.Id != funcionario.Id)
             throw new NaoPermitidoExcecao("Sem permissão para atualizar outro funcionário");
         
+        if (dto.IdSetor is not null)
+            throw new NaoPermitidoExcecao("Sem permissão para atualizar setor.");
+
         if (dto.Email is not null)
             throw new NaoPermitidoExcecao("Sem permissão para atualizar email.");
 

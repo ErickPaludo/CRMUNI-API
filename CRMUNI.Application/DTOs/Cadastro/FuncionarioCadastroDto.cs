@@ -23,6 +23,7 @@ public record FuncionariosDto(
 );
 
 public record FuncionarioAtualizarDto(
+    Guid? IdSetor,
     string? PrimeiroNome,
     string? SegundoNome,
     string? Email,

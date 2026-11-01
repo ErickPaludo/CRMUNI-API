@@ -9,4 +9,6 @@ public static class SetorMensagens
     public const string TipoInvalido = "1.0.6 - Tipo de setor inválido.";
     
     public const string PossuiAtendimentosAtivos = "1.0.11 - Funcionario possuí atendimentos em andamento.";
+    public const string EmailsIdenticos = "1.0.12 - Insira um email diferente do atual.";
+    public const string SenhasIdenticos = "1.0.14 - A nova senha deve ser diferente da anterior.";
 }
