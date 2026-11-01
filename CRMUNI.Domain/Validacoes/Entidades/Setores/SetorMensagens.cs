@@ -7,4 +7,6 @@ public static class SetorMensagens
 
     public static string PropriedadeNula(string propriedade) => $"1.0.0 - {propriedade} não pode ser nulla.";
     public const string TipoInvalido = "1.0.6 - Tipo de setor inválido.";
+    
+    public const string PossuiAtendimentosAtivos = "1.0.11 - Funcionario possuí atendimentos em andamento.";
 }
