@@ -21,3 +21,13 @@ public record FuncionarioDTO(FuncionarioRetornoDto Funcionario);
 public record FuncionariosDto(
     List<FuncionarioDTO> Funcionarios
 );
+
+public record FuncionarioAtualizarDto(
+    string? PrimeiroNome,
+    string? SegundoNome,
+    string? Email,
+    FuncionarioAtuSenhaDto? Senha);
+
+public record FuncionarioAtuSenhaDto(
+    string Senha,
+    string ConfirmacaoSenha);

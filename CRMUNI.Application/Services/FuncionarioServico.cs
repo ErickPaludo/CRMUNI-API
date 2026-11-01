@@ -50,13 +50,13 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             throw new ConflitoExecao("Email já está em uso.");
 
         Email email = Email.Create(cadastroDto.Email);
-        Senha senha = _segurancaServico.ConverteSenhaParaHash(cadastroDto.Senha, cadastroDto.ConfirmacaoSenha);
+        Senha senha = CriaSenha(cadastroDto.Senha, cadastroDto.ConfirmacaoSenha);
 
         Funcionario funcionario = new Funcionario(usuario.Empresa, setor, nome, email, senha);
         await _unityOfWork.FuncionarioRepositorio.Insere(funcionario);
         await _unityOfWork.Commit();
 
-        return MapeamentoCadastro(funcionario);
+        return MapeamentoDto(funcionario);
     }
 
     public async Task<FuncionariosDto> RetornoGeral(string idUsuario, FuncionarioFiltros filtros)
@@ -103,7 +103,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         List<Funcionario> funcionarios = await query.ToListAsync();
 
         List<FuncionarioDTO> funcionariosDto = funcionarios
-            .Select(x => new FuncionarioDTO(MapeamentoCadastro(x)))
+            .Select(x => new FuncionarioDTO(MapeamentoDto(x)))
             .ToList();
 
         return new FuncionariosDto(funcionariosDto);
@@ -118,10 +118,56 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         if (funcionario is null)
             throw new NaoEncontradoExecao("Usuário não encontrado.");
 
-        return MapeamentoCadastro(funcionario);
+        return MapeamentoDto(funcionario);
     }
 
-    private FuncionarioRetornoDto MapeamentoCadastro(Funcionario funcionario)
+    public async Task<FuncionarioRetornoDto> Atualiza(string idUsuario, string idFuncionario,
+        FuncionarioAtualizarDto dto)
+    {
+        bool isUsuario = true;
+        Usuario? usuario =
+            await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
+
+        if (usuario is null)
+            isUsuario = false;
+
+        Funcionario? funcionario =
+            await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
+                => x.Id.ToString() == idFuncionario);
+
+        if (funcionario is null)
+            throw new NaoEncontradoExecao("Usuário não encontrado.");
+
+        if (isUsuario)
+            return await OperadorUsuarioAtualiza(usuario!, funcionario, dto);
+
+        throw new NotImplementedException();
+    }
+
+    private async Task<FuncionarioRetornoDto> OperadorUsuarioAtualiza(Usuario usuario, Funcionario funcionario,
+        FuncionarioAtualizarDto dto)
+    {
+        if (dto.Email is not null)
+            funcionario.AlterarEmail(Email.Create(dto.Email));
+
+        if (dto.PrimeiroNome is not null)
+            funcionario.AlterarNome(new NomeFuncionario(dto.PrimeiroNome, funcionario.Nome.Segundo!));
+
+        if (dto.SegundoNome is not null)
+            funcionario.AlterarNome(new NomeFuncionario(funcionario.Nome.Primeiro, dto.SegundoNome));
+        
+        if(dto.Senha is not null)
+            funcionario.AlterarSenha(CriaSenha(dto.Senha.Senha,dto.Senha.ConfirmacaoSenha));
+        
+        _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
+        await _unityOfWork.Commit();
+        return MapeamentoDto(funcionario);
+    }
+
+    private Senha CriaSenha(string senha, string confirmacao)
+        => _segurancaServico.ConverteSenhaParaHash(senha, confirmacao);
+
+    private FuncionarioRetornoDto MapeamentoDto(Funcionario funcionario)
         => new FuncionarioRetornoDto(funcionario.Id,
             funcionario.Nome.Primeiro,
             funcionario.Nome.Segundo!,
