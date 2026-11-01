@@ -36,6 +36,18 @@ public static class InjecaoAutenticacaoJWT
 
                 options.Events = new JwtBearerEvents
                 {
+                    // WebSockets (SignalR) nao enviam header Authorization: o token vem pela query string.
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (!string.IsNullOrEmpty(accessToken)
+                            && context.HttpContext.Request.Path.StartsWithSegments("/hubs"))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    },
                     OnTokenValidated = async context =>
                     {
                         var userId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value;
