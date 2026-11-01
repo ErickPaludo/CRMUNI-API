@@ -3,6 +3,7 @@ using CRMUNI.Application.DTOs.Filtros;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Seguranca;
+using CRMUNI.Domain.Entidades.Autenticacoes;
 using CRMUNI.Domain.Entidades.Empresas;
 using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Setores;
@@ -161,17 +162,27 @@ public sealed class FuncionarioServico : IFuncionarioSevico
     {
         if (dto.IdSetor is not null)
         {
-            Setor? setor = await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x 
-                =>x.Id.Equals(dto.IdSetor));
-            
+            Setor? setor = await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x
+                => x.Id.Equals(dto.IdSetor));
+
             if (setor is null)
                 throw new NaoEncontradoExecao("Setor não encontrado.");
-            
+
             funcionario.AlterarSetor(setor);
         }
-        
+
         if (dto.Email is not null)
+        {
+            if (await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
+                    => x.Email.Endereco.Equals(dto.Email)) is not null)
+                throw new ConflitoExecao("Email em uso.");
+
+            if (await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x
+                    => x.Email.Endereco.Equals(dto.Email)) is not null)
+                throw new ConflitoExecao("Email em uso.");
+
             funcionario.AlterarEmail(Email.Create(dto.Email));
+        }
 
         if (dto.PrimeiroNome is not null)
             funcionario.AlterarNome(new NomeFuncionario(dto.PrimeiroNome, funcionario.Nome.Segundo!));
@@ -180,7 +191,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             funcionario.AlterarNome(new NomeFuncionario(funcionario.Nome.Primeiro, dto.SegundoNome));
 
         if (dto.Senha is not null)
-            funcionario.AlterarSenha(CriaSenha(dto.Senha.Senha, dto.Senha.ConfirmacaoSenha));
+            await AtualizarSenha(funcionario,dto.Senha);
 
         _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
         await _unityOfWork.Commit();
@@ -193,7 +204,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
     {
         if (funcionarioSolucitante.Id != funcionario.Id)
             throw new NaoPermitidoExcecao("Sem permissão para atualizar outro funcionário");
-        
+
         if (dto.IdSetor is not null)
             throw new NaoPermitidoExcecao("Sem permissão para atualizar setor.");
 
@@ -204,11 +215,25 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             throw new NaoPermitidoExcecao("Sem permissão para atualizar nome.");
 
         if (dto.Senha is not null)
-            funcionario.AlterarSenha(CriaSenha(dto.Senha.Senha, dto.Senha.ConfirmacaoSenha));
+             await AtualizarSenha(funcionario,dto.Senha);
 
         _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
         await _unityOfWork.Commit();
         return MapeamentoDto(funcionario);
+    }
+
+    private async Task AtualizarSenha(Funcionario funcionario, FuncionarioAtuSenhaDto senha)
+    {
+        funcionario.AlterarSenha(CriaSenha(senha.Senha, senha.ConfirmacaoSenha));
+        Autenticacao? autenticacao = await _unityOfWork.AutenticacaoRepositorio.BuscarObjetoUnico(x
+            => x.Funcionario != null && x.Funcionario!.Id.Equals(funcionario.Id));
+
+        if (autenticacao is not null)
+        {
+            autenticacao.RevokaToken();
+            _unityOfWork.AutenticacaoRepositorio.Atualiza(autenticacao);
+        }
+        
     }
 
     private Senha CriaSenha(string senha, string confirmacao)
