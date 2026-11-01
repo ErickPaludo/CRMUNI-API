@@ -131,20 +131,32 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         if (usuario is null)
             isUsuario = false;
 
-        Funcionario? funcionario =
+        Funcionario? funcionario;
+
+        if (!isUsuario)
+        {
+            funcionario =
+                await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
+                    => x.Id.ToString() == idUsuario);
+
+            if (funcionario is null)
+                throw new NaoEncontradoExecao("Usuário solicitante não encontrado.");
+        }
+
+        Funcionario? funcionarioDestino =
             await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
                 => x.Id.ToString() == idFuncionario);
 
-        if (funcionario is null)
+        if (funcionarioDestino is null)
             throw new NaoEncontradoExecao("Usuário não encontrado.");
 
         if (isUsuario)
-            return await OperadorUsuarioAtualiza(usuario!, funcionario, dto);
+            return await OperadorUsuarioAtualiza(funcionarioDestino, dto);
 
-        throw new NotImplementedException();
+        return await OperadorFuncionarioAtualiza(funcionarioDestino, dto);
     }
 
-    private async Task<FuncionarioRetornoDto> OperadorUsuarioAtualiza(Usuario usuario, Funcionario funcionario,
+    private async Task<FuncionarioRetornoDto> OperadorUsuarioAtualiza(Funcionario funcionario,
         FuncionarioAtualizarDto dto)
     {
         if (dto.Email is not null)
@@ -155,10 +167,27 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         if (dto.SegundoNome is not null)
             funcionario.AlterarNome(new NomeFuncionario(funcionario.Nome.Primeiro, dto.SegundoNome));
-        
-        if(dto.Senha is not null)
-            funcionario.AlterarSenha(CriaSenha(dto.Senha.Senha,dto.Senha.ConfirmacaoSenha));
-        
+
+        if (dto.Senha is not null)
+            funcionario.AlterarSenha(CriaSenha(dto.Senha.Senha, dto.Senha.ConfirmacaoSenha));
+
+        _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
+        await _unityOfWork.Commit();
+        return MapeamentoDto(funcionario);
+    }
+
+    private async Task<FuncionarioRetornoDto> OperadorFuncionarioAtualiza(Funcionario funcionario,
+        FuncionarioAtualizarDto dto)
+    {
+        if (dto.Email is not null)
+            throw new NaoPermitidoExcecao("Sem permissão para atualizar email.");
+
+        if (dto.PrimeiroNome is not null || dto.SegundoNome is not null)
+            throw new NaoPermitidoExcecao("Sem permissão para atualizar nome.");
+
+        if (dto.Senha is not null)
+            funcionario.AlterarSenha(CriaSenha(dto.Senha.Senha, dto.Senha.ConfirmacaoSenha));
+
         _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
         await _unityOfWork.Commit();
         return MapeamentoDto(funcionario);
