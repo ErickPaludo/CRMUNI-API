@@ -37,4 +37,11 @@ public class FuncionarioController : ControllerBase
         var funcionario = await _funcionarioSevico.Retorno(User.GetId());
         return Ok(funcionario);
     }
+    
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> Atualiza(int id,[FromBody] FuncionarioAtualizarDto dto)
+    {
+        var funcionario = await _funcionarioSevico.Atualiza(User.GetId(),id,dto);
+        return Ok(funcionario);
+    }
 }

@@ -121,7 +121,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         return MapeamentoDto(funcionario);
     }
 
-    public async Task<FuncionarioRetornoDto> Atualiza(string idUsuario, string idFuncionario,
+    public async Task<FuncionarioRetornoDto> Atualiza(string idUsuario, int idFuncionario,
         FuncionarioAtualizarDto dto)
     {
         bool isUsuario = true;
@@ -145,7 +145,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         Funcionario? funcionarioDestino =
             await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
-                => x.Id.ToString() == idFuncionario);
+                => x.Id == idFuncionario);
 
         if (funcionarioDestino is null)
             throw new NaoEncontradoExecao("Usuário não encontrado.");
