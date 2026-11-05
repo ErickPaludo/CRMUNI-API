@@ -24,6 +24,22 @@ builder.Host.UseSerilog();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ExcessaoGlobal>();
 
+var MyAllowSpecificOrigins = "_MyAllowSubdomainPolicy";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins(
+                    "http://localhost:5173",            
+                    "https://erickpaludo.github.io") 
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
