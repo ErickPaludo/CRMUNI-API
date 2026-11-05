@@ -40,6 +40,7 @@ builder.Services.AddCors(options =>
         });
 });
 
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -55,6 +56,9 @@ app.MapOpenApi();
 
 app.UseHttpsRedirection();
 
+app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
