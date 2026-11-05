@@ -61,13 +61,13 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
         private void ValidaNivelDeSegurancaSenha(string senha)
         {
             if (string.IsNullOrWhiteSpace(senha))
-                throw new Exception("Informe a senha");
+                throw new NaoAutorizadoExecao("Informe a senha");
 
             if (senha.Length < 8)
-                throw new Exception("A senha deve conter no mínimo 8 caracteres");
+                throw new NaoAutorizadoExecao("A senha deve conter no mínimo 8 caracteres");
 
             if (senha.Length > 16)
-                throw new Exception("A senha deve conter no máximo 16 caracteres");
+                throw new NaoAutorizadoExecao("A senha deve conter no máximo 16 caracteres");
 
             var nivelSeguranca = Zxcvbn.Core.EvaluatePassword(senha).Score;
 
@@ -82,7 +82,7 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
                 _ => "Senha inválida"
             };
 
-            throw new Exception(mensagem);
+            throw new NaoAutorizadoExecao(mensagem);
         }
 
         private byte[] GeraSaltAleatorio()
