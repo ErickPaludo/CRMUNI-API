@@ -11,6 +11,18 @@ public class MensagensConfig : IEntityTypeConfiguration<Mensagem>
         builder.ToTable("tb_mensagens");
         builder.HasKey(p => p.Id);
         
+        builder.HasOne(m => m.Atendimento)
+            .WithMany(a => a.Mensagem)
+            .HasForeignKey("AtendimentoId")
+            .IsRequired(false);
+
+        builder.HasOne(m => m.Funcionario)
+            .WithMany(f => f.Mensagens)
+            .HasForeignKey("FuncionarioId")
+            .IsRequired(false);
+
+        builder.Ignore(m => m.EnviadaPeloFuncionario);
+
         builder.HasOne(a => a.Contato)
             .WithMany()
             .HasForeignKey("ContatoId")

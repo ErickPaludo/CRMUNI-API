@@ -1,6 +1,7 @@
+using System.Security.Claims;
 using CRMUNI.Application.DTOs.Atendimentos;
+using CRMUNI.Application.DTOs.Mensagens;
 using CRMUNI.Application.Interfaces;
-using CRMUNI.Domain.ObjetosValor.descricoes;
 using CRMUNI.Domain.ObjetosValor.Nomes;
 using CRMUNI.Domain.ObjetosValor.Telefones;
 using CRMUNI.UI.Chat.Atendimentos;
@@ -11,15 +12,6 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace CRMUNI.UI.Chat.Hubs;
 
-/// <summary>
-/// Chat em tempo real entre cliente (anonimo) e funcionario (JWT).
-/// O banco e usado para validar o token do funcionario, identificar o contato e abrir o atendimento;
-/// as mensagens do chat nao sao persistidas.
-/// </summary>
-/// <remarks>
-/// Notificacoes ao funcionario usam <c>Clients.User(id)</c>: o IUserIdProvider padrao do SignalR
-/// usa a claim NameIdentifier do JWT, que e o id do funcionario.
-/// </remarks>
 public sealed class ChatHub : Hub<IChatCliente>
 {
     private const string MenuSetores =
@@ -27,37 +19,27 @@ public sealed class ChatHub : Hub<IChatCliente>
 
     private readonly GerenciadorAtendimentos _gerenciador;
     private readonly IAtendimentoChatServico _atendimentoServico;
+    private readonly IMensagemServico _mensagemServico;
 
-    public ChatHub(GerenciadorAtendimentos gerenciador, IAtendimentoChatServico atendimentoServico)
+    public ChatHub(GerenciadorAtendimentos gerenciador, IAtendimentoChatServico atendimentoServico,
+        IMensagemServico mensagemServico)
     {
         _gerenciador = gerenciador;
         _atendimentoServico = atendimentoServico;
+        _mensagemServico = mensagemServico;
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        var (solicitacaoRemovida, sessoesEncerradas) = _gerenciador.RemoverConexao(Context.ConnectionId);
-
-        if (solicitacaoRemovida is not null)
-            await Clients.User(solicitacaoRemovida.IdFuncionarioResponsavel)
-                .SolicitacaoRemovida(solicitacaoRemovida.Id);
-
-        foreach (SessaoChat sessao in sessoesEncerradas)
-        {
-            string quem = sessao.NomeDe(Context.ConnectionId);
-            await Clients.Group(sessao.GrupoSignalR).AtendimentoEncerrado(sessao.Id, $"{quem} desconectou.");
-            await RemoverDoGrupo(sessao);
-        }
+        // Somente a conexao do cliente encerra o vinculo; o funcionario segue ligado ao atendimento.
+        SessaoChat? sessao = _gerenciador.RemoverConexao(Context.ConnectionId);
+        if (sessao is not null)
+            await Clients.User(sessao.IdFuncionario)
+                .AtendimentoEncerrado(sessao.IdAtendimento, $"{sessao.NomeCliente} desconectou.");
 
         await base.OnDisconnectedAsync(exception);
     }
 
-    // ---------- Cliente ----------
-
-    /// <summary>
-    /// Cliente entra em contato. Se ja houver atendimento em andamento, retorna o numero dele e
-    /// encaminha ao funcionario responsavel; senao, pede a escolha do setor (<see cref="SelecionarSetor"/>).
-    /// </summary>
     public async Task<RespostaContatoDto> SolicitarAtendimento(Guid idEmpresa, string telefone, string nome)
     {
         if (_gerenciador.PossuiAtendimentoAtivo(Context.ConnectionId))
@@ -73,22 +55,20 @@ public sealed class ChatHub : Hub<IChatCliente>
         if (!identificacao.PossuiAtendimentoEmAndamento)
         {
             _gerenciador.AguardarSetor(Context.ConnectionId, dados);
-            return new RespostaContatoDto(ETipoResposta.SelecionarSetor, MenuSetores, null);
+            return new RespostaContatoDto(ETipoResposta.SelecionarSetor, MenuSetores, null, new());
         }
 
-        await Enfileirar(dados, identificacao.IdAtendimento!.Value, identificacao.IdFuncionario!.Value);
+        int idAtendimento = identificacao.IdAtendimento!.Value;
+        List<MensagemDto> historico = await Vincular(dados, idAtendimento,
+            identificacao.IdFuncionario!.Value, identificacao.NomeFuncionario!);
 
         return new RespostaContatoDto(
             ETipoResposta.AtendimentoEmAndamento,
-            $"Você já possui o atendimento nº {identificacao.IdAtendimento} em andamento. " +
-            $"Aguarde, {identificacao.NomeFuncionario} irá atendê-lo.",
-            identificacao.IdAtendimento);
+            $"Você já possui o atendimento nº {idAtendimento} em andamento com {identificacao.NomeFuncionario}.",
+            idAtendimento,
+            historico);
     }
 
-    /// <summary>
-    /// Cliente escolhe o setor (1 - Comercial, 2 - Financeiro, 3 - Suporte): cria o contato se necessario
-    /// e abre o atendimento com o funcionario do setor com menos atendimentos.
-    /// </summary>
     public async Task<RespostaContatoDto> SelecionarSetor(int setor)
     {
         DadosContato dados = _gerenciador.RetirarAguardandoSetor(Context.ConnectionId)
@@ -106,96 +86,92 @@ public sealed class ChatHub : Hub<IChatCliente>
             throw;
         }
 
-        await Enfileirar(dados, atendimento.IdAtendimento, atendimento.IdFuncionario);
+        List<MensagemDto> historico = await Vincular(dados, atendimento.IdAtendimento,
+            atendimento.IdFuncionario, atendimento.NomeFuncionario);
 
         return new RespostaContatoDto(
             ETipoResposta.AtendimentoAberto,
-            $"Atendimento nº {atendimento.IdAtendimento} aberto. Aguarde, {atendimento.NomeFuncionario} irá atendê-lo.",
-            atendimento.IdAtendimento);
+            $"Atendimento nº {atendimento.IdAtendimento} aberto com {atendimento.NomeFuncionario}. Pode digitar.",
+            atendimento.IdAtendimento,
+            historico);
     }
 
-    // ---------- Funcionario ----------
+    /// <summary>Atendimentos em andamento do funcionario logado, com ou sem cliente conectado.</summary>
+    [Authorize]
+    public async Task<List<AtendimentoDto>> ListarAtendimentos()
+        => (await ListarDoFuncionarioLogado())
+            .Select(a => new AtendimentoDto(a.IdAtendimento, a.NomeCliente, a.TelefoneCliente,
+                _gerenciador.ObterSessao(a.IdAtendimento) is not null))
+            .ToList();
 
     [Authorize]
-    public List<SolicitacaoDto> ListarFila()
-        => _gerenciador.ListarFila(Context.User!.GetId()).Select(s => s.ParaDto()).ToList();
-
-    [Authorize]
-    public async Task<SessaoDto> AceitarAtendimento(Guid idSolicitacao)
+    public async Task<List<MensagemDto>> RetornarMensagens(int idAtendimento)
     {
-        SessaoChat sessao = _gerenciador.TryAceitar(
-                                idSolicitacao,
-                                Context.ConnectionId,
-                                Context.User!.GetId(),
-                                Context.User!.GetEmail())
-                            ?? throw new HubException(
-                                "Solicitação não encontrada ou não pertence a você.");
-
-        await Groups.AddToGroupAsync(sessao.ConnectionIdCliente, sessao.GrupoSignalR);
-        await Groups.AddToGroupAsync(sessao.ConnectionIdFuncionario, sessao.GrupoSignalR);
-
-        SessaoDto dto = sessao.ParaDto();
-        await Clients.Group(sessao.GrupoSignalR).AtendimentoIniciado(dto);
-
-        return dto;
+        await Autorizar(idAtendimento);
+        return await _mensagemServico.RetornaMensagens(idAtendimento);
     }
-
-    // ---------- Ambos ----------
 
     /// <summary>
-    /// Endpoint de envio: repassa a mensagem para os participantes da sessao
-    /// pelo endpoint de retorno <see cref="IChatCliente.ReceberMensagem"/>.
+    /// Grava e entrega a mensagem. O funcionario pode enviar com o cliente desconectado:
+    /// fica gravada e o cliente recebe no historico ao se identificar de novo.
     /// </summary>
-    public async Task EnviarMensagem(Guid idSessao, string texto)
+    public async Task EnviarMensagem(int idAtendimento, string texto)
     {
-        SessaoChat sessao = ObterSessaoDaConexao(idSessao);
+        (SessaoChat? sessao, ERemetente remetente, string idFuncionario) = await Autorizar(idAtendimento);
 
-        // Reaproveita a validacao do objeto de valor (1 a 1000 caracteres), sem persistir.
-        Conteudo conteudo = new Conteudo(texto);
+        // Conteudo (1 a 1000 caracteres) e validado no dominio antes de gravar.
+        MensagemDto mensagem = await _mensagemServico.GravaMensagem(idAtendimento, remetente, texto);
 
-        var mensagem = new MensagemChatDto(
-            sessao.Id,
-            sessao.NomeDe(Context.ConnectionId),
-            sessao.TipoDe(Context.ConnectionId),
-            conteudo.Texto,
-            DateTime.UtcNow);
-
-        await Clients.Group(sessao.GrupoSignalR).ReceberMensagem(mensagem);
+        if (sessao is not null)
+            await Clients.Client(sessao.ConnectionIdCliente).ReceberMensagem(mensagem);
+        await Clients.User(idFuncionario).ReceberMensagem(mensagem);
     }
 
-    public async Task EncerrarAtendimento(Guid idSessao)
+    public async Task EncerrarAtendimento(int idAtendimento)
     {
-        SessaoChat sessao = ObterSessaoDaConexao(idSessao);
-        if (_gerenciador.Encerrar(sessao.Id) is null)
-            return;
+        (SessaoChat? sessao, ERemetente remetente, _) = await Autorizar(idAtendimento);
+        if (sessao is null || _gerenciador.Encerrar(idAtendimento) is null)
+            throw new HubException("O cliente não está conectado a este atendimento.");
 
-        string quem = sessao.NomeDe(Context.ConnectionId);
-        await Clients.Group(sessao.GrupoSignalR).AtendimentoEncerrado(sessao.Id, $"Atendimento encerrado por {quem}.");
-        await RemoverDoGrupo(sessao);
+        string quem = remetente == ERemetente.Funcionario ? sessao.NomeFuncionario : sessao.NomeCliente;
+        string motivo = $"Atendimento encerrado por {quem}.";
+        await Clients.Client(sessao.ConnectionIdCliente).AtendimentoEncerrado(idAtendimento, motivo);
+        await Clients.User(sessao.IdFuncionario).AtendimentoEncerrado(idAtendimento, motivo);
+    }
+    
+    private async Task<List<MensagemDto>> Vincular(DadosContato dados, int idAtendimento, int idFuncionario,
+        string nomeFuncionario)
+    {
+        var sessao = new SessaoChat(idAtendimento, Context.ConnectionId, dados.Nome, dados.Telefone,
+            idFuncionario.ToString(), nomeFuncionario, DateTime.UtcNow);
+
+        if (!_gerenciador.Vincular(sessao))
+            throw new HubException($"O atendimento nº {idAtendimento} já está aberto em outra conexão.");
+
+        await Clients.User(sessao.IdFuncionario).AtendimentoIniciado(sessao.ParaDto());
+        return await _mensagemServico.RetornaMensagens(idAtendimento);
     }
 
-    private async Task Enfileirar(DadosContato dados, int idAtendimento, int idFuncionario)
+    /// <summary>
+    /// Papel de quem chama no atendimento: cliente pela conexao vinculada; funcionario se o atendimento
+    /// em andamento e dele no banco (mesmo com o cliente desconectado). Sessao = null se o cliente esta offline.
+    /// </summary>
+    private async Task<(SessaoChat? sessao, ERemetente remetente, string idFuncionario)> Autorizar(int idAtendimento)
     {
-        string idResponsavel = idFuncionario.ToString();
+        SessaoChat? sessao = _gerenciador.ObterSessao(idAtendimento);
 
-        SolicitacaoAtendimento solicitacao = _gerenciador.Enfileirar(
-            Context.ConnectionId, idAtendimento, idResponsavel, dados.Nome, dados.Telefone);
+        if (sessao is not null && sessao.ConnectionIdCliente == Context.ConnectionId)
+            return (sessao, ERemetente.Cliente, sessao.IdFuncionario);
 
-        await Clients.User(idResponsavel).NovaSolicitacao(solicitacao.ParaDto());
+        if ((await ListarDoFuncionarioLogado()).Any(a => a.IdAtendimento == idAtendimento))
+            return (sessao, ERemetente.Funcionario, Context.User!.GetId());
+
+        throw new HubException("Atendimento não encontrado.");
     }
 
-    private SessaoChat ObterSessaoDaConexao(Guid idSessao)
-    {
-        SessaoChat? sessao = _gerenciador.ObterSessao(idSessao);
-        if (sessao is null || !sessao.Participa(Context.ConnectionId))
-            throw new HubException("Sessão não encontrada.");
-
-        return sessao;
-    }
-
-    private async Task RemoverDoGrupo(SessaoChat sessao)
-    {
-        await Groups.RemoveFromGroupAsync(sessao.ConnectionIdCliente, sessao.GrupoSignalR);
-        await Groups.RemoveFromGroupAsync(sessao.ConnectionIdFuncionario, sessao.GrupoSignalR);
-    }
+    /// <summary>Vazio se quem chama nao e funcionario (anonimo ou Usuario administrador, cujo id e Guid).</summary>
+    private async Task<List<AtendimentoFuncionarioDto>> ListarDoFuncionarioLogado()
+        => int.TryParse(Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int idFuncionario)
+            ? await _atendimentoServico.ListarDoFuncionario(idFuncionario)
+            : new();
 }

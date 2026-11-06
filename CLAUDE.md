@@ -38,7 +38,7 @@ O projeto segue os princípios de Arquitetura Limpa (Clean Architecture) / Domai
 
 7. **CRMUNI.UI.Chat**
    - Chat em tempo real (SignalR, hub em `/hubs/chat`) entre cliente anônimo e funcionário autenticado por JWT.
-   - Mensagens não são persistidas; contato e atendimento são criados via `AtendimentoChatServico`.
+   - Contato e atendimento são criados via `AtendimentoChatServico`; mensagens são gravadas via `MensagemServico`.
    - Serviços injetados no `ChatHub` devem ser registrados em `CRMUNI.UI.Chat/Program.cs`.
    - Contexto completo (fluxo, métodos, eventos, regras e limitações): `claude/contexto_chat.md`.
 

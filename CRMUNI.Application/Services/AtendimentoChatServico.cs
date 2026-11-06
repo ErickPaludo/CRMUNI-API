@@ -75,6 +75,20 @@ public sealed class AtendimentoChatServico : IAtendimentoChatServico
         return MapeamentoDto(atendimento.Id, funcionario);
     }
 
+    public async Task<List<AtendimentoFuncionarioDto>> ListarDoFuncionario(int idFuncionario)
+    {
+        List<Atendimento> atendimentos = await _unityOfWork.AtendimentoRepositorio.Retorno()
+            .Where(x => x.Funcionario.Id == idFuncionario && x.Situacao != EAtendimentoSituacao.Finalizado)
+            .OrderBy(x => x.DthrCriacao)
+            .ToListAsync();
+
+        return atendimentos
+            .Select(x => new AtendimentoFuncionarioDto(
+                x.Id, x.Contato!.Nome.Completo, x.Contato.Celular.Numero,
+                DateTime.SpecifyKind(x.DthrCriacao, DateTimeKind.Utc)))
+            .ToList();
+    }
+
     private static ESetor ConverteSetor(int setor)
     {
         // Menu exibido ao cliente comeca em 1; o enum ESetor comeca em 0.

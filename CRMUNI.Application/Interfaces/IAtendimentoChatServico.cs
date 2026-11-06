@@ -14,4 +14,9 @@ public interface IAtendimentoChatServico
     /// Setor: 1 - Comercial, 2 - Financeiro, 3 - Suporte.
     /// </summary>
     Task<AtendimentoAbertoDto> Abrir(Guid idEmpresa, string telefone, string nome, int setor);
+
+    /// <summary>
+    /// Atendimentos em andamento (Situacao != Finalizado) do funcionario, com ou sem cliente conectado.
+    /// </summary>
+    Task<List<AtendimentoFuncionarioDto>> ListarDoFuncionario(int idFuncionario);
 }

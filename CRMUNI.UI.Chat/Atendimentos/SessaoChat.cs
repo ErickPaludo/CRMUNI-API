@@ -2,28 +2,19 @@ using CRMUNI.UI.Chat.Contratos;
 
 namespace CRMUNI.UI.Chat.Atendimentos;
 
+/// <summary>
+/// Cliente conectado a um atendimento. O funcionario e alcancado por Clients.User(IdFuncionario),
+/// entao nao depende de uma conexao especifica dele.
+/// </summary>
 public sealed record SessaoChat(
-    Guid Id,
     int IdAtendimento,
     string ConnectionIdCliente,
     string NomeCliente,
     string TelefoneCliente,
-    string ConnectionIdFuncionario,
     string IdFuncionario,
     string NomeFuncionario,
     DateTime DataInicio)
 {
-    public bool Participa(string connectionId)
-        => connectionId == ConnectionIdCliente || connectionId == ConnectionIdFuncionario;
-
-    public ETipoRemetente TipoDe(string connectionId)
-        => connectionId == ConnectionIdFuncionario ? ETipoRemetente.Funcionario : ETipoRemetente.Cliente;
-
-    public string NomeDe(string connectionId)
-        => TipoDe(connectionId) == ETipoRemetente.Funcionario ? NomeFuncionario : NomeCliente;
-
-    public string GrupoSignalR => $"sessao-{Id}";
-
     public SessaoDto ParaDto()
-        => new(Id, IdAtendimento, NomeCliente, TelefoneCliente, NomeFuncionario, DataInicio);
+        => new(IdAtendimento, NomeCliente, TelefoneCliente, NomeFuncionario, DataInicio);
 }
