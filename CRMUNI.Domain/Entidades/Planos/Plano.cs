@@ -32,7 +32,23 @@ public sealed class Plano : EntidadeIdGuid
         Descricao = descricao;
         Preco = preco;
         Situacao = EPlanoSituacao.Ativo;
-        
+
         empresa.AddPlanos(this);
+    }
+
+    public void AlteraNome(NomePlano nome)
+    {
+        ValidaNulo.Verifica(nome, PlanoMensagens.PropriedadeNula("Nome"));
+        Nome = nome;
+    }  
+    public void AlteraDescricao(DescricaoPlano descricao)
+    {
+        ValidaNulo.Verifica(descricao, PlanoMensagens.PropriedadeNula("Descricao"));
+        Descricao = descricao;
+    }  
+    public void AlteraPreco(Preco preco)
+    {
+        ValidaNulo.Verifica(preco, PlanoMensagens.PropriedadeNula("Preço"));
+        Preco = preco;
     }
 }

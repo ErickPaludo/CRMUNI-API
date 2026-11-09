@@ -41,6 +41,44 @@ public sealed class PlanoServico : IPlanoServico
         return MapeamentoDto(plano);
     }
 
+    public async Task<PlanoDto> Atualizar(string idUsuario, Guid idPlano, PlanoAtualizarDto dto)
+    {
+        Usuario? usuario = await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x
+            => x.Id.ToString() == idUsuario);
+
+        if (usuario is null)
+            throw new NaoPermitidoExcecao("Você não possui permissão para esta ação.");
+
+        Plano? plano = await _unityOfWork.PlanoRepositorio.BuscarObjetoUnico(p
+            => p.Empresa.Id == usuario.Id &&
+               p.Id.Equals(idPlano));
+
+        if (plano is null)
+            throw new NaoEncontradoExecao("Plano não encontrado.");
+        
+        if (dto.Nome is not null)
+        {
+            NomePlano nome = new NomePlano(dto.Nome);
+            plano.AlteraNome(nome);
+        }
+
+        if (dto.Descricao is not null)
+        {
+            DescricaoPlano descricao = new DescricaoPlano(dto.Descricao);
+            plano.AlteraDescricao(descricao);
+        }
+
+        if (dto.Preco.HasValue)
+        {
+            Preco preco = new Preco(dto.Preco.Value);
+            plano.AlteraPreco(preco);
+        }
+        
+        _unityOfWork.PlanoRepositorio.Atualiza(plano);
+        await _unityOfWork.Commit();
+        return MapeamentoDto(plano);
+    }
+
     public async Task<PlanosDto> Retorno(string idUsuario, PlanoFiltro filtros)
     {
         bool isUsuario = true;
@@ -88,5 +126,6 @@ public sealed class PlanoServico : IPlanoServico
     }
 
     private static PlanoDto MapeamentoDto(Plano plano)
-        => new PlanoDto(plano.Id, plano.Empresa.Id, plano.Nome.Completo, plano.Descricao.Texto, plano.Preco.Valor, plano.Situacao);
+        => new PlanoDto(plano.Id, plano.Empresa.Id, plano.Nome.Completo, plano.Descricao.Texto, plano.Preco.Valor,
+            plano.Situacao);
 }
