@@ -50,12 +50,12 @@ public sealed class PlanoServico : IPlanoServico
             throw new NaoPermitidoExcecao("Você não possui permissão para esta ação.");
 
         Plano? plano = await _unityOfWork.PlanoRepositorio.BuscarObjetoUnico(p
-            => p.Empresa.Id == usuario.Id &&
+            => p.Empresa.Id == usuario.Empresa.Id &&
                p.Id.Equals(idPlano));
 
         if (plano is null)
             throw new NaoEncontradoExecao("Plano não encontrado.");
-        
+
         if (dto.Nome is not null)
         {
             NomePlano nome = new NomePlano(dto.Nome);
@@ -73,7 +73,11 @@ public sealed class PlanoServico : IPlanoServico
             Preco preco = new Preco(dto.Preco.Value);
             plano.AlteraPreco(preco);
         }
-        
+
+        if (dto.Situacao.HasValue)
+            plano.AlteraSituacao(dto.Situacao.Value);
+
+
         _unityOfWork.PlanoRepositorio.Atualiza(plano);
         await _unityOfWork.Commit();
         return MapeamentoDto(plano);

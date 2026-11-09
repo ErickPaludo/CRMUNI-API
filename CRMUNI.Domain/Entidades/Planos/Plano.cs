@@ -40,15 +40,23 @@ public sealed class Plano : EntidadeIdGuid
     {
         ValidaNulo.Verifica(nome, PlanoMensagens.PropriedadeNula("Nome"));
         Nome = nome;
-    }  
+    }
+
     public void AlteraDescricao(DescricaoPlano descricao)
     {
         ValidaNulo.Verifica(descricao, PlanoMensagens.PropriedadeNula("Descricao"));
         Descricao = descricao;
-    }  
+    }
+
     public void AlteraPreco(Preco preco)
     {
         ValidaNulo.Verifica(preco, PlanoMensagens.PropriedadeNula("Preço"));
         Preco = preco;
+    }
+
+    public void AlteraSituacao(EPlanoSituacao situacao)
+    {
+        ValidaNulo.Verifica(situacao, PlanoMensagens.PropriedadeNula("Situação"));
+        Situacao = situacao;
     }
 }

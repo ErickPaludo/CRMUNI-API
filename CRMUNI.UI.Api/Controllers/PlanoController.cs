@@ -32,4 +32,11 @@ public class PlanoController : ControllerBase
         var planos = await _planoServico.Retorno(User.GetId(), filtro);
         return Ok(planos);
     }
+    
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> Altera(Guid id, [FromBody] PlanoAtualizarDto dto)
+    {
+        var planos = await _planoServico.Atualizar(User.GetId(), id, dto);
+        return Ok(planos);
+    }
 }
