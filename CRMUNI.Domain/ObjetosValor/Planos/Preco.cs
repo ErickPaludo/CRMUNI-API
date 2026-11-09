@@ -5,6 +5,8 @@ namespace CRMUNI.Domain.ObjetosValor.Planos;
 
 public record Preco
 {
+    // Limite da coluna decimal(18,2) em PlanoConfig
+    public const decimal Maximo = 9_999_999_999_999_999.99m;
     public decimal Valor { get; }
     public Preco() { }
     public Preco(decimal valor)
@@ -35,5 +37,7 @@ public record Preco
     {
         ValidaNulo.Verifica(valor, PrecoMensagens.PrecoNulo);
         PrecoValidacao.Verifica(valor <= 0, PrecoMensagens.SaldoInvalido);
+        PrecoValidacao.Verifica(decimal.Round(valor, 2) != valor, PrecoMensagens.CasasDecimaisInvalidas);
+        PrecoValidacao.Verifica(valor > Maximo, PrecoMensagens.ValorMaximoExcedido);
     }
 }

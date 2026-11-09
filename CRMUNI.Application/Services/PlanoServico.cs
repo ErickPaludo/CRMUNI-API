@@ -8,6 +8,7 @@ using CRMUNI.Domain.Entidades.Planos;
 using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.ObjetosValor.Descricoes;
 using CRMUNI.Domain.ObjetosValor.Nomes;
+using CRMUNI.Domain.ObjetosValor.Planos;
 using CRMUNI.Domain.Servicos;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,8 @@ public sealed class PlanoServico : IPlanoServico
 
         NomePlano nome = new NomePlano(dto.Nome);
         DescricaoPlano descricao = new DescricaoPlano(dto.Descricao);
-        Plano plano = new Plano(usuario.Empresa, nome, descricao);
+        Preco preco = new Preco(dto.Preco);
+        Plano plano = new Plano(usuario.Empresa, nome, preco, descricao);
 
         await _unityOfWork.PlanoRepositorio.Insere(plano);
         await _unityOfWork.Commit();
@@ -86,5 +88,5 @@ public sealed class PlanoServico : IPlanoServico
     }
 
     private static PlanoDto MapeamentoDto(Plano plano)
-        => new PlanoDto(plano.Id, plano.Empresa.Id, plano.Nome.Completo, plano.Descricao.Texto, plano.Situacao);
+        => new PlanoDto(plano.Id, plano.Empresa.Id, plano.Nome.Completo, plano.Descricao.Texto, plano.Preco.Valor, plano.Situacao);
 }

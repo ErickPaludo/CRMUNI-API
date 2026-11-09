@@ -48,6 +48,34 @@ namespace CRMUNI.UnitTests.Domain
         }
 
         [Test]
+        public void Construtor_DeveLancarExcecao_QuandoValorTiverMaisDeDuasCasasDecimais()
+        {
+            Action act = () => new Preco(19.999m);
+
+            act.Should()
+               .Throw<PrecoValidacao>()
+               .WithMessage(PrecoMensagens.CasasDecimaisInvalidas);
+        }
+
+        [Test]
+        public void Construtor_DeveLancarExcecao_QuandoValorExcederMaximo()
+        {
+            Action act = () => new Preco(Preco.Maximo + 0.01m);
+
+            act.Should()
+               .Throw<PrecoValidacao>()
+               .WithMessage(PrecoMensagens.ValorMaximoExcedido);
+        }
+
+        [Test]
+        public void Construtor_DeveCriarPreco_QuandoValorForOMaximo()
+        {
+            var preco = new Preco(Preco.Maximo);
+
+            preco.Valor.Should().Be(Preco.Maximo);
+        }
+
+        [Test]
         public void Soma_DeveRetornarNovoPrecoComSoma()
         {
             // Arrange

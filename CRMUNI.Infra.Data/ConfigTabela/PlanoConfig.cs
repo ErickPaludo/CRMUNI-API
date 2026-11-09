@@ -35,6 +35,17 @@ public class PlanoConfig : IEntityTypeConfiguration<Plano>
                     .HasMaxLength(400);
             }
         );
+        
+        builder.OwnsOne(e => e.Preco,
+            preco
+                =>
+            {
+                preco.Property(e => e.Valor)
+                    .HasColumnName("Preco")
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
+            }
+        );
 
         builder.Property(u => u.Situacao)
             .HasComment("Situacao: 0-Ativo | 1-Inativo")

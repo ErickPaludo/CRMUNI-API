@@ -415,7 +415,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("AtendimentoId");
 
-                            b1.ToTable("tb_atendimentos", (string)null);
+                            b1.ToTable("tb_atendimentos");
 
                             b1.WithOwner()
                                 .HasForeignKey("AtendimentoId");
@@ -458,20 +458,20 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasForeignKey("PlanoId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Telefones.Celular", "Celular", b1 =>
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Geral.Email", "Email", b1 =>
                         {
                             b1.Property<int>("ContatoId")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("Numero")
+                            b1.Property<string>("Endereco")
                                 .IsRequired()
-                                .HasMaxLength(13)
-                                .HasColumnType("nvarchar(13)")
-                                .HasColumnName("Telefone");
+                                .HasMaxLength(256)
+                                .HasColumnType("nvarchar(256)")
+                                .HasColumnName("Email");
 
                             b1.HasKey("ContatoId");
 
-                            b1.ToTable("tb_contatos", (string)null);
+                            b1.ToTable("tb_contatos");
 
                             b1.WithOwner()
                                 .HasForeignKey("ContatoId");
@@ -490,26 +490,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("ContatoId");
 
-                            b1.ToTable("tb_contatos", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("ContatoId");
-                        });
-
-                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Geral.Email", "Email", b1 =>
-                        {
-                            b1.Property<int>("ContatoId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Endereco")
-                                .IsRequired()
-                                .HasMaxLength(256)
-                                .HasColumnType("nvarchar(256)")
-                                .HasColumnName("Email");
-
-                            b1.HasKey("ContatoId");
-
-                            b1.ToTable("tb_contatos", (string)null);
+                            b1.ToTable("tb_contatos");
 
                             b1.WithOwner()
                                 .HasForeignKey("ContatoId");
@@ -534,7 +515,26 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("ContatoId");
 
-                            b1.ToTable("tb_contatos", (string)null);
+                            b1.ToTable("tb_contatos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContatoId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Telefones.Celular", "Celular", b1 =>
+                        {
+                            b1.Property<int>("ContatoId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Numero")
+                                .IsRequired()
+                                .HasMaxLength(13)
+                                .HasColumnType("nvarchar(13)")
+                                .HasColumnName("Telefone");
+
+                            b1.HasKey("ContatoId");
+
+                            b1.ToTable("tb_contatos");
 
                             b1.WithOwner()
                                 .HasForeignKey("ContatoId");
@@ -557,25 +557,6 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Empresas.Empresa", b =>
                 {
-                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Documentos.Cnpj", "Cnpj", b1 =>
-                        {
-                            b1.Property<Guid>("EmpresaId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Codigo")
-                                .IsRequired()
-                                .HasMaxLength(14)
-                                .HasColumnType("nvarchar(14)")
-                                .HasColumnName("Cnpj");
-
-                            b1.HasKey("EmpresaId");
-
-                            b1.ToTable("tb_empresas", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("EmpresaId");
-                        });
-
                     b.OwnsOne("CRMUNI.Domain.ObjetosValor.Geral.Email", "Email", b1 =>
                         {
                             b1.Property<Guid>("EmpresaId")
@@ -589,7 +570,26 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("EmpresaId");
 
-                            b1.ToTable("tb_empresas", (string)null);
+                            b1.ToTable("tb_empresas");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmpresaId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Documentos.Cnpj", "Cnpj", b1 =>
+                        {
+                            b1.Property<Guid>("EmpresaId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Codigo")
+                                .IsRequired()
+                                .HasMaxLength(14)
+                                .HasColumnType("nvarchar(14)")
+                                .HasColumnName("Cnpj");
+
+                            b1.HasKey("EmpresaId");
+
+                            b1.ToTable("tb_empresas");
 
                             b1.WithOwner()
                                 .HasForeignKey("EmpresaId");
@@ -608,7 +608,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("EmpresaId");
 
-                            b1.ToTable("tb_empresas", (string)null);
+                            b1.ToTable("tb_empresas");
 
                             b1.WithOwner()
                                 .HasForeignKey("EmpresaId");
@@ -627,7 +627,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("EmpresaId");
 
-                            b1.ToTable("tb_empresas", (string)null);
+                            b1.ToTable("tb_empresas");
 
                             b1.WithOwner()
                                 .HasForeignKey("EmpresaId");
@@ -684,7 +684,30 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("FuncionarioId");
 
-                            b1.ToTable("tb_funcionarios", (string)null);
+                            b1.ToTable("tb_funcionarios");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FuncionarioId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Funcionarios.Senha", "Senha", b1 =>
+                        {
+                            b1.Property<int>("FuncionarioId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Hash")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Hash");
+
+                            b1.Property<string>("Salt")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Salt");
+
+                            b1.HasKey("FuncionarioId");
+
+                            b1.ToTable("tb_funcionarios");
 
                             b1.WithOwner()
                                 .HasForeignKey("FuncionarioId");
@@ -709,30 +732,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("FuncionarioId");
 
-                            b1.ToTable("tb_funcionarios", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("FuncionarioId");
-                        });
-
-                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Funcionarios.Senha", "Senha", b1 =>
-                        {
-                            b1.Property<int>("FuncionarioId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Hash")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Hash");
-
-                            b1.Property<string>("Salt")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Salt");
-
-                            b1.HasKey("FuncionarioId");
-
-                            b1.ToTable("tb_funcionarios", (string)null);
+                            b1.ToTable("tb_funcionarios");
 
                             b1.WithOwner()
                                 .HasForeignKey("FuncionarioId");
@@ -773,7 +773,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("FunilId");
 
-                            b1.ToTable("tb_funils", (string)null);
+                            b1.ToTable("tb_funils");
 
                             b1.WithOwner()
                                 .HasForeignKey("FunilId");
@@ -792,7 +792,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("FunilId");
 
-                            b1.ToTable("tb_funils", (string)null);
+                            b1.ToTable("tb_funils");
 
                             b1.WithOwner()
                                 .HasForeignKey("FunilId");
@@ -809,7 +809,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Mensagens.Mensagem", b =>
                 {
-                    b.HasOne("CRMUNI.Domain.Entidades.Atendimentos.Atendimento", null)
+                    b.HasOne("CRMUNI.Domain.Entidades.Atendimentos.Atendimento", "Atendimento")
                         .WithMany("Mensagem")
                         .HasForeignKey("AtendimentoId");
 
@@ -818,7 +818,7 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasForeignKey("ContatoId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", null)
+                    b.HasOne("CRMUNI.Domain.Entidades.Funcionarios.Funcionario", "Funcionario")
                         .WithMany("Mensagens")
                         .HasForeignKey("FuncionarioId");
 
@@ -835,16 +835,20 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("MensagemId");
 
-                            b1.ToTable("tb_mensagens", (string)null);
+                            b1.ToTable("tb_mensagens");
 
                             b1.WithOwner()
                                 .HasForeignKey("MensagemId");
                         });
 
+                    b.Navigation("Atendimento");
+
                     b.Navigation("Contato");
 
                     b.Navigation("Conteudo")
                         .IsRequired();
+
+                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Planos.Plano", b =>
@@ -868,7 +872,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("PlanoId");
 
-                            b1.ToTable("tb_planos", (string)null);
+                            b1.ToTable("tb_planos");
 
                             b1.WithOwner()
                                 .HasForeignKey("PlanoId");
@@ -887,7 +891,24 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("PlanoId");
 
-                            b1.ToTable("tb_planos", (string)null);
+                            b1.ToTable("tb_planos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlanoId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Planos.Preco", "Preco", b1 =>
+                        {
+                            b1.Property<Guid>("PlanoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Valor")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("Preco");
+
+                            b1.HasKey("PlanoId");
+
+                            b1.ToTable("tb_planos");
 
                             b1.WithOwner()
                                 .HasForeignKey("PlanoId");
@@ -900,6 +921,9 @@ namespace CRMUNI.Infra.Data.Migrations
 
                     b.Navigation("Nome")
                         .IsRequired();
+
+                    b.Navigation("Preco")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CRMUNI.Domain.Entidades.Setores.Setor", b =>
@@ -909,25 +933,6 @@ namespace CRMUNI.Infra.Data.Migrations
                         .HasForeignKey("EmpresaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.descricoes.DescricaoSetor", "DescricaoSetor", b1 =>
-                        {
-                            b1.Property<Guid>("SetorId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Texto")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("Descricao");
-
-                            b1.HasKey("SetorId");
-
-                            b1.ToTable("tb_setores", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("SetorId");
-                        });
 
                     b.OwnsOne("CRMUNI.Domain.ObjetosValor.Nomes.NomeSetor", "Nome", b1 =>
                         {
@@ -942,7 +947,26 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("SetorId");
 
-                            b1.ToTable("tb_setores", (string)null);
+                            b1.ToTable("tb_setores");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SetorId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.descricoes.DescricaoSetor", "DescricaoSetor", b1 =>
+                        {
+                            b1.Property<Guid>("SetorId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Texto")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("Descricao");
+
+                            b1.HasKey("SetorId");
+
+                            b1.ToTable("tb_setores");
 
                             b1.WithOwner()
                                 .HasForeignKey("SetorId");
@@ -978,7 +1002,30 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("UsuarioId");
 
-                            b1.ToTable("tb_usuarios", (string)null);
+                            b1.ToTable("tb_usuarios");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UsuarioId");
+                        });
+
+                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Funcionarios.Senha", "Senha", b1 =>
+                        {
+                            b1.Property<Guid>("UsuarioId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Hash")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Hash");
+
+                            b1.Property<string>("Salt")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Salt");
+
+                            b1.HasKey("UsuarioId");
+
+                            b1.ToTable("tb_usuarios");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioId");
@@ -1003,30 +1050,7 @@ namespace CRMUNI.Infra.Data.Migrations
 
                             b1.HasKey("UsuarioId");
 
-                            b1.ToTable("tb_usuarios", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("UsuarioId");
-                        });
-
-                    b.OwnsOne("CRMUNI.Domain.ObjetosValor.Funcionarios.Senha", "Senha", b1 =>
-                        {
-                            b1.Property<Guid>("UsuarioId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Hash")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Hash");
-
-                            b1.Property<string>("Salt")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Salt");
-
-                            b1.HasKey("UsuarioId");
-
-                            b1.ToTable("tb_usuarios", (string)null);
+                            b1.ToTable("tb_usuarios");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioId");
