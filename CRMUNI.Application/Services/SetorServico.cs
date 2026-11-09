@@ -55,14 +55,14 @@ public class SetorServico : ISetorServico
         #endregion
     }
 
-    public async Task<SetoresDto> Retorno(string idUsuario,SetorFiltro filtros)
+    public async Task<SetoresDto> Retorno(string idUsuario, SetorFiltro filtros)
     {
         bool isUsuario = true;
         Funcionario? funcionario = null;
 
         Usuario? usuario =
             await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
-        
+
         if (usuario is null)
             isUsuario = false;
 
@@ -70,13 +70,13 @@ public class SetorServico : ISetorServico
         {
             funcionario =
                 await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
-            
+
             if (funcionario is null)
                 throw new NaoEncontradoExecao("Usuário solicitante não encontrado.");
         }
 
         Empresa empresa = isUsuario ? usuario!.Empresa : funcionario!.Empresa;
-        
+
         IQueryable<Setor> query = _unityOfWork.SetorRepositorio.Retorno();
 
         query = query.Where(x => x.Empresa.Id == empresa.Id);
@@ -86,16 +86,24 @@ public class SetorServico : ISetorServico
 
         if (filtros.Tipo.HasValue)
             query = query.Where(x => x.Tipo == filtros.Tipo.Value);
-        
-        List<Setor> funcionarios = await query.ToListAsync();
 
-        List<SetorDto> setorDto = funcionarios
-            .Select(MapeamentoDto)
+        // COUNT no banco: não carrega as linhas de funcionário.
+        var setores = await query
+            .Select(s => new { Setor = s, Quantidade = s.Funcionarios.Count() })
+            .ToListAsync();
+
+        List<SetorDto> setorDto = setores
+            .Select(x => MapeamentoDto(x.Setor, x.Quantidade))
             .ToList();
 
         return new SetoresDto(setorDto);
     }
-    
-    public SetorDto MapeamentoDto(Setor setor)
-    => new SetorDto(setor.Id,setor.Empresa.Id,setor.Tipo,setor.Nome.Completo,setor.DescricaoSetor.Texto);
+
+    public SetorDto MapeamentoDto(Setor setor, int quantidadeFuncionarios)
+        => new SetorDto(setor.Id,
+            setor.Empresa.Id,
+            setor.Tipo,
+            setor.Nome.Completo,
+            setor.DescricaoSetor.Texto,
+            quantidadeFuncionarios);
 }

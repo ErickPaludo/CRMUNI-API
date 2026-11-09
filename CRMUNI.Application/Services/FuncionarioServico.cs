@@ -57,7 +57,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         await _unityOfWork.FuncionarioRepositorio.Insere(funcionario);
         await _unityOfWork.Commit();
 
-        return MapeamentoDto(funcionario);
+        return await MapeamentoDtoAsync(funcionario);
     }
 
     public async Task<FuncionariosDto> RetornoGeral(string idUsuario, FuncionarioFiltros filtros)
@@ -103,8 +103,10 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         List<Funcionario> funcionarios = await query.ToListAsync();
 
+        Dictionary<Guid, int> contagem = await ContaPorSetor(funcionarios.Select(x => x.Setor.Id).Distinct());
+
         List<FuncionarioDTO> funcionariosDto = funcionarios
-            .Select(x => new FuncionarioDTO(MapeamentoDto(x)))
+            .Select(x => new FuncionarioDTO(MapeamentoDto(x, contagem.GetValueOrDefault(x.Setor.Id))))
             .ToList();
 
         return new FuncionariosDto(funcionariosDto);
@@ -119,7 +121,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         if (funcionario is null)
             throw new NaoEncontradoExecao("Usuário não encontrado.");
 
-        return MapeamentoDto(funcionario);
+        return await MapeamentoDtoAsync(funcionario);
     }
 
     public async Task<FuncionarioRetornoDto> Atualiza(string idUsuario, int idFuncionario,
@@ -195,7 +197,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
         await _unityOfWork.Commit();
-        return MapeamentoDto(funcionario);
+        return await MapeamentoDtoAsync(funcionario);
     }
 
     private async Task<FuncionarioRetornoDto> OperadorFuncionarioAtualiza(Funcionario funcionarioSolucitante,
@@ -219,7 +221,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
         await _unityOfWork.Commit();
-        return MapeamentoDto(funcionario);
+        return await MapeamentoDtoAsync(funcionario);
     }
 
     private async Task AtualizarSenha(Funcionario funcionario, FuncionarioAtuSenhaDto senha)
@@ -239,7 +241,19 @@ public sealed class FuncionarioServico : IFuncionarioSevico
     private Senha CriaSenha(string senha, string confirmacao)
         => _segurancaServico.ConverteSenhaParaHash(senha, confirmacao);
 
-    private FuncionarioRetornoDto MapeamentoDto(Funcionario funcionario)
+    // Uma consulta agrupada no banco, em vez de carregar os funcionários de cada setor.
+    private async Task<Dictionary<Guid, int>> ContaPorSetor(IEnumerable<Guid> idsSetor)
+        => await _unityOfWork.FuncionarioRepositorio.Retorno()
+            .Where(f => idsSetor.Contains(f.Setor.Id))
+            .GroupBy(f => f.Setor.Id)
+            .Select(g => new { g.Key, Qtd = g.Count() })
+            .ToDictionaryAsync(x => x.Key, x => x.Qtd);
+
+    private async Task<FuncionarioRetornoDto> MapeamentoDtoAsync(Funcionario funcionario)
+        => MapeamentoDto(funcionario,
+            (await ContaPorSetor([funcionario.Setor.Id])).GetValueOrDefault(funcionario.Setor.Id));
+
+    private static FuncionarioRetornoDto MapeamentoDto(Funcionario funcionario, int quantidadeFuncionariosSetor)
         => new FuncionarioRetornoDto(funcionario.Id,
             funcionario.Nome.Primeiro,
             funcionario.Nome.Segundo!,
@@ -249,5 +263,6 @@ public sealed class FuncionarioServico : IFuncionarioSevico
                 funcionario.Setor.Empresa.Id,
                 funcionario.Setor.Tipo,
                 funcionario.Setor.Nome.Completo,
-                funcionario.Setor.DescricaoSetor.Texto));
+                funcionario.Setor.DescricaoSetor.Texto,
+                quantidadeFuncionariosSetor));
 }
