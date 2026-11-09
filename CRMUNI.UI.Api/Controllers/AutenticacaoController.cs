@@ -19,6 +19,7 @@ public class AutenticacaoController : ControllerBase
     public async Task<IActionResult> GeraToken(AutenticacaoDto dto)
     {
         var token = await _appAutenticacaoServico.GeraToken(dto);
+        SetRefreshTokenCookie(token.refreshToken);
         return Ok(token);
     }
 
