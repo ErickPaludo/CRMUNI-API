@@ -107,8 +107,8 @@ public sealed class ChatHub : Hub<IChatCliente>
     [Authorize]
     public async Task<List<MensagemDto>> RetornarMensagens(int idAtendimento)
     {
-        await Autorizar(idAtendimento);
-        return await _mensagemServico.RetornaMensagens(idAtendimento);
+        (_, _, string idFuncionario) = await Autorizar(idAtendimento);
+        return await _mensagemServico.RetornaMensagens(idAtendimento, int.Parse(idFuncionario));
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public sealed class ChatHub : Hub<IChatCliente>
         (SessaoChat? sessao, ERemetente remetente, string idFuncionario) = await Autorizar(idAtendimento);
 
         // Conteudo (1 a 1000 caracteres) e validado no dominio antes de gravar.
-        MensagemDto mensagem = await _mensagemServico.GravaMensagem(idAtendimento, remetente, texto);
+        MensagemDto mensagem = await _mensagemServico.GravaMensagem(idAtendimento, int.Parse(idFuncionario), remetente, texto);
 
         if (sessao is not null)
             await Clients.Client(sessao.ConnectionIdCliente).ReceberMensagem(mensagem);
@@ -149,7 +149,7 @@ public sealed class ChatHub : Hub<IChatCliente>
             throw new HubException($"O atendimento nº {idAtendimento} já está aberto em outra conexão.");
 
         await Clients.User(sessao.IdFuncionario).AtendimentoIniciado(sessao.ParaDto());
-        return await _mensagemServico.RetornaMensagens(idAtendimento);
+        return await _mensagemServico.RetornaMensagens(idAtendimento, idFuncionario);
     }
 
     /// <summary>

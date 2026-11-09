@@ -37,7 +37,8 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
 
         Setor? setor =
-            await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x => x.Id.Equals(cadastroDto.IdSetor));
+            await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x
+                => x.Empresa.Id == usuario.Empresa.Id && x.Id.Equals(cadastroDto.IdSetor));
 
         if (setor is null)
             throw new NaoEncontradoExecao("Setor não encontrado");
@@ -148,7 +149,11 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         Funcionario? funcionarioDestino =
             await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
-                => x.Id == idFuncionario);
+                => x.Empresa.Id ==
+                   ((isUsuario && usuario != null)
+                       ? usuario.Empresa.Id
+                       : funcionario.Empresa.Id) &&
+                   x.Id == idFuncionario);
 
         if (funcionarioDestino is null)
             throw new NaoEncontradoExecao("Usuário não encontrado.");
@@ -165,7 +170,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
         if (dto.IdSetor is not null)
         {
             Setor? setor = await _unityOfWork.SetorRepositorio.BuscarObjetoUnico(x
-                => x.Id.Equals(dto.IdSetor));
+                => x.Empresa.Id == funcionario.Empresa.Id && x.Id.Equals(dto.IdSetor));
 
             if (setor is null)
                 throw new NaoEncontradoExecao("Setor não encontrado.");
@@ -193,7 +198,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             funcionario.AlterarNome(new NomeFuncionario(funcionario.Nome.Primeiro, dto.SegundoNome));
 
         if (dto.Senha is not null)
-            await AtualizarSenha(funcionario,dto.Senha);
+            await AtualizarSenha(funcionario, dto.Senha);
 
         _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
         await _unityOfWork.Commit();
@@ -217,7 +222,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             throw new NaoPermitidoExcecao("Sem permissão para atualizar nome.");
 
         if (dto.Senha is not null)
-             await AtualizarSenha(funcionario,dto.Senha);
+            await AtualizarSenha(funcionario, dto.Senha);
 
         _unityOfWork.FuncionarioRepositorio.Atualiza(funcionario);
         await _unityOfWork.Commit();
@@ -235,7 +240,6 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             autenticacao.RevokaToken();
             _unityOfWork.AutenticacaoRepositorio.Atualiza(autenticacao);
         }
-        
     }
 
     private Senha CriaSenha(string senha, string confirmacao)

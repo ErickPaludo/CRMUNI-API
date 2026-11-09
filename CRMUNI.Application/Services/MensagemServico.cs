@@ -18,10 +18,11 @@ public sealed class MensagemServico : IMensagemServico
         _unityOfWork = unityOfWork;
     }
 
-    public async Task<MensagemDto> GravaMensagem(int idAtendimento, ERemetente remetente, string texto)
+    public async Task<MensagemDto> GravaMensagem(int idAtendimento, int idFuncionario, ERemetente remetente,
+        string texto)
     {
         Atendimento atendimento = await _unityOfWork.AtendimentoRepositorio.Retorno()
-                                      .FirstOrDefaultAsync(x => x.Id == idAtendimento)
+                                      .FirstOrDefaultAsync(x => x.Id == idAtendimento && x.Funcionario.Id == idFuncionario)
                                   ?? throw new NaoEncontradoExecao("Atendimento não encontrado.");
 
         Conteudo conteudo = new Conteudo(texto);
@@ -35,10 +36,10 @@ public sealed class MensagemServico : IMensagemServico
         return MapeamentoDto(mensagem, idAtendimento);
     }
 
-    public async Task<List<MensagemDto>> RetornaMensagens(int idAtendimento)
+    public async Task<List<MensagemDto>> RetornaMensagens(int idAtendimento, int idFuncionario)
     {
         List<Mensagem> mensagens = await _unityOfWork.MensagemRepositorio.Retorno()
-            .Where(x => x.Atendimento.Id == idAtendimento)
+            .Where(x => x.Atendimento.Id == idAtendimento && x.Atendimento.Funcionario.Id == idFuncionario)
             .OrderBy(x => x.DthrCriacao)
             .ThenBy(x => x.Id)
             .ToListAsync();
