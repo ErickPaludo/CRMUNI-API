@@ -11,4 +11,6 @@ public static class SenhaMensagens
     public const string SenhaObrigatoria = "0.5.1 - Senha deve ser informada.";
     public const string SenhasIdenticas = "0.5.11 - As senhas são identicas.";
     public const string SenhasNaoIdenticas = "0.5.12 - As senhas não são identicas.";
+    public static string SenhaFraca(string mensagem) => $"2.0.11 - {mensagem}";
+
 }

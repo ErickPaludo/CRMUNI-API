@@ -3,6 +3,7 @@ using System.Text;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces.Seguranca;
 using CRMUNI.Domain.ObjetosValor.Funcionarios;
+using CRMUNI.Domain.Validacoes.ObjetosValor.Funcionarios.Senhas;
 using CRMUNI.Infra.Security.Execoes;
 using CRMUNI.Infra.Security.Uteis.Seguranca;
 using CRMUNI.Infra.Seguranca.Configuracoes.Seguranca;
@@ -82,7 +83,7 @@ namespace CRMUNI.Infra.Security.Servicos.Seguranca
                 _ => "Senha inválida"
             };
 
-            throw new NaoAutorizadoExecao(mensagem);
+            throw new SenhaValidacao(SenhaMensagens.SenhaFraca(mensagem));
         }
 
         private byte[] GeraSaltAleatorio()
