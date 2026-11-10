@@ -268,5 +268,10 @@ public sealed class FuncionarioServico : IFuncionarioSevico
                 funcionario.Setor.Tipo,
                 funcionario.Setor.Nome.Completo,
                 funcionario.Setor.DescricaoSetor.Texto,
-                quantidadeFuncionariosSetor));
+                quantidadeFuncionariosSetor),
+            new EmpresaRetornoDto(funcionario.Empresa.Id,
+                funcionario.Empresa.Nome.Completo,
+                funcionario.Empresa.Cnpj.Codigo,
+                funcionario.Empresa.Email.Endereco,
+                funcionario.Empresa.Telefone.Numero));
 }

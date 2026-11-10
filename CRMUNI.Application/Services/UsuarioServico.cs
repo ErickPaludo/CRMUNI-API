@@ -66,5 +66,10 @@ public class UsuarioServico : IUsuarioServico
             usuario.Nome.Primeiro,
             usuario.Nome.Segundo!,
             usuario.Nome.Completo,
-            usuario.Email.Endereco);
+            usuario.Email.Endereco,
+            new EmpresaRetornoDto(usuario.Empresa.Id,
+                usuario.Empresa.Nome.Completo,
+                usuario.Empresa.Cnpj.Codigo,
+                usuario.Empresa.Email.Endereco,
+                usuario.Empresa.Telefone.Numero));
 }

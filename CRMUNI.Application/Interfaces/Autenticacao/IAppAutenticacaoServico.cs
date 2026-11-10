@@ -7,4 +7,5 @@ public interface IAppAutenticacaoServico
 {
    Task<ResultadoTokenDto> GeraToken(AutenticacaoDto dto);
    Task<ResultadoRefreshTokenDto> GeraRefreshToken(string refreshToken);
+   Task RevogaRefreshToken(string refreshToken);
 }

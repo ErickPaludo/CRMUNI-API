@@ -37,6 +37,23 @@ public class AutenticacaoController : ControllerBase
         return Ok(tokenAutenticacao);
     }
 
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        string? refreshToken = Request.Cookies["refreshToken"];
+        if (!string.IsNullOrEmpty(refreshToken))
+            await _appAutenticacaoServico.RevogaRefreshToken(refreshToken);
+
+        Response.Cookies.Delete("refreshToken", new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
+            IsEssential = true
+        });
+        return NoContent();
+    }
+
     private void SetRefreshTokenCookie(string refreshToken)
     {
         if (string.IsNullOrEmpty(refreshToken)) return;

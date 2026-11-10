@@ -4,4 +4,5 @@ public record ResultadoRefreshTokenDto(
     string Token,
     DateTime Expiracao,
     string RefreshToken,
-    DateTime ExpiracaoRefresh);
+    DateTime ExpiracaoRefresh,
+    bool Funcionario = false);

@@ -5,6 +5,7 @@
         DateTime expirationTokenFormatado,
         string refreshToken,
         long expirationRefreshToken,
-        DateTime expirationRefreshTokenFormatado
+        DateTime expirationRefreshTokenFormatado,
+        bool funcionario = false
     );
 }

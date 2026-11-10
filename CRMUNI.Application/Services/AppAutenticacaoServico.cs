@@ -80,9 +80,9 @@ public class AppAutenticacaoServico : IAppAutenticacaoServico
         }
 
         await _unitOfWork.Commit();
-        return token;
+        return token with { funcionario = true };
     }
-   
+
     public async Task<ResultadoRefreshTokenDto> GeraRefreshToken(string refreshToken)
     {
         Autenticacao? auth =
@@ -104,8 +104,23 @@ public class AppAutenticacaoServico : IAppAutenticacaoServico
             retRefreshToken.token,
             retRefreshToken.expirationTokenFormatado,
             retRefreshToken.refreshToken,
-            retRefreshToken.expirationRefreshTokenFormatado
+            retRefreshToken.expirationRefreshTokenFormatado,
+            auth.Funcionario is not null
         );
     }
-    
+
+    public async Task RevogaRefreshToken(string refreshToken)
+    {
+        Autenticacao? auth =
+            await _unitOfWork.AutenticacaoRepositorio.BuscarObjetoUnico(x
+                => x.RefreshToken!.Equals(refreshToken));
+
+        // Logout idempotente: token desconhecido não é erro.
+        if (auth is null)
+            return;
+
+        auth.RevokaToken();
+        _unitOfWork.AutenticacaoRepositorio.Atualiza(auth);
+        await _unitOfWork.Commit();
+    }
 }

@@ -32,5 +32,6 @@ public record UsuarioRetornoDto(
     string PrimeiroNome,
     string SegundoNome,
     string NomeCompleto,
-    string Email
+    string Email,
+    EmpresaRetornoDto Empresa
 );

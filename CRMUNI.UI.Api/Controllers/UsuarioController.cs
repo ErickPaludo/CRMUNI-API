@@ -22,7 +22,11 @@ public class UsuarioController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> RetornoUsuario()
     {
-        var usuario = await _usuarioServico.Retorno(new Guid(User.GetId()));
+        // Id de funcionário é int; só o admin (Usuario) tem Guid.
+        if (!Guid.TryParse(User.GetId(), out Guid idUsuario))
+            return Forbid();
+
+        var usuario = await _usuarioServico.Retorno(idUsuario);
         return Ok(usuario);
     }
 }
