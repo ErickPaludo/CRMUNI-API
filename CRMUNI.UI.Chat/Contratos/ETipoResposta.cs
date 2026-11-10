@@ -9,5 +9,8 @@ public enum ETipoResposta
     SelecionarSetor,
 
     /// <summary>Atendimento criado apos a escolha do setor; IdAtendimento preenchido.</summary>
-    AtendimentoAberto
+    AtendimentoAberto,
+
+    /// <summary>Cliente deve informar nome e sobrenome e chamar InformarNome.</summary>
+    InformarNome
 }

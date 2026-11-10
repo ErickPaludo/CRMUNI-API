@@ -94,6 +94,7 @@ public sealed class AtendimentoServico : IAtendimentoServico
             DateTime.SpecifyKind(atendimento.DthrCriacao, DateTimeKind.Utc),
             new AtendimentoEtapaDto(etapa.Id, etapa.Tipo, etapa.Nome.Completo, etapa.Ordem.Valor),
             new FunilEtapaDto(funil.Id, funil.Tipo, funil.Nome.Completo, funil.Descricao.Texto),
-            new AtendenteDto(atendente.Id, atendente.Nome.Completo, atendente.Email.Endereco));
+            new AtendenteDto(atendente.Id, atendente.Nome.Completo, atendente.Email.Endereco,
+                atendente.Setor.Nome.Completo));
     }
 }

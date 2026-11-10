@@ -508,7 +508,6 @@ namespace CRMUNI.Infra.Data.Migrations
                                 .HasColumnName("PrimeiroNome");
 
                             b1.Property<string>("Segundo")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("SegundoNome");

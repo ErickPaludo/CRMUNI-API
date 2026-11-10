@@ -18,12 +18,12 @@ namespace CRMUNI.UnitTests.Domain
         }
 
         [Test]
-        public void Create_DeveLancarNomeValidacao_QuandoSemSobrenome()
+        public void Create_DeveAceitarSegundoNomeNulo_QuandoSemSobrenome()
         {
-            Action act = () => NomeContato.Create("Maria");
-            act.Should()
-               .Throw<NomeValidacao>()
-               .WithMessage(NomeMensagens.SegundoNomeObrigatorio);
+            var nome = NomeContato.Create(" Maria ");
+            nome.Primeiro.Should().Be("Maria");
+            nome.Segundo.Should().BeNull();
+            nome.Completo.Should().Be("Maria");
         }
 
         [Test]

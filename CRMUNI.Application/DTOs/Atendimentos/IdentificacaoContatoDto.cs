@@ -7,7 +7,8 @@ public record IdentificacaoContatoDto(
     int? IdContato,
     int? IdAtendimento,
     int? IdFuncionario,
-    string? NomeFuncionario)
+    string? NomeFuncionario,
+    string? NomeContato)
 {
     public bool PossuiAtendimentoEmAndamento => IdAtendimento.HasValue;
 }

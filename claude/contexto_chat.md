@@ -44,8 +44,11 @@
 
 ```
 Cliente                          ChatHub                               Banco
-  | SolicitarAtendimento(idEmpresa, telefone, nome)
-  |------------------------------->| valida NomeContato/Celular (sem banco)
+  | SolicitarAtendimento(idEmpresa, telefone)
+  |------------------------------->| valida Celular, Identificar (contato já existe: pula o nome)
+  |<-- InformarNome (pergunta)     | (contato novo) guarda em "aguardando nome"
+  | InformarNome(nome)
+  |------------------------------->| valida NomeContato (em erro, pode tentar de novo)
   |                                | Identificar -----------------------> contato por empresa+celular
   |                                |                                     atendimento Situacao != Finalizado
   |<-- AtendimentoEmAndamento      | (se existir) vincula a conexão ao atendimento
@@ -66,9 +69,10 @@ Ambos
 
 | Método | Quem | Retorno | Observações |
 |--------|------|---------|-------------|
-| `SolicitarAtendimento(Guid idEmpresa, string telefone, string nome)` | Cliente | `RespostaContatoDto` | Nome exige nome e sobrenome; celular 13 dígitos. Com atendimento em andamento já devolve o histórico em `Mensagens` |
+| `SolicitarAtendimento(Guid idEmpresa, string telefone)` | Cliente | `RespostaContatoDto` | Celular 13 dígitos. Contato já cadastrado: devolve `AtendimentoEmAndamento` (com histórico) ou `SelecionarSetor`, sem pedir nome. Contato novo: `InformarNome` |
+| `InformarNome(string nome)` | Cliente | `RespostaContatoDto` | Sobrenome opcional. Com atendimento em andamento já devolve o histórico em `Mensagens`; senão `SelecionarSetor` |
 | `SelecionarSetor(int setor)` | Cliente | `RespostaContatoDto` | 1-Comercial, 2-Financeiro, 3-Suporte (`ESetor` = setor - 1). Em erro, o cliente pode tentar outro setor |
-| `ListarAtendimentos()` | Funcionário `[Authorize]` | `List<AtendimentoDto>` | Atendimentos em andamento dele (banco), com `ClienteConectado` |
+| `ListarAtendimentos()` | Funcionário `[Authorize]` | `List<AtendimentoDto>` | Atendimentos em andamento dele (banco), com `ClienteConectado` e `NomeFuncionario`. Usuário administrador (id Guid) recebe os de toda a empresa |
 | `RetornarMensagens(int idAtendimento)` | Funcionário `[Authorize]` | `List<MensagemDto>` | Só atendimento em andamento dele (cliente online ou não) |
 | `EnviarMensagem(int idAtendimento, string texto)` | Ambos | – | Grava (VO `Conteudo`, 1–1000) e entrega aos dois lados. Funcionário pode enviar com o cliente offline: o cliente vê no histórico ao voltar |
 | `EncerrarAtendimento(int idAtendimento)` | Ambos | – | **Funcionário**: finaliza no banco (`Situacao = Finalizado`, definitivo, funciona com cliente offline). **Cliente**: só desconecta (erro se já offline); atendimento segue aberto |
@@ -88,7 +92,7 @@ Ambos
 
 `MensagemDto(Id, IdAtendimento, Remetente, Tipo, Texto, DataHora)` – `Tipo` (`ERemetente`): `Cliente` ou `Funcionario`; `Remetente` = nome.
 
-`RespostaContatoDto.Tipo` (`ETipoResposta`): `AtendimentoEmAndamento`, `SelecionarSetor`, `AtendimentoAberto`.
+`RespostaContatoDto.Tipo` (`ETipoResposta`): `AtendimentoEmAndamento`, `SelecionarSetor`, `AtendimentoAberto`, `InformarNome`.
 
 ---
 
@@ -100,7 +104,7 @@ Ambos
 | **Distribuição** | Funcionários do setor/empresa ordenados por nº de atendimentos não finalizados, desempate por `Id` | Balancear carga |
 | **Etapa inicial** | `EEtapa.Inicial` do funil `EFunil.Curioso` da empresa | Funis/etapas padrão criados no cadastro da empresa (`EtapaServico.Cadastra`) |
 | **Duplicidade** | `Abrir` devolve o atendimento em andamento se já existir | Evita dois atendimentos por chamadas repetidas |
-| **Nome do contato** | `NomeContato.Create(nomeCompleto)` – 1ª palavra = primeiro nome, resto = segundo | VO exige os dois nomes |
+| **Nome do contato** | `NomeContato.Create(nomeCompleto)` – 1ª palavra = primeiro nome, resto = segundo | Segundo nome opcional (null quando só uma palavra) |
 | **Email do contato** | Opcional (`Contato.Email?`) | Chat só coleta nome e celular |
 | **Roteamento** | `Clients.User(id)`; o `IUserIdProvider` padrão usa a claim `NameIdentifier` (= id do funcionário) | Dispensa mapear conexões manualmente |
 | **Nome do funcionário no chat** | Nome do funcionário do atendimento (vem de `Identificar`/`Abrir`) | Já está na consulta |
@@ -130,3 +134,10 @@ Ambos
 5. Conferir `tb_contatos`, `tb_atendimentos` e `tb_mensagens`; reconectar o cliente mostra o histórico.
 
 > Ao rodar o Chat fora do `dotnet run --project`, executar a partir da pasta `CRMUNI.UI.Chat` (content root) para carregar o `appsettings.json`.
+
+## Administrador (Usuario, id Guid) – somente leitura
+
+- `OnConnectedAsync`: entra no grupo `admins:{idEmpresa}`.
+- `ListarAtendimentos` / `RetornarMensagens`: todos os atendimentos em andamento da empresa (`ListarDaEmpresa`, `RetornaMensagensDaEmpresa`).
+- Recebe no grupo `ReceberMensagem`, `AtendimentoIniciado` e `AtendimentoEncerrado` (desconexão, finalização, transferência) de qualquer atendimento da empresa.
+- `EnviarMensagem` lança `HubException`; `EncerrarAtendimento`, `AlterarEtapa` e transferências seguem exclusivos do funcionário responsável.

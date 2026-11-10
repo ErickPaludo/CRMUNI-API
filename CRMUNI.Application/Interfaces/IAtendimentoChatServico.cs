@@ -20,6 +20,14 @@ public interface IAtendimentoChatServico
     /// </summary>
     Task<List<AtendimentoFuncionarioDto>> ListarDoFuncionario(int idFuncionario);
 
+    /// <summary>Atendimentos em andamento de todos os funcionarios da empresa (visao do administrador).</summary>
+    Task<List<AtendimentoFuncionarioDto>> ListarDaEmpresa(Guid idEmpresa);
+
+    /// <summary>Empresa do Usuario (administrador); null se o id nao e de um Usuario.</summary>
+    Task<Guid?> EmpresaDoAdministrador(Guid idUsuario);
+
+    Task<Guid> EmpresaDoAtendimento(int idAtendimento);
+
     /// <summary>Finaliza o atendimento do funcionario. Definitivo: nao pode ser reaberto.</summary>
     Task Finalizar(int idAtendimento, int idFuncionario);
 

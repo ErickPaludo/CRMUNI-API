@@ -34,13 +34,13 @@ static async Task<int> ModoCliente(string urlChat)
         {
             Guid idEmpresa = LerGuid("Id da empresa");
             string telefone = Ler("Seu celular com DDI e DDD (ex: 55 11 91234-5678)");
-            string nome = Ler("Seu nome e sobrenome");
             if (!ConexaoAtiva(conexao)) return 1;
 
             try
             {
                 resposta = await conexao.InvokeAsync<RespostaContato>(
-                    "SolicitarAtendimento", idEmpresa, telefone, nome);
+                    "SolicitarAtendimento", idEmpresa, telefone);
+                Escrever(resposta.Mensagem, ConsoleColor.Cyan);
                 break;
             }
             catch (HubException ex)
@@ -49,7 +49,22 @@ static async Task<int> ModoCliente(string urlChat)
             }
         }
 
-        Escrever(resposta.Mensagem, ConsoleColor.Cyan);
+        // Contato novo: o servidor pede o nome; repete enquanto for rejeitado.
+        while (resposta.Tipo == TipoResposta.InformarNome)
+        {
+            string nome = Ler("Seu nome");
+            if (!ConexaoAtiva(conexao)) return 1;
+
+            try
+            {
+                resposta = await conexao.InvokeAsync<RespostaContato>("InformarNome", nome);
+                Escrever(resposta.Mensagem, ConsoleColor.Cyan);
+            }
+            catch (HubException ex)
+            {
+                Escrever($"Erro: {ex.Message}", ConsoleColor.Red);
+            }
+        }
 
         // 2) Sem atendimento em andamento: escolha do setor (repete se invalido ou sem funcionario).
         while (resposta.Tipo == TipoResposta.SelecionarSetor)
@@ -426,7 +441,8 @@ enum TipoResposta
 {
     AtendimentoEmAndamento,
     SelecionarSetor,
-    AtendimentoAberto
+    AtendimentoAberto,
+    InformarNome
 }
 
 record RespostaContato(TipoResposta Tipo, string Mensagem, int? IdAtendimento, List<Mensagem> Mensagens);

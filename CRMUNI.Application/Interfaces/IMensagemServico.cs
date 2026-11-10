@@ -10,4 +10,7 @@ public interface IMensagemServico
 
     /// <summary>Mensagens do atendimento em ordem de envio. O atendimento precisa pertencer ao funcionario informado.</summary>
     Task<List<MensagemDto>> RetornaMensagens(int idAtendimento, int idFuncionario);
+
+    /// <summary>Mensagens de um atendimento de qualquer funcionario da empresa (administrador, somente leitura).</summary>
+    Task<List<MensagemDto>> RetornaMensagensDaEmpresa(int idAtendimento, Guid idEmpresa);
 }

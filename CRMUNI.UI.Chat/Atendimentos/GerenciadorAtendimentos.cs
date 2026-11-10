@@ -8,11 +8,20 @@ namespace CRMUNI.UI.Chat.Atendimentos;
 /// </summary>
 public sealed class GerenciadorAtendimentos
 {
+    private readonly ConcurrentDictionary<string, DadosContato> _aguardandoNome = new();
     private readonly ConcurrentDictionary<string, DadosContato> _aguardandoSetor = new();
     private readonly ConcurrentDictionary<int, SessaoChat> _sessoes = new();
 
     public bool PossuiAtendimentoAtivo(string connectionIdCliente)
         => _sessoes.Values.Any(s => s.ConnectionIdCliente == connectionIdCliente);
+
+    // ---------- Informar nome ----------
+
+    public void AguardarNome(string connectionIdCliente, DadosContato dados)
+        => _aguardandoNome[connectionIdCliente] = dados;
+
+    public DadosContato? RetirarAguardandoNome(string connectionIdCliente)
+        => _aguardandoNome.TryRemove(connectionIdCliente, out DadosContato? dados) ? dados : null;
 
     // ---------- Escolha de setor ----------
 
@@ -25,9 +34,20 @@ public sealed class GerenciadorAtendimentos
 
     // ---------- Sessoes ----------
 
-    /// <summary>Liga a conexao do cliente ao atendimento. False se o atendimento ja esta aberto em outra conexao.</summary>
-    public bool Vincular(SessaoChat sessao)
-        => _sessoes.TryAdd(sessao.IdAtendimento, sessao);
+    /// <summary>
+    /// Liga a conexao do cliente ao atendimento; a conexao mais nova assume (recarregou a pagina, outra aba).
+    /// Retorna a sessao substituida de outra conexao, para avisa-la, ou null.
+    /// </summary>
+    public SessaoChat? Vincular(SessaoChat sessao)
+    {
+        SessaoChat? anterior = null;
+        _sessoes.AddOrUpdate(sessao.IdAtendimento, sessao, (_, atual) =>
+        {
+            anterior = atual;
+            return sessao;
+        });
+        return anterior?.ConnectionIdCliente == sessao.ConnectionIdCliente ? null : anterior;
+    }
 
     public SessaoChat? ObterSessao(int idAtendimento)
         => _sessoes.TryGetValue(idAtendimento, out SessaoChat? sessao) ? sessao : null;
@@ -44,6 +64,7 @@ public sealed class GerenciadorAtendimentos
     /// <summary>Limpa o que pertence a uma conexao de cliente encerrada; retorna a sessao dela, se houver.</summary>
     public SessaoChat? RemoverConexao(string connectionId)
     {
+        _aguardandoNome.TryRemove(connectionId, out _);
         _aguardandoSetor.TryRemove(connectionId, out _);
 
         SessaoChat? sessao = _sessoes.Values.FirstOrDefault(s => s.ConnectionIdCliente == connectionId);

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using CRMUNI.Application.DTOs.Atendimentos;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
@@ -32,7 +33,7 @@ public sealed class AtendimentoChatServico : IAtendimentoChatServico
 
         Contato? contato = await ObterContato(idEmpresa, celular);
         if (contato is null)
-            return new IdentificacaoContatoDto(null, null, null, null);
+            return new IdentificacaoContatoDto(null, null, null, null, null);
 
         Atendimento? atendimento = await ObterAtendimentoEmAndamento(contato.Id);
 
@@ -40,7 +41,8 @@ public sealed class AtendimentoChatServico : IAtendimentoChatServico
             contato.Id,
             atendimento?.Id,
             atendimento?.Funcionario.Id,
-            atendimento?.Funcionario.Nome.Completo);
+            atendimento?.Funcionario.Nome.Completo,
+            contato.Nome.Completo);
     }
 
     public async Task<AtendimentoAbertoDto> Abrir(Guid idEmpresa, string telefone, string nome, int setor)
@@ -75,17 +77,35 @@ public sealed class AtendimentoChatServico : IAtendimentoChatServico
         return MapeamentoDto(atendimento.Id, funcionario);
     }
 
-    public async Task<List<AtendimentoFuncionarioDto>> ListarDoFuncionario(int idFuncionario)
+    public Task<List<AtendimentoFuncionarioDto>> ListarDoFuncionario(int idFuncionario)
+        => ListarEmAndamento(x => x.Funcionario.Id == idFuncionario);
+
+    public Task<List<AtendimentoFuncionarioDto>> ListarDaEmpresa(Guid idEmpresa)
+        => ListarEmAndamento(x => x.Funcionario.Empresa.Id == idEmpresa);
+
+    public async Task<Guid?> EmpresaDoAdministrador(Guid idUsuario)
+        => (await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id == idUsuario))?.Empresa.Id;
+
+    public async Task<Guid> EmpresaDoAtendimento(int idAtendimento)
+        => await _unityOfWork.AtendimentoRepositorio.Retorno()
+               .Where(x => x.Id == idAtendimento)
+               .Select(x => (Guid?)x.Funcionario.Empresa.Id)
+               .FirstOrDefaultAsync()
+           ?? throw new NaoEncontradoExecao("Atendimento não encontrado.");
+
+    private async Task<List<AtendimentoFuncionarioDto>> ListarEmAndamento(Expression<Func<Atendimento, bool>> filtro)
     {
         List<Atendimento> atendimentos = await _unityOfWork.AtendimentoRepositorio.Retorno()
-            .Where(x => x.Funcionario.Id == idFuncionario && x.Situacao != EAtendimentoSituacao.Finalizado)
+            .Where(filtro)
+            .Where(x => x.Situacao != EAtendimentoSituacao.Finalizado)
             .OrderBy(x => x.DthrCriacao)
             .ToListAsync();
 
         return atendimentos
             .Select(x => new AtendimentoFuncionarioDto(
                 x.Id, x.Contato!.Nome.Completo, x.Contato.Celular.Numero,
-                DateTime.SpecifyKind(x.DthrCriacao, DateTimeKind.Utc)))
+                DateTime.SpecifyKind(x.DthrCriacao, DateTimeKind.Utc), x.Funcionario.Nome.Completo,
+                x.Funcionario.Setor.Nome.Completo))
             .ToList();
     }
 

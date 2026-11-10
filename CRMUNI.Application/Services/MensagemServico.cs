@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using CRMUNI.Application.DTOs.Mensagens;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
@@ -36,10 +37,17 @@ public sealed class MensagemServico : IMensagemServico
         return MapeamentoDto(mensagem, idAtendimento);
     }
 
-    public async Task<List<MensagemDto>> RetornaMensagens(int idAtendimento, int idFuncionario)
+    public Task<List<MensagemDto>> RetornaMensagens(int idAtendimento, int idFuncionario)
+        => Retorna(idAtendimento, x => x.Atendimento.Funcionario.Id == idFuncionario);
+
+    public Task<List<MensagemDto>> RetornaMensagensDaEmpresa(int idAtendimento, Guid idEmpresa)
+        => Retorna(idAtendimento, x => x.Atendimento.Funcionario.Empresa.Id == idEmpresa);
+
+    private async Task<List<MensagemDto>> Retorna(int idAtendimento, Expression<Func<Mensagem, bool>> acesso)
     {
         List<Mensagem> mensagens = await _unityOfWork.MensagemRepositorio.Retorno()
-            .Where(x => x.Atendimento.Id == idAtendimento && x.Atendimento.Funcionario.Id == idFuncionario)
+            .Where(x => x.Atendimento.Id == idAtendimento)
+            .Where(acesso)
             .OrderBy(x => x.DthrCriacao)
             .ThenBy(x => x.Id)
             .ToListAsync();

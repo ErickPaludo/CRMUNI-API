@@ -39,6 +39,33 @@
       - default
       - financ-network
 
+  # Chat em tempo real (SignalR, /hubs/chat). No tunel do Cloudflare: hostname do chat -> http://crmuni-chat:8080
+  chat:
+    image: crmuni.ui.chat
+    container_name: crmuni-chat
+    build:
+      context: .
+      dockerfile: CRMUNI.UI.Chat/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      # A api aplica as migrations ao subir; o chat so usa o banco.
+      api:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__SqlServer: Server=db,1433;Database=${DB_NAME};User Id=sa;Password=${DB_SA_PASSWORD};TrustServerCertificate=True;
+      # Mesma chave da api: o chat valida o JWT emitido por ela.
+      TokenJWT__SecretKeyJWT: ${JWT_SECRET_KEY}
+      Auth__Pepper: ${AUTH_PEPPER}
+    ports:
+      - "${CHAT_PORT:-5090}:8080"
+    networks:
+      - default
+      - financ-network
+
 networks:
   # Rede da outra API, onde roda o cloudflared que expoe o tunel
   financ-network:

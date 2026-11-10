@@ -10,9 +10,13 @@ public sealed record NomeContato : Nome
     {
     }
 
+    public NomeContato(string primeiroNome) : base(primeiroNome)
+    {
+    }
+
     /// <summary>
     /// Cria a partir do nome completo digitado pelo contato: a primeira palavra e o primeiro nome,
-    /// o restante e o segundo nome.
+    /// o restante e o segundo nome (opcional).
     /// </summary>
     public static NomeContato Create(string nomeCompleto)
     {
@@ -20,8 +24,7 @@ public sealed record NomeContato : Nome
 
         string[] partes = nomeCompleto.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
         NomeValidacao.Verifica(partes.Length == 0, NomeMensagens.NomeObrigatorio);
-        NomeValidacao.Verifica(partes.Length < 2, NomeMensagens.SegundoNomeObrigatorio);
 
-        return new NomeContato(partes[0], partes[1]);
+        return partes.Length < 2 ? new NomeContato(partes[0]) : new NomeContato(partes[0], partes[1]);
     }
 };

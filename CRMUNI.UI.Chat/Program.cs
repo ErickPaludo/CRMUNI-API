@@ -30,8 +30,13 @@ builder.Services.AddSignalR(options =>
     options.AddFilter<FiltroExcecaoHub>();
 });
 
+builder.Services.AddCors(o => o.AddDefaultPolicy(p => p
+    .WithOrigins("http://localhost:5173", "https://erickpaludo.github.io")
+    .AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
+
 var app = builder.Build();
 
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 

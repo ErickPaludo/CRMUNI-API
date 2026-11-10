@@ -46,7 +46,7 @@ public class ContatoConfig : IEntityTypeConfiguration<Contato>
             {
                 nome.Property(n => n.Segundo)
                     .HasColumnName("SegundoNome")
-                    .IsRequired()
+                    .IsRequired(false)
                     .HasMaxLength(50);
             }
         );
