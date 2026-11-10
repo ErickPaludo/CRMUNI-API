@@ -3,6 +3,7 @@ using CRMUNI.Application.DTOs.Filtros;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Application.Interfaces.Seguranca;
+using CRMUNI.Domain.Entidades.Atendimentos;
 using CRMUNI.Domain.Entidades.Autenticacoes;
 using CRMUNI.Domain.Entidades.Empresas;
 using CRMUNI.Domain.Entidades.Funcionarios;
@@ -106,8 +107,13 @@ public sealed class FuncionarioServico : IFuncionarioSevico
 
         Dictionary<Guid, int> contagem = await ContaPorSetor(funcionarios.Select(x => x.Setor.Id).Distinct());
 
+        Dictionary<int, int> atendimentos = await ContaAtendimentos(funcionarios.Select(x => x.Id));
+
         List<FuncionarioDTO> funcionariosDto = funcionarios
-            .Select(x => new FuncionarioDTO(MapeamentoDto(x, contagem.GetValueOrDefault(x.Setor.Id))))
+            .Select(x => new FuncionarioDTO(MapeamentoDto(x,
+                contagem.GetValueOrDefault(x.Setor.Id),
+                atendimentos.GetValueOrDefault(x.Id))
+            ))
             .ToList();
 
         return new FuncionariosDto(funcionariosDto);
@@ -253,16 +259,27 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             .Select(g => new { g.Key, Qtd = g.Count() })
             .ToDictionaryAsync(x => x.Key, x => x.Qtd);
 
+    // Atendimentos não finalizados (mesmo critério de AtendimentoChatServico.ListarDoFuncionario).
+    private async Task<Dictionary<int, int>> ContaAtendimentos(IEnumerable<int> idsFuncionario)
+        => await _unityOfWork.AtendimentoRepositorio.Retorno()
+            .Where(a => idsFuncionario.Contains(a.Funcionario.Id) && a.Situacao != EAtendimentoSituacao.Finalizado)
+            .GroupBy(a => a.Funcionario.Id)
+            .Select(g => new { g.Key, Qtd = g.Count() })
+            .ToDictionaryAsync(x => x.Key, x => x.Qtd);
+
     private async Task<FuncionarioRetornoDto> MapeamentoDtoAsync(Funcionario funcionario)
         => MapeamentoDto(funcionario,
-            (await ContaPorSetor([funcionario.Setor.Id])).GetValueOrDefault(funcionario.Setor.Id));
+            (await ContaPorSetor([funcionario.Setor.Id])).GetValueOrDefault(funcionario.Setor.Id),
+            (await ContaAtendimentos([funcionario.Id])).GetValueOrDefault(funcionario.Id));
 
-    private static FuncionarioRetornoDto MapeamentoDto(Funcionario funcionario, int quantidadeFuncionariosSetor)
+    private static FuncionarioRetornoDto MapeamentoDto(Funcionario funcionario, int quantidadeFuncionariosSetor,
+        int quantidadeAtendimentos)
         => new FuncionarioRetornoDto(funcionario.Id,
             funcionario.Nome.Primeiro,
             funcionario.Nome.Segundo!,
             funcionario.Nome.Completo,
             funcionario.Email.Endereco,
+            quantidadeAtendimentos,
             new SetorDto(funcionario.Setor.Id,
                 funcionario.Setor.Empresa.Id,
                 funcionario.Setor.Tipo,

@@ -14,6 +14,7 @@ public record FuncionarioRetornoDto(
     string SegundoNome,
     string NomeCompleto,
     string Email,
+    int Atendimentos,
     SetorDto Setor,
     EmpresaRetornoDto Empresa);
 
