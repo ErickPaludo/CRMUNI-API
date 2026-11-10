@@ -18,6 +18,8 @@ public class AtendimentoRepositorio : BaseRepositorio<Atendimento>, IAtendimento
     {
         return _contexto.Atendimentos
             .Include(x => x.Funcionario)
-            .Include(x => x.Contato);
+            .Include(x => x.Contato)
+            .Include(x => x.Etapa)
+            .ThenInclude(e => e.Funil);
     }
 }

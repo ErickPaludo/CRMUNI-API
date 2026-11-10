@@ -24,6 +24,7 @@ namespace CRMUNI.Infra.IoC
             services.AddScoped<IPlanoServico, PlanoServico>();
             services.AddScoped<IContatoServico, ContatoServico>();
             services.AddScoped<IAtendimentoChatServico, AtendimentoChatServico>();
+            services.AddScoped<IAtendimentoServico, AtendimentoServico>();
             services.AddScoped<IMensagemServico, MensagemServico>();
 
         }

@@ -278,7 +278,7 @@ public sealed class FuncionarioServico : IFuncionarioSevico
             funcionario.Nome.Primeiro,
             funcionario.Nome.Segundo!,
             funcionario.Nome.Completo,
-            funcionario.Email.Endereco,
+            funcionario.Email.Endereco,-
             quantidadeAtendimentos,
             new SetorDto(funcionario.Setor.Id,
                 funcionario.Setor.Empresa.Id,
