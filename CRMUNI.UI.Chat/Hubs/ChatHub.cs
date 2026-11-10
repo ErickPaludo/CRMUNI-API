@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CRMUNI.Application.DTOs.Atendimentos;
+using CRMUNI.Application.DTOs.Cadastro;
 using CRMUNI.Application.DTOs.Mensagens;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Domain.ObjetosValor.Nomes;
@@ -20,13 +21,17 @@ public sealed class ChatHub : Hub<IChatCliente>
     private readonly GerenciadorAtendimentos _gerenciador;
     private readonly IAtendimentoChatServico _atendimentoServico;
     private readonly IMensagemServico _mensagemServico;
+    private readonly IPlanoServico _planoServico;
+    private readonly IAtendimentoServico _atendimentos;
 
     public ChatHub(GerenciadorAtendimentos gerenciador, IAtendimentoChatServico atendimentoServico,
-        IMensagemServico mensagemServico)
+        IMensagemServico mensagemServico, IPlanoServico planoServico, IAtendimentoServico atendimentos)
     {
         _gerenciador = gerenciador;
         _atendimentoServico = atendimentoServico;
         _mensagemServico = mensagemServico;
+        _planoServico = planoServico;
+        _atendimentos = atendimentos;
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
@@ -89,11 +94,17 @@ public sealed class ChatHub : Hub<IChatCliente>
         List<MensagemDto> historico = await Vincular(dados, atendimento.IdAtendimento,
             atendimento.IdFuncionario, atendimento.NomeFuncionario);
 
+        // 1 = Comercial: apresenta os planos disponiveis.
+        List<PlanoDto>? planos = setor == 1
+            ? (await _planoServico.RetornoAtivosPorEmpresa(dados.IdEmpresa)).Planos
+            : null;
+
         return new RespostaContatoDto(
             ETipoResposta.AtendimentoAberto,
-            $"Atendimento nº {atendimento.IdAtendimento} aberto com {atendimento.NomeFuncionario}. Pode digitar.",
+            $"Atendimento nº {atendimento.IdAtendimento} aberto. {atendimento.NomeFuncionario} entrará em contato em instantes.",
             atendimento.IdAtendimento,
-            historico);
+            historico,
+            planos);
     }
 
     /// <summary>Atendimentos em andamento do funcionario logado, com ou sem cliente conectado.</summary>
@@ -127,16 +138,75 @@ public sealed class ChatHub : Hub<IChatCliente>
         await Clients.User(idFuncionario).ReceberMensagem(mensagem);
     }
 
+    /// <summary>
+    /// Funcionario: finaliza o atendimento no banco (definitivo), com o cliente online ou nao.
+    /// Cliente: apenas desconecta do atendimento, que segue aberto.
+    /// </summary>
     public async Task EncerrarAtendimento(int idAtendimento)
     {
-        (SessaoChat? sessao, ERemetente remetente, _) = await Autorizar(idAtendimento);
+        (SessaoChat? sessao, ERemetente remetente, string idFuncionario) = await Autorizar(idAtendimento);
+
+        if (remetente == ERemetente.Funcionario)
+            await _atendimentoServico.Finalizar(idAtendimento, int.Parse(idFuncionario));
+
         if (sessao is null || _gerenciador.Encerrar(idAtendimento) is null)
-            throw new HubException("O cliente não está conectado a este atendimento.");
+        {
+            if (remetente == ERemetente.Cliente)
+                throw new HubException("O cliente não está conectado a este atendimento.");
+            return;
+        }
 
         string quem = remetente == ERemetente.Funcionario ? sessao.NomeFuncionario : sessao.NomeCliente;
         string motivo = $"Atendimento encerrado por {quem}.";
         await Clients.Client(sessao.ConnectionIdCliente).AtendimentoEncerrado(idAtendimento, motivo);
         await Clients.User(sessao.IdFuncionario).AtendimentoEncerrado(idAtendimento, motivo);
+    }
+
+    /// <summary>Passa o atendimento a um funcionario escolhido.</summary>
+    [Authorize]
+    public async Task TransferirAtendente(int idAtendimento, int idFuncionarioDestino)
+    {
+        (_, string idOrigem) = await AutorizarFuncionario(idAtendimento);
+        AtendimentoAbertoDto novo = await _atendimentoServico
+            .TransferirParaFuncionario(idAtendimento, int.Parse(idOrigem), idFuncionarioDestino);
+        await NotificarTransferencia(idOrigem, novo);
+    }
+
+    /// <summary>Passa o atendimento ao funcionario do setor com menos atendimentos. Setor: 1, 2 ou 3.</summary>
+    [Authorize]
+    public async Task TransferirSetor(int idAtendimento, int setor)
+    {
+        (_, string idOrigem) = await AutorizarFuncionario(idAtendimento);
+        AtendimentoAbertoDto novo = await _atendimentoServico
+            .TransferirParaSetor(idAtendimento, int.Parse(idOrigem), setor);
+        await NotificarTransferencia(idOrigem, novo);
+    }
+
+    [Authorize]
+    public async Task AlterarEtapa(int idAtendimento, int idEtapa)
+    {
+        await AutorizarFuncionario(idAtendimento);
+        await _atendimentos.AlterarEtapa(Context.User!.GetId(), idAtendimento, idEtapa);
+    }
+
+    private async Task NotificarTransferencia(string idOrigem, AtendimentoAbertoDto novo)
+    {
+        string idDestino = novo.IdFuncionario.ToString();
+        await Clients.User(idOrigem).AtendimentoEncerrado(novo.IdAtendimento,
+            $"Atendimento transferido para {novo.NomeFuncionario}.");
+
+        // Cliente offline: o novo atendente ve o atendimento em ListarAtendimentos.
+        SessaoChat? sessao = _gerenciador.TrocarFuncionario(novo.IdAtendimento, idDestino, novo.NomeFuncionario);
+        if (sessao is not null)
+            await Clients.User(idDestino).AtendimentoIniciado(sessao.ParaDto());
+    }
+
+    private async Task<(SessaoChat? sessao, string idFuncionario)> AutorizarFuncionario(int idAtendimento)
+    {
+        (SessaoChat? sessao, ERemetente remetente, string idFuncionario) = await Autorizar(idAtendimento);
+        if (remetente != ERemetente.Funcionario)
+            throw new HubException("Apenas o funcionário responsável pode executar esta ação.");
+        return (sessao, idFuncionario);
     }
     
     private async Task<List<MensagemDto>> Vincular(DadosContato dados, int idAtendimento, int idFuncionario,

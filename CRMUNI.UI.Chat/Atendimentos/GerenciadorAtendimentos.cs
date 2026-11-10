@@ -32,6 +32,12 @@ public sealed class GerenciadorAtendimentos
     public SessaoChat? ObterSessao(int idAtendimento)
         => _sessoes.TryGetValue(idAtendimento, out SessaoChat? sessao) ? sessao : null;
 
+    /// <summary>Troca o funcionario responsavel da sessao (transferencia). Null se o cliente esta offline.</summary>
+    public SessaoChat? TrocarFuncionario(int idAtendimento, string idFuncionario, string nomeFuncionario)
+        => _sessoes.TryGetValue(idAtendimento, out SessaoChat? atual)
+            ? _sessoes[idAtendimento] = atual with { IdFuncionario = idFuncionario, NomeFuncionario = nomeFuncionario }
+            : null;
+
     public SessaoChat? Encerrar(int idAtendimento)
         => _sessoes.TryRemove(idAtendimento, out SessaoChat? sessao) ? sessao : null;
 

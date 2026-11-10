@@ -19,6 +19,8 @@ builder.Services.AddAuthorization();
 // Somente os servicos usados pelo hub (ConfigurarInjecaoServicos exigiria toda a cadeia de autenticacao da API).
 builder.Services.AddScoped<IAtendimentoChatServico, AtendimentoChatServico>();
 builder.Services.AddScoped<IMensagemServico, MensagemServico>();
+builder.Services.AddScoped<IPlanoServico, PlanoServico>();
+builder.Services.AddScoped<IAtendimentoServico, AtendimentoServico>();
 builder.Services.AddSingleton<GerenciadorAtendimentos>();
 builder.Services.AddSingleton<FiltroExcecaoHub>();
 builder.Services.AddSignalR(options =>

@@ -1,3 +1,4 @@
+using CRMUNI.Application.DTOs.Cadastro;
 using CRMUNI.Application.DTOs.Mensagens;
 
 namespace CRMUNI.UI.Chat.Contratos;
@@ -6,4 +7,5 @@ namespace CRMUNI.UI.Chat.Contratos;
 /// Retorno ao cliente em SolicitarAtendimento e SelecionarSetor.
 /// Mensagens = historico gravado do atendimento (vazio enquanto o setor nao foi escolhido).
 /// </summary>
-public record RespostaContatoDto(ETipoResposta Tipo, string Mensagem, int? IdAtendimento, List<MensagemDto> Mensagens);
+public record RespostaContatoDto(ETipoResposta Tipo, string Mensagem, int? IdAtendimento, List<MensagemDto> Mensagens,
+    List<PlanoDto>? Planos = null);

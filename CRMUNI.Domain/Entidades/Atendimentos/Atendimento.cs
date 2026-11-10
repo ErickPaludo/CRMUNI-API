@@ -32,6 +32,31 @@ public sealed class Atendimento : EntidadeIdInt
         Situacao = EAtendimentoSituacao.Aguardando;
     }
 
+    public void AlterarEtapa(Etapa etapa)
+    {
+        ValidaNulo.Verifica(etapa, AtendimentoMensagens.PropriedadeNula("Etapa"));
+        VerificaAberto();
+        Etapa = etapa;
+    }
+
+    public void TransferirFuncionario(Funcionario funcionario)
+    {
+        ValidaNulo.Verifica(funcionario, AtendimentoMensagens.PropriedadeNula("Funcionario"));
+        VerificaAberto();
+        Funcionario = funcionario;
+    }
+
+    // Finalizado e definitivo: nenhum metodo devolve o atendimento a outra situacao.
+    public void Finalizar()
+    {
+        VerificaAberto();
+        Situacao = EAtendimentoSituacao.Finalizado;
+    }
+
+    private void VerificaAberto()
+        => AtendimentoValidacao.Verifica(Situacao == EAtendimentoSituacao.Finalizado,
+            AtendimentoMensagens.AtendimentoFinalizado);
+
     public static Atendimento Create(Contato contato, Funcionario funcionario,Etapa etapa)
         => new(contato, funcionario,etapa);
 }

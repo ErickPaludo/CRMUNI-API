@@ -137,7 +137,7 @@ static async Task<int> ModoFuncionario(string urlChat, string? urlApiArg)
 
     if (!await Conectar(conexao)) return 1;
 
-    Escrever("Comandos: /atendimentos | /trocar <nº atendimento> | /encerrar | /sair.", ConsoleColor.Cyan);
+    Escrever("Comandos: /atendimentos | /trocar <nº atendimento> | /transferir <idFuncionario> | /setor <1-3> | /etapa <idEtapa> | /encerrar (finaliza) | /sair.", ConsoleColor.Cyan);
     Escrever("Texto livre é enviado no atendimento ativo.", ConsoleColor.Cyan);
     await AtualizarAtendimentos();
 
@@ -306,6 +306,25 @@ static async Task LoopDigitacao(HubConnection conexao, Func<int?> sessaoAtual, F
             if (idSessao is null)
             {
                 Escrever("Nenhum atendimento ativo no momento.", ConsoleColor.Yellow);
+                continue;
+            }
+
+            // Somente funcionario: /transferir <idFuncionario> | /setor <1-3> | /etapa <idEtapa>
+            string[] partes = linha.Split(' ', 2, StringSplitOptions.TrimEntries);
+            string? metodo = partes[0].ToLowerInvariant() switch
+            {
+                "/transferir" => "TransferirAtendente",
+                "/setor" => "TransferirSetor",
+                "/etapa" => "AlterarEtapa",
+                _ => null
+            };
+
+            if (metodo is not null)
+            {
+                if (partes.Length == 2 && int.TryParse(partes[1], out int valor))
+                    await conexao.InvokeAsync(metodo, idSessao.Value, valor);
+                else
+                    Escrever($"Uso: {partes[0]} <número>.", ConsoleColor.Yellow);
                 continue;
             }
 

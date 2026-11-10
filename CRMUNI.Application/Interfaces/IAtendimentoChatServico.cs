@@ -19,4 +19,14 @@ public interface IAtendimentoChatServico
     /// Atendimentos em andamento (Situacao != Finalizado) do funcionario, com ou sem cliente conectado.
     /// </summary>
     Task<List<AtendimentoFuncionarioDto>> ListarDoFuncionario(int idFuncionario);
+
+    /// <summary>Finaliza o atendimento do funcionario. Definitivo: nao pode ser reaberto.</summary>
+    Task Finalizar(int idAtendimento, int idFuncionario);
+
+    /// <summary>Passa o atendimento a um funcionario escolhido da mesma empresa.</summary>
+    Task<AtendimentoAbertoDto> TransferirParaFuncionario(int idAtendimento, int idFuncionarioOrigem,
+        int idFuncionarioDestino);
+
+    /// <summary>Passa o atendimento ao funcionario do setor com menos atendimentos. Setor: 1, 2 ou 3.</summary>
+    Task<AtendimentoAbertoDto> TransferirParaSetor(int idAtendimento, int idFuncionarioOrigem, int setor);
 }

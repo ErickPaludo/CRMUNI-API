@@ -23,4 +23,11 @@ public class AtendimentoController : ControllerBase
         var atendimentos = await _atendimentoServico.Listar(User.GetId());
         return Ok(atendimentos);
     }
+
+    [HttpPatch("{idAtendimento:int}/etapa/{idEtapa:int}")]
+    public async Task<IActionResult> AlterarEtapa(int idAtendimento, int idEtapa)
+    {
+        await _atendimentoServico.AlterarEtapa(User.GetId(), idAtendimento, idEtapa);
+        return NoContent();
+    }
 }

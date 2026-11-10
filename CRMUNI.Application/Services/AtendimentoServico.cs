@@ -3,6 +3,7 @@ using CRMUNI.Application.DTOs.Cadastro;
 using CRMUNI.Application.Excecoes;
 using CRMUNI.Application.Interfaces;
 using CRMUNI.Domain.Entidades.Atendimentos;
+using CRMUNI.Domain.Entidades.Etapas;
 using CRMUNI.Domain.Entidades.Funcionarios;
 using CRMUNI.Domain.Entidades.Usuarios;
 using CRMUNI.Domain.Servicos;
@@ -43,6 +44,42 @@ public sealed class AtendimentoServico : IAtendimentoServico
         List<Atendimento> atendimentos = await query.OrderByDescending(a => a.DthrCriacao).ToListAsync();
 
         return new AtendimentosDto(atendimentos.Select(MapeamentoDto).ToList());
+    }
+
+    public async Task AlterarEtapa(string idUsuario, int idAtendimento, int idEtapa)
+    {
+        IQueryable<Atendimento> query = _unityOfWork.AtendimentoRepositorio.Retorno()
+            .Where(a => a.Id == idAtendimento);
+
+        Usuario? usuario =
+            await _unityOfWork.UsuarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario);
+
+        Guid idEmpresa;
+        if (usuario is not null)
+        {
+            idEmpresa = usuario.Empresa.Id;
+            query = query.Where(a => a.Funcionario.Empresa.Id == idEmpresa);
+        }
+        else
+        {
+            Funcionario funcionario =
+                await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x => x.Id.ToString() == idUsuario)
+                ?? throw new NaoEncontradoExecao("Usuário solicitante não encontrado.");
+
+            idEmpresa = funcionario.Empresa.Id;
+            query = query.Where(a => a.Funcionario.Id == funcionario.Id);
+        }
+
+        Atendimento atendimento = await query.FirstOrDefaultAsync()
+                                  ?? throw new NaoEncontradoExecao("Atendimento não encontrado.");
+
+        Etapa etapa = await _unityOfWork.EtapaRepositorio.Retorno()
+                          .FirstOrDefaultAsync(e => e.Id == idEtapa && e.Funil.Empresa.Id == idEmpresa)
+                      ?? throw new NaoEncontradoExecao("Etapa não encontrada.");
+
+        atendimento.AlterarEtapa(etapa);
+        _unityOfWork.AtendimentoRepositorio.Atualiza(atendimento);
+        await _unityOfWork.Commit();
     }
 
     private static AtendimentoDetalheDto MapeamentoDto(Atendimento atendimento)

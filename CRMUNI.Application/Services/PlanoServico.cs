@@ -129,6 +129,16 @@ public sealed class PlanoServico : IPlanoServico
         return new PlanosDto(planoDtos);
     }
 
+    public async Task<PlanosDto> RetornoAtivosPorEmpresa(Guid idEmpresa)
+    {
+        List<Plano> planos = await _unityOfWork.PlanoRepositorio.Retorno()
+            .Where(x => x.Empresa.Id == idEmpresa && x.Situacao == EPlanoSituacao.Ativo)
+            .OrderBy(x => x.Nome.Primeiro)
+            .ToListAsync();
+
+        return new PlanosDto(planos.Select(MapeamentoDto).ToList());
+    }
+
     private static PlanoDto MapeamentoDto(Plano plano)
         => new PlanoDto(plano.Id, plano.Empresa.Id, plano.Nome.Completo, plano.Descricao.Texto, plano.Preco.Valor,
             plano.Situacao);

@@ -6,4 +6,6 @@ public static class AtendimentoMensagens
     //Valores de x.x.0 até x.x.10 são reservados para codigos "COMUNS"
 
     public static string PropriedadeNula(string propriedade) => $"5.0.0 - {propriedade} não pode ser nulla.";
+
+    public const string AtendimentoFinalizado = "5.0.11 - Atendimento finalizado não pode ser alterado.";
 }

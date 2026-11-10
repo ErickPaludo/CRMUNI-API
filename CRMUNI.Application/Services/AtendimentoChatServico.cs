@@ -89,6 +89,51 @@ public sealed class AtendimentoChatServico : IAtendimentoChatServico
             .ToList();
     }
 
+    public async Task Finalizar(int idAtendimento, int idFuncionario)
+    {
+        Atendimento atendimento = await ObterDoFuncionario(idAtendimento, idFuncionario);
+        atendimento.Finalizar();
+        _unityOfWork.AtendimentoRepositorio.Atualiza(atendimento);
+        await _unityOfWork.Commit();
+    }
+
+    public async Task<AtendimentoAbertoDto> TransferirParaFuncionario(int idAtendimento, int idFuncionarioOrigem,
+        int idFuncionarioDestino)
+    {
+        Atendimento atendimento = await ObterDoFuncionario(idAtendimento, idFuncionarioOrigem);
+
+        Funcionario destino = await _unityOfWork.FuncionarioRepositorio.BuscarObjetoUnico(x
+                                  => x.Id == idFuncionarioDestino && x.Empresa.Id == atendimento.Funcionario.Empresa.Id)
+                              ?? throw new NaoEncontradoExecao("Funcionário de destino não encontrado.");
+
+        return await Transferir(atendimento, destino);
+    }
+
+    public async Task<AtendimentoAbertoDto> TransferirParaSetor(int idAtendimento, int idFuncionarioOrigem, int setor)
+    {
+        ESetor tipoSetor = ConverteSetor(setor);
+        Atendimento atendimento = await ObterDoFuncionario(idAtendimento, idFuncionarioOrigem);
+
+        Funcionario destino =
+            await ObterFuncionarioComMenosAtendimentos(atendimento.Funcionario.Empresa.Id, tipoSetor);
+
+        return await Transferir(atendimento, destino);
+    }
+
+    private async Task<AtendimentoAbertoDto> Transferir(Atendimento atendimento, Funcionario destino)
+    {
+        atendimento.TransferirFuncionario(destino);
+        _unityOfWork.AtendimentoRepositorio.Atualiza(atendimento);
+        await _unityOfWork.Commit();
+        return MapeamentoDto(atendimento.Id, destino);
+    }
+
+    private async Task<Atendimento> ObterDoFuncionario(int idAtendimento, int idFuncionario)
+        => await _unityOfWork.AtendimentoRepositorio.Retorno()
+               .FirstOrDefaultAsync(x => x.Id == idAtendimento && x.Funcionario.Id == idFuncionario
+                                         && x.Situacao != EAtendimentoSituacao.Finalizado)
+           ?? throw new NaoEncontradoExecao("Atendimento não encontrado.");
+
     private static ESetor ConverteSetor(int setor)
     {
         // Menu exibido ao cliente comeca em 1; o enum ESetor comeca em 0.

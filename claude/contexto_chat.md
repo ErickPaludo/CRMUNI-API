@@ -71,7 +71,12 @@ Ambos
 | `ListarAtendimentos()` | Funcionário `[Authorize]` | `List<AtendimentoDto>` | Atendimentos em andamento dele (banco), com `ClienteConectado` |
 | `RetornarMensagens(int idAtendimento)` | Funcionário `[Authorize]` | `List<MensagemDto>` | Só atendimento em andamento dele (cliente online ou não) |
 | `EnviarMensagem(int idAtendimento, string texto)` | Ambos | – | Grava (VO `Conteudo`, 1–1000) e entrega aos dois lados. Funcionário pode enviar com o cliente offline: o cliente vê no histórico ao voltar |
-| `EncerrarAtendimento(int idAtendimento)` | Ambos | – | Desvincula a conexão do cliente (erro se ele já estiver offline); não altera a situação no banco |
+| `EncerrarAtendimento(int idAtendimento)` | Ambos | – | **Funcionário**: finaliza no banco (`Situacao = Finalizado`, definitivo, funciona com cliente offline). **Cliente**: só desconecta (erro se já offline); atendimento segue aberto |
+| `TransferirAtendente(int idAtendimento, int idFuncionarioDestino)` | Funcionário `[Authorize]` | – | Destino da mesma empresa; antigo recebe `AtendimentoEncerrado`, novo recebe `AtendimentoIniciado` (se o cliente está online) |
+| `TransferirSetor(int idAtendimento, int setor)` | Funcionário `[Authorize]` | – | Escolhe automaticamente o funcionário do setor com menos atendimentos; mesmo aviso da transferência |
+| `AlterarEtapa(int idAtendimento, int idEtapa)` | Funcionário `[Authorize]` | – | Etapa da mesma empresa (`AtendimentoServico.AlterarEtapa`) |
+
+`SelecionarSetor` com Comercial (1) devolve também `Planos` (ativos da empresa, `IPlanoServico.RetornoAtivosPorEmpresa`) e a mensagem de que o atendente entrará em contato.
 
 ### Eventos (`IChatCliente`)
 
@@ -110,7 +115,7 @@ Ambos
 ## 5. Limitações conhecidas
 
 - Conexões (aguardando setor, cliente vinculado) ficam **em memória**: perdido ao reiniciar e **não escala** para mais de uma instância (exigiria backplane, ex.: Redis).
-- Nenhum fluxo altera o atendimento para `Finalizado` (nem `EncerrarAtendimento`): contato que já abriu um atendimento sempre volta como "em andamento".
+- Atendimento `Finalizado` não aceita etapa, transferência nem nova finalização. Contato que volta depois disso abre um atendimento novo, sem o histórico do anterior.
 - Funcionário é identificado pelo `NameIdentifier` numérico do token; login de Usuário (administrador, id Guid) não vê atendimentos.
 - Um atendimento aceita uma conexão de cliente por vez (segunda conexão recebe erro).
 
